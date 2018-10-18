@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.ui;
+package com.icostel.arhitecturesample.ui.main;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,12 +10,12 @@ import android.widget.TextView;
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.modules.GlideApp;
 import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.utils.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +24,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHodler
 
     private final List<User> users = new ArrayList<>();
     private Context context;
+    private SingleLiveEvent<User> selectedUserLive = new SingleLiveEvent<>();
 
     UserAdapter(Context context) {
         this.context = context;
@@ -53,12 +54,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHodler
         //diffResult.dispatchUpdatesTo(this);
     }
 
+    SingleLiveEvent<User> getSelectedUserLive() {
+        return selectedUserLive;
+    }
+
     @Override
     public int getItemCount() {
         return users.size();
     }
 
     class UserViewHodler extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.root_view)
+        View rootView;
+
         @BindView(R.id.first_name)
         TextView firstName;
 
@@ -80,6 +89,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHodler
                     .load(user.getResourceUrl())
                     .centerInside()
                     .into(userImage);
+            rootView.setOnClickListener(v -> selectedUserLive.postValue(user));
         }
     }
 }

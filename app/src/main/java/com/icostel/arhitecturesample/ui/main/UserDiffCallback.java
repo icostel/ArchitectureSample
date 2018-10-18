@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.ui;
+package com.icostel.arhitecturesample.ui.main;
 
 import com.icostel.arhitecturesample.model.User;
 

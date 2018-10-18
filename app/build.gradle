@@ -55,6 +55,7 @@ dependencies {
     api deps.okhttp
     api deps.mock_server
     api deps.cardview
+    api deps.work.runtime
 
     annotationProcessor deps.dagger.android_support_compiler
     annotationProcessor deps.dagger.compiler

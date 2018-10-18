@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ArhitectureSample</string>
+    <string name="first_name">First Name</string>
+    <string name="age">Age: %1$s</string>
+</resources>

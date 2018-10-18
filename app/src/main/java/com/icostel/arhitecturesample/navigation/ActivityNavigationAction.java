@@ -3,12 +3,14 @@ package com.icostel.arhitecturesample.navigation;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.icostel.arhitecturesample.ui.MainActivity;
+import com.icostel.arhitecturesample.ui.main.MainActivity;
+import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
 
 public class ActivityNavigationAction extends NavigationAction {
     public enum Screen {
         Finish(null),
-        Main(MainActivity.class);
+        Main(MainActivity.class),
+        UserDetais(UserDetailsActivity.class);
 
         private Class targetClass;
 

@@ -11,6 +11,7 @@ import dagger.Module;
 @Module(includes = {
         ViewModelModule.class,
         ApiModule.class,
+        PreferenceModule.class,
         HttpClientModule.class,
         DbModule.class}
 )

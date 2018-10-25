@@ -12,10 +12,12 @@ import com.icostel.arhitecturesample.api.utils.SessionStore;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import timber.log.Timber;
 
+@Singleton
 public class UserSignInHandler {
 
     private UserApiService userApiService;
@@ -29,9 +31,8 @@ public class UserSignInHandler {
         this.sessionStore = sessionStore;
     }
 
-    //TODO create a sign in manager that uses this handler and has a session live data that gets updated by this call
-    // and use that to trigger the sign in
-    void signInUser(@NonNull String userEmail, @NonNull String userPass,
+    // other API calls will use the token obtained from user sign in and stored in session store
+    public void signInUser(@NonNull String userEmail, @NonNull String userPass,
                     @NonNull OnUserSignInResultListener listener) {
         appExecutors.networkIO().execute(() -> {
             try {
@@ -60,7 +61,7 @@ public class UserSignInHandler {
         }
     }
 
-    interface OnUserSignInResultListener {
+    public interface OnUserSignInResultListener {
         void onUserSignInResult(SignInStatus status);
     }
 }

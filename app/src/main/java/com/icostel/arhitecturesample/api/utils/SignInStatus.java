@@ -24,4 +24,8 @@ public class SignInStatus {
     public static SignInStatus Error() {
         return new SignInStatus(Status.Error);
     }
+
+    public Status getStatus() {
+        return this.status;
+    }
 }

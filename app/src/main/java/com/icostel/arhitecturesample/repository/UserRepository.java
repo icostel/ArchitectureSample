@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 @Singleton
 public class UserRepository {
@@ -46,4 +45,5 @@ public class UserRepository {
                     return users;
                 });
     }
+
 }

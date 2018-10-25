@@ -1,5 +1,5 @@
 # ArchitectureSample
 
-Android Jetpack Architecture Sample
+Android Architecture Sample
 
-A simple app that uses Android jetpack arhitecture components
+A simple app that uses Android architecture components and various frameworks

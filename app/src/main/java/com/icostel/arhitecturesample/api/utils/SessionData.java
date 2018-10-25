@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 
 @Singleton
 class SessionData {
-    //TODO maybe multiple providers with sign in status and token
+    // token received after user logins with user & pass, used for making API calls
     String userToken = null;
 
     @Inject

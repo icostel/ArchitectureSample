@@ -2,4 +2,6 @@
     <string name="app_name">ArhitectureSample</string>
     <string name="first_name">First Name</string>
     <string name="age">Age: %1$s</string>
+    <string name="logged_in_success">Login successful</string>
+    <string name="logged_in_error">Login error</string>
 </resources>

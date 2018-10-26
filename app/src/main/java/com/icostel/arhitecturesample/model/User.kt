@@ -12,7 +12,7 @@ import com.icostel.arhitecturesample.Config
  * The data object used by rest and room apis, this will be read by a mock REST server and stored in DB
  */
 
-@Entity(tableName = Config.USER_TABLE)
+@Entity(tableName = Config.Db.USER_TABLE)
 data class User(
         @PrimaryKey
         @NonNull

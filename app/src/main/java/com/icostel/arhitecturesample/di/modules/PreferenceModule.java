@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.icostel.arhitecturesample.Config;
+import com.icostel.arhitecturesample.di.qualifers.PerApp;
 import com.icostel.arhitecturesample.di.qualifers.PerUser;
 
 import dagger.Module;
@@ -14,6 +15,12 @@ public class PreferenceModule {
     @Provides
     @PerUser
     SharedPreferences provideUserPreferences(Context context) {
-        return context.getSharedPreferences(Config.PREF_USER, Context.MODE_PRIVATE);
+        return context.getSharedPreferences(Config.Pref.PREF_USER, Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @PerApp
+    SharedPreferences providesAppPreferance(Context context) {
+        return context.getSharedPreferences(Config.Pref.PREF_APP, Context.MODE_PRIVATE);
     }
 }

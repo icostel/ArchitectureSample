@@ -1,11 +1,11 @@
 package com.icostel.arhitecturesample.repository;
 
 import com.icostel.arhitecturesample.api.UserApiService;
+import com.icostel.arhitecturesample.api.model.SignInResponse;
 import com.icostel.arhitecturesample.api.utils.ApiErrorResponse;
 import com.icostel.arhitecturesample.api.utils.ApiResponse;
 import com.icostel.arhitecturesample.api.utils.ApiSuccessResponse;
 import com.icostel.arhitecturesample.api.utils.SessionStore;
-import com.icostel.arhitecturesample.api.utils.SignInResponse;
 import com.icostel.arhitecturesample.api.utils.SignInStatus;
 import com.icostel.arhitecturesample.utils.AppExecutors;
 
@@ -50,17 +50,17 @@ public class UserLogInHandler {
     private void manageResponse(ApiResponse<SignInResponse> response, @NonNull OnUserSignInResultListener listener) {
         if (response instanceof ApiSuccessResponse) {
             SignInResponse signInResponse = ((ApiSuccessResponse<SignInResponse>) response).getBody();
-            if (signInResponse.getSuccess() == null || signInResponse.getSuccess()) {
+            if (signInResponse.getSuccess()) {
                 sessionStore.setUserSessionToken(signInResponse.getToken());
                 listener.onUserSignInResult(SignInStatus.Success());
-                Timber.d("Sign in success: " + ((ApiSuccessResponse) response).getBody());
+                Timber.d("===Sign in success: " + ((ApiSuccessResponse) response).getBody());
             } else {
                 listener.onUserSignInResult(SignInStatus.Error());
-                Timber.d("Sign in error: " + ((ApiErrorResponse) response).getErrorMessage());
+                Timber.d("===Sign in error: " + ((ApiErrorResponse) response).getErrorMessage());
             }
         } else if (response instanceof ApiErrorResponse) {
             listener.onUserSignInResult(SignInStatus.Error());
-            Timber.d("Sign in error: " + ((ApiErrorResponse) response).getErrorMessage());
+            Timber.d("===Sign in error: " + ((ApiErrorResponse) response).getErrorMessage());
         }
     }
 

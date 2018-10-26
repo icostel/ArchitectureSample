@@ -3,7 +3,7 @@ package com.icostel.arhitecturesample.api;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.icostel.arhitecturesample.api.utils.SignInResponse;
+import com.icostel.arhitecturesample.api.model.SignInResponse;
 import com.icostel.arhitecturesample.utils.AppExecutors;
 
 import java.io.BufferedReader;
@@ -91,10 +91,7 @@ public class MockServer {
 
     private MockResponse getLoginResponse() {
         try {
-            SignInResponse signInResponse = new SignInResponse();
-            signInResponse.setSuccess(true);
-            signInResponse.setToken("sdkjahdds8sd79sd87v8734134ec13re");
-            signInResponse.setMessage("welcome");
+            SignInResponse signInResponse = new SignInResponse(true, "welcome", "sdkjahdds8sd79sd87v8734134ec13re");
             return new MockResponse()
                     .addHeader("Content-Type", "application/json; charset=utf-8")
                     .addHeader("Cache-Control", "no-cache")

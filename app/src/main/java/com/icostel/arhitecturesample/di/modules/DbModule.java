@@ -18,7 +18,7 @@ public class DbModule {
     @Provides
     AppDb provideDb(Application app) {
         return Room
-                .databaseBuilder(app, AppDb.class, Config.DB_NAME)
+                .databaseBuilder(app, AppDb.class, Config.Db.APP_DB)
                 .fallbackToDestructiveMigration()
                 .build();
     }

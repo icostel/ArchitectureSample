@@ -17,16 +17,16 @@ import androidx.room.Query;
 public abstract class UserDao implements BaseDao<User> {
 
     // gets all the users if any
-    @Query("SELECT * FROM " + Config.USER_TABLE)
+    @Query("SELECT * FROM " + Config.Db.USER_TABLE)
     public abstract List<User> getUsers();
 
     // gets the use with the specific id
-    @Query("SELECT * FROM " + Config.USER_TABLE + " WHERE id = :userId")
+    @Query("SELECT * FROM " + Config.Db.USER_TABLE + " WHERE id = :userId")
     abstract Optional<User> getUsers(String userId);
 
-    @Query("DELETE FROM " + Config.USER_TABLE)
+    @Query("DELETE FROM " + Config.Db.USER_TABLE)
     abstract public void deleteAllUsers();
 
-    @Query("DELETE FROM " + Config.USER_TABLE + " WHERE id = :userId")
+    @Query("DELETE FROM " + Config.Db.USER_TABLE + " WHERE id = :userId")
     abstract public void deleteUser(String userId);
 }

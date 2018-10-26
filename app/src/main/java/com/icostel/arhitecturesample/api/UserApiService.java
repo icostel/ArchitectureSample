@@ -1,7 +1,7 @@
 package com.icostel.arhitecturesample.api;
 
 
-import com.icostel.arhitecturesample.api.utils.SignInResponse;
+import com.icostel.arhitecturesample.api.model.SignInResponse;
 
 import io.reactivex.Observable;
 import retrofit2.Call;

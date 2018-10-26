@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 public interface UserApiService {
 
     // signs in a user
-    @GET("signin/")
+    @GET("login/")
     Call<SignInResponse> signInUser(@Header("token") String userEmail, @Header("token") String userPass);
 
     // returns all users

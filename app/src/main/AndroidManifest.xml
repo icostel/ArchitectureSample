@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.main.UserListActivity">
+        <activity android:name=".ui.loginuser.LoginUserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,6 +24,10 @@
 
         <activity
             android:name=".ui.userdetails.UserDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar.NormalStatus" />
+
+        <activity
+            android:name=".ui.listusers.ListUsersActivity"
             android:theme="@style/AppTheme.NoActionBar.NormalStatus" />
     </application>
 

@@ -3,7 +3,8 @@ package com.icostel.arhitecturesample.di.modules;
 
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.di.ViewModelKey;
-import com.icostel.arhitecturesample.ui.main.MainActivityViewModel;
+import com.icostel.arhitecturesample.ui.loginuser.LoginUserViewModel;
+import com.icostel.arhitecturesample.ui.listusers.ListUsersViewModel;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsViewModel;
 
 import androidx.lifecycle.ViewModel;
@@ -23,8 +24,13 @@ public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainActivityViewModel.class)
-    abstract ViewModel bindMainActivityViewModel(MainActivityViewModel mainActivityViewModel);
+    @ViewModelKey(ListUsersViewModel.class)
+    abstract ViewModel bindListUsersViewModel(ListUsersViewModel listUsersViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginUserViewModel.class)
+    abstract ViewModel bindLoginUserViewModel(LoginUserViewModel loginUserViewModel);
 
     @Binds
     @IntoMap

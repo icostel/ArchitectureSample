@@ -3,6 +3,7 @@ package com.icostel.arhitecturesample.api;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.icostel.arhitecturesample.api.utils.SignInResponse;
 import com.icostel.arhitecturesample.utils.AppExecutors;
 
 import java.io.BufferedReader;
@@ -46,6 +47,8 @@ public class MockServer {
                 Timber.d(TAG + " received request path: " + requestPath);
                 if (request.getPath().equals("/users/")) {
                     response = getAllResourcesResponse(GenericResponseData.USERS);
+                } else if (request.getPath().equals("/login/")) {
+                    response = getLoginResponse();
                 }
                 Timber.d(TAG + " response body: %s", response.getBody().toString());
 
@@ -86,7 +89,24 @@ public class MockServer {
         }
     }
 
-    private GenericResponseData getResponseBody(int resourceType) throws Exception {
+    private MockResponse getLoginResponse() {
+        try {
+            SignInResponse signInResponse = new SignInResponse();
+            signInResponse.setSuccess(true);
+            signInResponse.setToken("sdkjahdds8sd79sd87v8734134ec13re");
+            signInResponse.setMessage("welcome");
+            return new MockResponse()
+                    .addHeader("Content-Type", "application/json; charset=utf-8")
+                    .addHeader("Cache-Control", "no-cache")
+                    .setBody(gson.toJson(signInResponse))
+                    .throttleBody(1024, REQUEST_DURATION, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            Timber.e(TAG + "getAllUsersResponse(), err: " + e.getMessage());
+            return new MockResponse().setResponseCode(INTERNAL_ERROR);
+        }
+    }
+
+    private GenericResponseData getResponseBody(int resourceType) {
         // get raw json file from /raw
         int usersJsonId = context.getResources().getIdentifier(GenericResponseData.getResource(resourceType), "raw", context.getPackageName());
         Reader jsonReader = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(usersJsonId)));

@@ -1,14 +1,12 @@
-package com.icostel.arhitecturesample.ui.main;
+package com.icostel.arhitecturesample.ui.listusers;
 
 import android.os.Bundle;
 
 import com.icostel.arhitecturesample.BuildConfig;
-import com.icostel.arhitecturesample.api.utils.SignInStatus;
 import com.icostel.arhitecturesample.model.User;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
 import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.repository.UserRepository;
-import com.icostel.arhitecturesample.repository.UserSignInHandler;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
 import com.icostel.arhitecturesample.utils.SingleLiveEvent;
 
@@ -23,38 +21,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-public class MainActivityViewModel extends ViewModel {
+public class ListUsersViewModel extends ViewModel {
 
     private MutableLiveData<List<User>> userListLiveData = new MutableLiveData<>();
-    private MutableLiveData<SignInStatus.Status> signInStatusLive = new MutableLiveData<>();
     private SingleLiveEvent<NavigationAction> navigationActionLiveEvent = new SingleLiveEvent<>();
     private Disposable userDisposable;
-    private UserRepository userRepository;
-    private UserSignInHandler userSignInHandler;
 
     @Inject
-    MainActivityViewModel(UserRepository userRepository, UserSignInHandler userSignInHandler) {
+    ListUsersViewModel(UserRepository userRepository) {
         this.userListLiveData.setValue(new ArrayList<>());
-        this.signInStatusLive.setValue(SignInStatus.Status.NotStarted);
-        this.userRepository = userRepository;
-        this.userSignInHandler = userSignInHandler;
-
-        signInUser("userEmail", "userPass");
-    }
-
-    // used in the UI for displaying the log in status
-    MutableLiveData<SignInStatus.Status> getSignInStatusLive() {
-        return signInStatusLive;
-    }
-
-    // TODO login screen
-    void signInUser(String userEmail, String userPass) {
-        userSignInHandler.signInUser(userEmail, userPass, signInStatus -> {
-            signInStatusLive.setValue(signInStatus.getStatus());
-            if (signInStatus.getStatus() == SignInStatus.Status.Success) {
-                getUsers(this.userRepository);
-            }
-        });
+        getUsers(userRepository);
     }
 
     // used in the UI for updating the user list

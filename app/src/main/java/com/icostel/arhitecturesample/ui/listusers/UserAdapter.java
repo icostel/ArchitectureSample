@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.ui.main;
+package com.icostel.arhitecturesample.ui.listusers;
 
 import android.content.Context;
 import android.view.LayoutInflater;

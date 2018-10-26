@@ -4,4 +4,10 @@
     <string name="age">Age: %1$s</string>
     <string name="logged_in_success">Login successful</string>
     <string name="logged_in_error">Login error</string>
+    <string name="login">Login</string>
+    <string name="hint_user_email">Email</string>
+    <string name="hint_user_pass">Password</string>
+    <string name="inputs_invalid">Inputs not valid</string>
+    <string name="login_error">Could not login, sorry...</string>
+    <string name="login_success">Login success !</string>
 </resources>

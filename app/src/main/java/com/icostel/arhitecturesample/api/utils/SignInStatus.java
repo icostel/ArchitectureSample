@@ -1,7 +1,7 @@
 package com.icostel.arhitecturesample.api.utils;
 
 public class SignInStatus {
-    public enum Status {NotStarted, InProgress, Success, Error}
+    public enum Status {NotStarted, InProgress, Success, CallError, InputsError}
 
     Status status;
 
@@ -22,7 +22,7 @@ public class SignInStatus {
     }
 
     public static SignInStatus Error() {
-        return new SignInStatus(Status.Error);
+        return new SignInStatus(Status.CallError);
     }
 
     public Status getStatus() {

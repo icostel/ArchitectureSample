@@ -1,6 +1,7 @@
 package com.icostel.arhitecturesample.repository;
 
 import com.icostel.arhitecturesample.api.UsersApi;
+import com.icostel.arhitecturesample.api.utils.SessionStore;
 import com.icostel.arhitecturesample.db.UserDao;
 import com.icostel.arhitecturesample.model.User;
 
@@ -12,6 +13,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 @Singleton
 public class UserRepository {
@@ -20,29 +22,54 @@ public class UserRepository {
 
     private final UsersApi usersApi;
     private final UserDao userDao;
+    private final SessionStore sessionStore;
 
     @Inject
-    UserRepository(UsersApi usersApi, UserDao userDao) {
+    UserRepository(UsersApi usersApi, UserDao userDao, SessionStore sessionStore) {
         this.usersApi = usersApi;
         this.userDao = userDao;
+        this.sessionStore = sessionStore;
     }
 
-    public Observable<Optional<User>> getUser(String userId) {
-        //get token from somewhere
-        final String token = "user_token";
-        return this.usersApi.getUser(token, userId)
-                .subscribeOn(Schedulers.io());
+    @SuppressWarnings("unused")
+    public Observable<Optional<User>> getUserById(String userId) {
+        // if we have the user in the DB, return it from there
+        // if not do the API call, insert the user in DB and return it
+        Timber.d("%s getUserById() %d", TAG, userId);
+        return Observable.just(userDao.getUserById(userId))
+                .subscribeOn(Schedulers.io())
+                .flatMap(dbUser -> {
+                    if (dbUser != null) {
+                        return Observable.just(Optional.of(dbUser));
+                    } else {
+                        return this.usersApi.getUser(sessionStore.getUserSessionToken(), userId)
+                                .subscribeOn(Schedulers.io())
+                                .map(restUser -> {
+                                    restUser.ifPresent(userDao::insert);
+                                    return restUser;
+                                });
+                    }
+                });
     }
 
     public Observable<Optional<List<User>>> getAllUsers() {
-        //get token from somewhere, a session manager maybe
-        final String token = "user_token";
-        return this.usersApi.getUsers(token)
+        // if we have users in the dao, return from there
+        // if not do the API call, insert users in DB and return them
+        Timber.d("%s getAllUsers()", TAG);
+        return Observable.just(userDao.getUsers())
                 .subscribeOn(Schedulers.io())
-                .map(users -> {
-                    // insert or update all users on call
-                    users.ifPresent(userDao::upsert);
-                    return users;
+                .flatMap(daoUsers -> {
+                    if (daoUsers != null && daoUsers.size() > 0) {
+                        return Observable.just(Optional.of(daoUsers));
+                    } else {
+                        return this.usersApi.getUsers(sessionStore.getUserSessionToken())
+                                .subscribeOn(Schedulers.io())
+                                .map(users -> {
+                                    // insert or update all users on call
+                                    users.ifPresent(userDao::upsert);
+                                    return users;
+                                });
+                    }
                 });
     }
 

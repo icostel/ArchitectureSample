@@ -22,11 +22,11 @@ public abstract class UserDao implements BaseDao<User> {
 
     // gets the use with the specific id
     @Query("SELECT * FROM " + Config.Db.USER_TABLE + " WHERE id = :userId")
-    abstract Optional<User> getUsers(String userId);
+    public abstract User getUserById(String userId);
 
     @Query("DELETE FROM " + Config.Db.USER_TABLE)
-    abstract public void deleteAllUsers();
+    public abstract void deleteAllUsers();
 
     @Query("DELETE FROM " + Config.Db.USER_TABLE + " WHERE id = :userId")
-    abstract public void deleteUser(String userId);
+    public abstract void deleteUser(String userId);
 }

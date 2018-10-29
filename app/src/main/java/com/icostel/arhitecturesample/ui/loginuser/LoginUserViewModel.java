@@ -44,11 +44,7 @@ public class LoginUserViewModel extends ViewModel {
             signInStatusLive.setValue(SignInStatus.Status.InputsError);
         } else {
             signInStatusLive.setValue(SignInStatus.Status.InProgress);
-            userLogInHandler.signInUser(userEmail, userPass,
-                    signInStatus ->
-                            AndroidSchedulers.mainThread()
-                                    .createWorker()
-                                    .schedule(() -> signInStatusLive.setValue(signInStatus.getStatus())));
+            userLogInHandler.signInUser(userEmail, userPass, signInStatus -> signInStatusLive.postValue(signInStatus.getStatus()));
         }
     }
 

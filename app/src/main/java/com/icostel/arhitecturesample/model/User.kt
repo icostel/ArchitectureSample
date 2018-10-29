@@ -7,6 +7,7 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.icostel.arhitecturesample.Config
+import timber.log.Timber
 
 /**
  * The data object used by rest and room apis, this will be read by a mock REST server and stored in DB
@@ -41,6 +42,7 @@ data class User(
         var age: Int) {
 
     companion object Consts {
+        val TAG = User.javaClass.canonicalName
         val UNDEFINED = ""
         val NO_AGE = -1
     }
@@ -49,5 +51,19 @@ data class User(
 
     override fun toString(): String {
         return "User(id='$id', firstName='$firstName', lastName='$lastName', resourceUrl='$resourceUrl', country='$country', age=$age)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other == null || other !is User) {
+            Timber.w(TAG, "(other) is not of type User, ignoring...")
+            false
+        } else {
+            this.id.equals(other.id)
+                    && this.age == other.age
+                    && this.country.equals(other.country)
+                    && this.firstName.equals(other.firstName)
+                    && this.lastName.equals(other.lastName)
+                    && this.resourceUrl.equals(other.resourceUrl)
+        }
     }
 }

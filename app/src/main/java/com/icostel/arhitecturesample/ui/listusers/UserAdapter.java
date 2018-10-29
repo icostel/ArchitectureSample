@@ -16,11 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHodler> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     private final List<User> users = new ArrayList<>();
     private Context context;
@@ -32,26 +34,28 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHodler
 
     @NonNull
     @Override
-    public UserViewHodler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View charityItemView = LayoutInflater.from(this.context).inflate(R.layout.item_user, parent, false);
-        return new UserViewHodler(charityItemView);
+        return new UserViewHolder(charityItemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHodler holder, int position) {
+    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = users.get(position);
         if (user != null) {
             holder.bindUserViewHolder(user);
         }
     }
 
-    void updateUserList(List<User> newItems) {
-        //final UserDiffCallback diffCallback = new UserDiffCallback(newItems, users);
-        //final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-        this.users.clear();
-        this.users.addAll(newItems);
-        notifyDataSetChanged();
-        //diffResult.dispatchUpdatesTo(this);
+    void updateUserList(List<User> newUserList) {
+        Timber.d("updateUserList(), size: %d", newUserList.size());
+        final UserDiffCallback diffCallback = new UserDiffCallback(users, newUserList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        users.clear();
+        users.addAll(newUserList);
+        notifyDataSetChanged();//TODO remove this
+        // push only the new items after the diff is done
+        diffResult.dispatchUpdatesTo(this);
     }
 
     SingleLiveEvent<User> getSelectedUserLive() {
@@ -63,7 +67,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHodler
         return users.size();
     }
 
-    class UserViewHodler extends RecyclerView.ViewHolder {
+    class UserViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.root_view)
         View rootView;
@@ -77,7 +81,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHodler
         @BindView(R.id.age)
         TextView age;
 
-        UserViewHodler(@NonNull View itemView) {
+        UserViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

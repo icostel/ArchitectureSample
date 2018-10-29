@@ -15,6 +15,9 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
+/**
+ * The main repository for the users, this implements the repository pattern using rx
+ */
 @Singleton
 public class UserRepository {
 
@@ -33,10 +36,7 @@ public class UserRepository {
 
     @SuppressWarnings("unused")
     public Observable<Optional<User>> getUserById(String userId) {
-        // if we have the user in the DB, return it from there
-        // if not do the API call, insert the user in DB and return it
-        // TODO concat with db call
-
+        //TODO implement the same repo pattern for one user call
         Timber.d("%s getUserById() %d", TAG, userId);
         return this.usersApi.getUser(sessionStore.getUserSessionToken(), userId)
                 .subscribeOn(Schedulers.io())
@@ -44,55 +44,38 @@ public class UserRepository {
                     restUser.ifPresent(userDao::insert);
                     return restUser;
                 });
-        /*
-        return Observable.just(userDao.getUserById(userId))
-                .subscribeOn(Schedulers.io())
-                .flatMap(dbUser -> {
-                    if (dbUser != null) {
-                        return Observable.just(Optional.of(dbUser));
-                    } else {
-                        return this.usersApi.getUser(sessionStore.getUserSessionToken(), userId)
-                                .subscribeOn(Schedulers.io())
-                                .map(restUser -> {
-                                    restUser.ifPresent(userDao::insert);
-                                    return restUser;
-                                });
-                    }
-                });
-                */
     }
 
-    public Observable<Optional<List<User>>> getAllUsers() {
-        // if we have users in the dao, return from there
-        // if not do the API call, insert users in DB and return them
-        // TODO concat with db call
-
+    // this is exposed to the view model
+    public Observable<List<User>> getAllUsers() {
         Timber.d("%s getAllUsers()", TAG);
+        String userToken = sessionStore.getUserSessionToken();
+        return Observable.concatArray(getUsersFromDb(), getUsersFromApi(userToken));
+    }
 
-        return this.usersApi.getUsers(sessionStore.getUserSessionToken())
+    //REPO PATTERN
+
+    // store the new users in DB
+    private void storeUsersInDb(List<User> users) {
+        Schedulers.io().createWorker().schedule(() -> userDao.upsert(users));
+    }
+
+    // get the users from db
+    private Observable<List<User>> getUsersFromDb() {
+        return userDao.getUsers()
+                .subscribeOn(Schedulers.io())
+                .filter(users -> users != null && !users.isEmpty())
+                .toObservable();
+    }
+
+    // get users from api service
+    private Observable<List<User>> getUsersFromApi(String token) {
+        return usersApi.getUsers(token)
                 .subscribeOn(Schedulers.io())
                 .map(users -> {
-                    // insert or update all users on call
-                    users.ifPresent(userDao::upsert);
+                    storeUsersInDb(users);
                     return users;
                 });
-        /*
-        return Observable.just(userDao.getUsers())
-                .subscribeOn(Schedulers.io())
-                .flatMap(daoUsers -> {
-                    if (daoUsers != null && daoUsers.size() > 0) {
-                        return Observable.just(Optional.of(daoUsers));
-                    } else {
-                        return this.usersApi.getUsers(sessionStore.getUserSessionToken())
-                                .subscribeOn(Schedulers.io())
-                                .map(users -> {
-                                    // insert or update all users on call
-                                    users.ifPresent(userDao::upsert);
-                                    return users;
-                                });
-                    }
-                });
-                */
     }
 
 }

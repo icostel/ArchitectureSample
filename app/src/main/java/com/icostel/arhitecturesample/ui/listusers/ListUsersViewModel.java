@@ -45,19 +45,17 @@ public class ListUsersViewModel extends ViewModel {
     private void getUsers(UserRepository userRepository) {
         userDisposable = userRepository.getAllUsers()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userListOptional -> {
-                    if (userListOptional.isPresent()) {
-                        if (userListOptional.get().size() > 0) {
-                            userListLiveData.setValue(userListOptional.get());
-                            if (BuildConfig.DEBUG) {
-                                if (userListLiveData.getValue() != null) {
-                                    for (User u : userListLiveData.getValue()) {
-                                        Timber.d(" received user: " + u.toString());
-                                    }
+                .subscribe(userList -> {
+                    if (userList.size() > 0) {
+                        userListLiveData.setValue(userList);
+                        if (BuildConfig.DEBUG) {
+                            if (userListLiveData.getValue() != null) {
+                                for (User u : userListLiveData.getValue()) {
+                                    Timber.d(" received user: " + u.toString());
                                 }
                             }
-                            Timber.d("received %d users ", userListOptional.get().size());
                         }
+                        Timber.d("received %d users ", userList.size());
                     }
                 }, throwable -> Timber.e("Could not get users: " + throwable));
     }

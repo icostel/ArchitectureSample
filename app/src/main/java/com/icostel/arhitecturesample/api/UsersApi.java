@@ -45,15 +45,15 @@ public class UsersApi {
     }
 
     // maps the user response to the user list as we don't use the REST object in calling API
-    public Observable<Optional<List<User>>> getUsers(final String authToken) {
+    public Observable<List<User>> getUsers(final String authToken) {
         return apiSevice.getUsers(authToken)
                 .map(userResponse -> {
                     int usersSize = userResponse.getData().size();
                     Timber.d(TAG + " getUsers() size: %d", usersSize);
                     if (usersSize != 0) {
-                        return Optional.of(userResponse.getData());
+                        return userResponse.getData();
                     }
-                    return Optional.of(Collections.emptyList());
+                    return Collections.emptyList();
                 });
     }
 }

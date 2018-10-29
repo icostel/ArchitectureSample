@@ -36,6 +36,7 @@ dependencies {
     api deps.support.cardview
     api deps.support.design
     api deps.room.runtime
+    api deps.room.rxjava2
     api deps.lifecycle.runtime
     api deps.lifecycle.extensions
     api deps.lifecycle.java8

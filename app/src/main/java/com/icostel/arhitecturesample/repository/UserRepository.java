@@ -6,6 +6,7 @@ import com.icostel.arhitecturesample.db.UserDao;
 import com.icostel.arhitecturesample.model.User;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -34,16 +35,13 @@ public class UserRepository {
         this.sessionStore = sessionStore;
     }
 
+    ///////////REPO PATTERN API
+
     @SuppressWarnings("unused")
     public Observable<Optional<User>> getUserById(String userId) {
-        //TODO implement the same repo pattern for one user call
         Timber.d("%s getUserById() %d", TAG, userId);
-        return this.usersApi.getUser(sessionStore.getUserSessionToken(), userId)
-                .subscribeOn(Schedulers.io())
-                .map(restUser -> {
-                    restUser.ifPresent(userDao::insert);
-                    return restUser;
-                });
+        String userToken = sessionStore.getUserSessionToken();
+        return Observable.concatArray(getUserFromDb(userId), getUserFromApi(userToken, userId));
     }
 
     // this is exposed to the view model
@@ -53,7 +51,9 @@ public class UserRepository {
         return Observable.concatArray(getUsersFromDb(), getUsersFromApi(userToken));
     }
 
-    //REPO PATTERN
+    ///////////REPO PATTERN API
+
+    //SINGLE USER API
 
     // store the new users in DB
     private void storeUsersInDb(List<User> users) {
@@ -68,6 +68,16 @@ public class UserRepository {
                 .toObservable();
     }
 
+    private Observable<Optional<User>> getUserFromDb(String userId) {
+        return userDao.getUserById(userId)
+                .subscribeOn(Schedulers.io())
+                .filter(Objects::nonNull)
+                .map(Optional::of)
+                .toObservable();
+    }
+
+    //MORE USERS API
+
     // get users from api service
     private Observable<List<User>> getUsersFromApi(String token) {
         return usersApi.getUsers(token)
@@ -75,6 +85,25 @@ public class UserRepository {
                 .map(users -> {
                     storeUsersInDb(users);
                     return users;
+                });
+    }
+
+    private void storeUserInDb(User user) {
+        Schedulers.io().createWorker().schedule(() -> userDao.upsert(user));
+    }
+
+    // get user from api service
+    private Observable<Optional<User>> getUserFromApi(String token, String userId) {
+        return usersApi.getUsers(token)
+                .subscribeOn(Schedulers.io())
+                .map(users -> {
+                    for (User user : users) {
+                        if (user.getId().equalsIgnoreCase(userId)) {
+                            storeUserInDb(user);
+                            return Optional.of(user);
+                        }
+                    }
+                    return Optional.empty();
                 });
     }
 

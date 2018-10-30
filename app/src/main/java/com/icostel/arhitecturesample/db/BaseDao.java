@@ -49,4 +49,17 @@ public interface BaseDao<T> {
             }
         }
     }
+
+    /**
+     * Tries and updates first and insert second the item
+     * If the update fails the item will be inserted
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    default void upsert(T item) {
+        try {
+            insert(item);
+        } catch (SQLiteConstraintException exception) {
+            update(item);
+        }
+    }
 }

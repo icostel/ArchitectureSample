@@ -1,12 +1,25 @@
 package com.icostel.arhitecturesample.ui.userdetails;
 
+import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.repository.UserRepository;
+
 import javax.inject.Inject;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class UserDetailsViewModel extends ViewModel {
-    @Inject
-    UserDetailsViewModel() {
 
+/**
+ * View model for one single user, used by {@link com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity}
+ */
+public class UserDetailsViewModel extends ViewModel {
+
+    //TODO
+    private MutableLiveData<User> userLiveData;
+    private UserRepository userRepository;
+
+    @Inject
+    UserDetailsViewModel(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }

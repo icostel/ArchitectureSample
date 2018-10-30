@@ -12,4 +12,8 @@ public class Config {
         String APP_DB = "app.db";
         String USER_TABLE = "users";
     }
+
+    public interface Data {
+        String DATA = "data";
+    }
 }

@@ -49,13 +49,13 @@ public class ListUsersViewModel extends ViewModel {
                     if (userList.size() > 0) {
                         userListLiveData.setValue(userList);
                         if (BuildConfig.DEBUG) {
+                            Timber.d("received %d users ", userList.size());
                             if (userListLiveData.getValue() != null) {
                                 for (User u : userListLiveData.getValue()) {
-                                    Timber.d(" received user: " + u.toString());
+                                    Timber.d("user: " + u.toString());
                                 }
                             }
                         }
-                        Timber.d("received %d users ", userList.size());
                     }
                 }, throwable -> Timber.e("Could not get users: " + throwable));
     }

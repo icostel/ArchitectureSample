@@ -1,5 +1,6 @@
 package com.icostel.arhitecturesample.navigation;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -28,11 +29,21 @@ public class ActivityNavigationAction extends NavigationAction {
     private Screen screen;
     private Bundle extras;
     private Integer flags;
+    private Bundle transition;
+
+    private ActivityNavigationAction() {}
 
     @Override
     public void navigate(Navigator navigator) {
         // Check if we actually need to just finish
         if (screen == Screen.Finish) {
+            if (extras != null) {
+                Intent data = new Intent();
+                data.putExtras(extras);
+                navigator.setResult(Activity.RESULT_OK, data);
+            } else if (flags != null) {
+                navigator.setResult(flags, null);
+            }
             navigator.finish();
             return;
         }
@@ -45,7 +56,11 @@ public class ActivityNavigationAction extends NavigationAction {
             intent.putExtras(extras);
         }
         if (requestCode == null) {
-            navigator.startActivity(intent);
+            if (transition != null && navigator instanceof Activity) {
+                navigator.startActivity(intent, transition);
+            } else {
+                navigator.startActivity(intent);
+            }
         } else {
             navigator.startActivityForResult(intent, requestCode);
         }
@@ -62,6 +77,11 @@ public class ActivityNavigationAction extends NavigationAction {
 
         public Builder setBundle(Bundle bundle) {
             action.extras = bundle;
+            return this;
+        }
+
+        public Builder setTransitionBundle(Bundle bundle) {
+            action.transition = bundle;
             return this;
         }
 

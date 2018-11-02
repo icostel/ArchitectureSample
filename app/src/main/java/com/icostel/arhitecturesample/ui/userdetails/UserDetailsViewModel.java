@@ -1,6 +1,6 @@
 package com.icostel.arhitecturesample.ui.userdetails;
 
-import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.repository.UserRepository;
 
 import javax.inject.Inject;

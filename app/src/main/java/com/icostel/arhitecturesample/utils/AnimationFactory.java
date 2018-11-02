@@ -15,6 +15,10 @@ public final class AnimationFactory {
     private static final int ANIMATION_DURATION = 2000;
     private static final String ANIMATION_PROPERTY_ALPHA = "alpha";
 
+    private static final ViewPropertyTransition.Animator FADE_IN_TRANSITION = v -> fadeInAnimator(v).start();
+    private static final ViewPropertyTransition.Animator FADE_OUT_TRANSITION = v -> fadeOutAnimator(v).start();
+    private static final ViewPropertyTransition.Animator DEFAULT_TRANSITION = v -> defaultAnimator(v).start();
+
     public enum AnimationType {
         FADE_IN,
         FADE_OUT,
@@ -31,11 +35,6 @@ public final class AnimationFactory {
                 return DEFAULT_TRANSITION;
         }
     }
-
-    private static final ViewPropertyTransition.Animator FADE_IN_TRANSITION = v -> fadeInAnimator(v).start();
-    private static final ViewPropertyTransition.Animator FADE_OUT_TRANSITION = v -> fadeOutAnimator(v).start();
-    private static final ViewPropertyTransition.Animator DEFAULT_TRANSITION = v -> defaultAnimator(v).start();
-
 
     private static ObjectAnimator fadeInAnimator(View v) {
         v.setAlpha(0f);

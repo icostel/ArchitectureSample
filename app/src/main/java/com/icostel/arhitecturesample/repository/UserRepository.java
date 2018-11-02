@@ -3,7 +3,7 @@ package com.icostel.arhitecturesample.repository;
 import com.icostel.arhitecturesample.api.UsersApi;
 import com.icostel.arhitecturesample.api.utils.SessionStore;
 import com.icostel.arhitecturesample.db.UserDao;
-import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.api.model.User;
 
 import java.util.List;
 import java.util.Objects;

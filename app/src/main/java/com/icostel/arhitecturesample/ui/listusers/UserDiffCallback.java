@@ -1,6 +1,6 @@
 package com.icostel.arhitecturesample.ui.listusers;
 
-import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.api.model.User;
 
 import java.util.List;
 

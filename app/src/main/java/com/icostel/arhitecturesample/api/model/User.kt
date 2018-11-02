@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.model
+package com.icostel.arhitecturesample.api.model
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
@@ -42,9 +42,9 @@ data class User(
         var age: Int) {
 
     companion object Consts {
-        val TAG = User.javaClass.canonicalName
-        val UNDEFINED = ""
-        val NO_AGE = -1
+        val TAG: String? = User::class.java.canonicalName
+        const val UNDEFINED = ""
+        const val NO_AGE = -1
     }
 
     @Ignore constructor() : this(UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, NO_AGE)
@@ -53,17 +53,21 @@ data class User(
         return "User(id='$id', firstName='$firstName', lastName='$lastName', resourceUrl='$resourceUrl', country='$country', age=$age)"
     }
 
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
     override fun equals(other: Any?): Boolean {
         return if (other == null || other !is User) {
-            Timber.w(TAG, "(other) is not of type User, ignoring...")
+            Timber.w("%s (other) is not of type User, ignoring...", TAG)
             false
         } else {
-            this.id.equals(other.id)
+            this.id == other.id
                     && this.age == other.age
-                    && this.country.equals(other.country)
-                    && this.firstName.equals(other.firstName)
-                    && this.lastName.equals(other.lastName)
-                    && this.resourceUrl.equals(other.resourceUrl)
+                    && this.country == other.country
+                    && this.firstName == other.firstName
+                    && this.lastName == other.lastName
+                    && this.resourceUrl == other.resourceUrl
         }
     }
 }

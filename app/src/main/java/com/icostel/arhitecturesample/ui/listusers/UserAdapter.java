@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.GenericTransitionOptions;
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.modules.GlideApp;
-import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.utils.AnimationFactory;
 import com.icostel.arhitecturesample.utils.ImageRequestListener;
 import com.icostel.arhitecturesample.utils.SingleLiveEvent;

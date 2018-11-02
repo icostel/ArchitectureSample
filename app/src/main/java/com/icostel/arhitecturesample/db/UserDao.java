@@ -2,7 +2,7 @@ package com.icostel.arhitecturesample.db;
 
 
 import com.icostel.arhitecturesample.Config;
-import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.api.model.User;
 
 import java.util.List;
 

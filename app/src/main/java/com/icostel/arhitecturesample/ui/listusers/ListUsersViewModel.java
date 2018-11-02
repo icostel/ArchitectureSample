@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.icostel.arhitecturesample.BuildConfig;
 import com.icostel.arhitecturesample.Config;
-import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
 import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.repository.UserRepository;

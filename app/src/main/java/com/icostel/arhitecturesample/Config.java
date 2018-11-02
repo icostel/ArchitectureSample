@@ -14,6 +14,6 @@ public class Config {
     }
 
     public interface Data {
-        String DATA = "data";
+        String USER_ID = "user_id";
     }
 }

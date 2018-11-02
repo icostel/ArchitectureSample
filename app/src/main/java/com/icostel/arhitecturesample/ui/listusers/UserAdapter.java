@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.GenericTransitionOptions;
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.modules.GlideApp;
 import com.icostel.arhitecturesample.model.User;
+import com.icostel.arhitecturesample.utils.AnimationFactory;
+import com.icostel.arhitecturesample.utils.ImageRequestListener;
 import com.icostel.arhitecturesample.utils.SingleLiveEvent;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+
+    private static final String TAG = UserAdapter.class.getCanonicalName();
 
     private final List<User> users = new ArrayList<>();
     private Context context;
@@ -41,10 +46,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user = users.get(position);
-        if (user != null) {
-            holder.bindUserViewHolder(user);
-        }
+        holder.bindUserViewHolder(users.get(position));
     }
 
     void updateUserList(List<User> newUserList) {
@@ -75,7 +77,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         @BindView(R.id.first_name)
         TextView firstName;
 
-        @BindView(R.id.image)
+        @BindView(R.id.user_image)
         ImageView userImage;
 
         @BindView(R.id.age)
@@ -91,9 +93,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             age.setText(context.getString(R.string.age, String.valueOf(user.getAge())));
             GlideApp.with(context)
                     .load(user.getResourceUrl())
-                    .centerInside()
+                    .transition(GenericTransitionOptions.with(AnimationFactory.getTransition(AnimationFactory.AnimationType.FADE_IN)))
+                    .dontTransform()
+                    .listener((ImageRequestListener) status -> Timber.e("%s, glide listener status: %s", TAG, status.toString()))
                     .into(userImage);
             rootView.setOnClickListener(v -> selectedUserLive.postValue(user));
         }
     }
+
+
 }

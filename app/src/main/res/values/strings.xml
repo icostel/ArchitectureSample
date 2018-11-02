@@ -8,6 +8,9 @@
     <string name="hint_user_email">Email</string>
     <string name="hint_user_pass">Password</string>
     <string name="inputs_invalid">Inputs not valid</string>
-    <string name="login_error">Could not login, sorry...</string>
+    <string name="login_error">Could not login, sorry&#8230;</string>
     <string name="login_success">Login success !</string>
+    <string name="user_image_content_desc">user image</string>
+    <string name="login_user">Please login</string>
+    <string name="available_users">Users</string>
 </resources>

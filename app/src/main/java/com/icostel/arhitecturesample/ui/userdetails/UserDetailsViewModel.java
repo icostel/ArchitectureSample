@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModel;
  */
 public class UserDetailsViewModel extends ViewModel {
 
-    //TODO
     private MutableLiveData<User> userLiveData;
     private UserRepository userRepository;
 

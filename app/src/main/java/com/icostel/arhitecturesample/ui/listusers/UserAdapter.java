@@ -13,7 +13,7 @@ import com.icostel.arhitecturesample.di.modules.GlideApp;
 import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.utils.AnimationFactory;
 import com.icostel.arhitecturesample.utils.ImageRequestListener;
-import com.icostel.arhitecturesample.utils.SingleLiveEvent;
+import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.List;

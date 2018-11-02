@@ -6,13 +6,12 @@ import com.icostel.arhitecturesample.api.utils.SignInStatus;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
 import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.repository.UserLogInHandler;
-import com.icostel.arhitecturesample.utils.SingleLiveEvent;
+import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 
 import javax.inject.Inject;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class LoginUserViewModel extends ViewModel {
 

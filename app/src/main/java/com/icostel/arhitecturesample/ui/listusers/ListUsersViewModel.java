@@ -8,7 +8,7 @@ import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
 import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.repository.UserRepository;
-import com.icostel.arhitecturesample.utils.SingleLiveEvent;
+import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.List;

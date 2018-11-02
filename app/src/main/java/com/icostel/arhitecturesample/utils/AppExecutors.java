@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 
 @Singleton
 public class AppExecutors {
+
+    private static final int NETWORK_THREADS = 3;
+
     private Executor diskIO;
     private Executor networkIO;
     private Executor mainThread;
@@ -21,7 +24,7 @@ public class AppExecutors {
     @Inject
     AppExecutors() {
         diskIO = Executors.newSingleThreadExecutor();
-        networkIO = Executors.newFixedThreadPool(3);
+        networkIO = Executors.newFixedThreadPool(NETWORK_THREADS);
         mainThread = new MainThreadExecutor();
         background = Executors.newSingleThreadExecutor();
     }

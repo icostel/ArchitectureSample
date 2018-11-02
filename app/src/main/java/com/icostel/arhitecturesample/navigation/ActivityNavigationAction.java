@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.icostel.arhitecturesample.ui.listusers.ListUsersActivity;
+import com.icostel.arhitecturesample.ui.listusers.UserListActivity;
 import com.icostel.arhitecturesample.ui.loginuser.LoginUserActivity;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
 
@@ -12,7 +12,7 @@ public class ActivityNavigationAction extends NavigationAction {
     public enum Screen {
         Finish(null),
         Main(LoginUserActivity.class),
-        ListUsers(ListUsersActivity.class),
+        ListUsers(UserListActivity.class),
         UserDetais(UserDetailsActivity.class);
 
         private Class targetClass;

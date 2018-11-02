@@ -2,25 +2,25 @@ package com.icostel.arhitecturesample.ui.userdetails;
 
 import android.os.Bundle;
 
+import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.R;
-import com.icostel.arhitecturesample.di.InjectableActivity;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
+import com.icostel.arhitecturesample.ui.BaseActivity;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
-public class UserDetailsActivity extends InjectableActivity {
-
-    private static final String TAG = UserDetailsActivity.class.getCanonicalName();
-    public static final String EXTRA_USER_ID = "com.icostel.arhitecturesample.EXTRA_USER_ID";
+public class UserDetailsActivity extends BaseActivity {
 
     @Inject
     ViewModelFactory viewModelFactory;
 
-    private UserDetailsViewModel userDetailsViewModel;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,11 @@ public class UserDetailsActivity extends InjectableActivity {
         setContentView(R.layout.activity_user_details);
 
         ButterKnife.bind(this);
-        userDetailsViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserDetailsViewModel.class);
-        String userId = getIntent().getStringExtra(EXTRA_USER_ID);
-        Timber.d(TAG + "User details for user with id %s", userId);
+        UserDetailsViewModel userDetailsViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserDetailsViewModel.class);
+        String userId = getIntent().getStringExtra(Config.Data.USER_ID);
+        //TODO load user and user details from db based on id, create userdetails models and
+        enableUpNavigation();
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 }
 

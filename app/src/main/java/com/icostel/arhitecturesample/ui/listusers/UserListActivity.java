@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListUsersActivity extends BaseActivity {
-
-    private static final String TAG = ListUsersActivity.class.getCanonicalName();
+public class UserListActivity extends BaseActivity {
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -24,8 +22,6 @@ public class ListUsersActivity extends BaseActivity {
     @BindView(R.id.user_recycler)
     RecyclerView userRecyclerView;
 
-    private ListUsersViewModel listUsersViewModel;
-    private RecyclerView.LayoutManager mLayoutManager;
     private UserAdapter userAdapter;
 
     @Override
@@ -34,17 +30,19 @@ public class ListUsersActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
+        ListUsersViewModel listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
 
         userRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         userRecyclerView.setLayoutManager(mLayoutManager);
-        userAdapter = new UserAdapter(ListUsersActivity.this);
+        userAdapter = new UserAdapter(UserListActivity.this);
         userRecyclerView.setAdapter(userAdapter);
 
         listUsersViewModel.getUserListLiveData().observe(this, users -> userAdapter.updateUserList(users));
         listUsersViewModel.getNavigationActionLiveEvent().observe(this, this::navigateTo);
         userAdapter.getSelectedUserLive().observe(this, listUsersViewModel::onUserSelected);
+
+        enableUpNavigation();
     }
 }
 

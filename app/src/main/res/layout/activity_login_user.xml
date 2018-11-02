@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -23,8 +24,9 @@
             android:imeOptions="flagNoExtractUi"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loading_dialog"
             app:layout_constraintVertical_bias="1.0">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -40,7 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintBottom_toTopOf="@+id/login_btn"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
@@ -50,9 +54,11 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:imeOptions="flagNoExtractUi"
-            app:layout_constraintBottom_toTopOf="@+id/login_btn"
+            app:layout_constraintBottom_toTopOf="@+id/middle_line"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -76,8 +82,9 @@
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/middle_line"
+            app:layout_constraintTop_toBottomOf="@+id/middle_line"
             app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
@@ -90,10 +97,12 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_chainStyle="packed" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

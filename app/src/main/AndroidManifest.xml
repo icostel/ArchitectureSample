@@ -15,20 +15,20 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.loginuser.LoginUserActivity">
+        <activity
+            android:name=".ui.loginuser.LoginUserActivity"
+            android:label="@string/login_user">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.userdetails.UserDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar.NormalStatus" />
+        <activity android:name=".ui.userdetails.UserDetailsActivity" android:theme="@style/AppTheme.NoActionBar.NormalStatus"/>
 
         <activity
-            android:name=".ui.listusers.ListUsersActivity"
-            android:theme="@style/AppTheme.NoActionBar.NormalStatus" />
+            android:name=".ui.listusers.UserListActivity"
+            android:label="@string/available_users" />
     </application>
 
 </manifest>

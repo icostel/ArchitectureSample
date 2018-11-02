@@ -3,11 +3,11 @@ package com.icostel.arhitecturesample.ui.listusers;
 import android.os.Bundle;
 
 import com.icostel.arhitecturesample.BuildConfig;
+import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.model.User;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
 import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.repository.UserRepository;
-import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
 import com.icostel.arhitecturesample.utils.SingleLiveEvent;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class ListUsersViewModel extends ViewModel {
     // navigate to details when the user select a specific user from the list
     void onUserSelected(User user) {
         Bundle extras = new Bundle();
-        extras.putString(UserDetailsActivity.EXTRA_USER_ID, user.getId());
+        extras.putString(Config.Data.USER_ID, user.getId());
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
                 .setScreen(ActivityNavigationAction.Screen.UserDetais)
                 .setBundle(extras)

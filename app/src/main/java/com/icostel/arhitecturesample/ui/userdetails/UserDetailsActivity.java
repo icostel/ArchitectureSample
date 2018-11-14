@@ -6,6 +6,9 @@ import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
+import com.icostel.arhitecturesample.utils.error.ErrorData;
+
+import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
 

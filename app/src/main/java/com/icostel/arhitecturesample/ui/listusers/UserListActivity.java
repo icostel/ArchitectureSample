@@ -3,6 +3,7 @@ package com.icostel.arhitecturesample.ui.listusers;
 import android.os.Bundle;
 
 import com.icostel.arhitecturesample.R;
+import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
 
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -22,7 +24,11 @@ public class UserListActivity extends BaseActivity {
     @BindView(R.id.user_recycler)
     RecyclerView userRecyclerView;
 
+    @BindView(R.id.swipe_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private UserAdapter userAdapter;
+    private ListUsersViewModel listUsersViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +36,7 @@ public class UserListActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        ListUsersViewModel listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
+        listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
 
         userRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -41,6 +47,8 @@ public class UserListActivity extends BaseActivity {
         listUsersViewModel.getUserListLiveData().observe(this, users -> userAdapter.updateUserList(users));
         listUsersViewModel.getNavigationActionLiveEvent().observe(this, this::navigateTo);
         userAdapter.getSelectedUserLive().observe(this, listUsersViewModel::onUserSelected);
+        swipeRefreshLayout.setOnRefreshListener(listUsersViewModel::refreshUsers);
+        listUsersViewModel.getLoadingStatus().observe(this, status -> swipeRefreshLayout.setRefreshing(status == SignInStatus.Status.IN_PROGRESS));
 
         enableUpNavigation();
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visibility="visible"
+    android:background="@android:color/white"
+    android:id="@+id/error_tv"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:ellipsize="end"
+    android:fontFamily="@font/roboto_medium"
+    android:gravity="center"
+    android:padding="8dp"
+    android:textColor="@android:color/holo_purple"
+    android:textSize="16sp" />

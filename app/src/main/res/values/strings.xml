@@ -13,4 +13,5 @@
     <string name="user_image_content_desc">user image</string>
     <string name="login_user">Please login</string>
     <string name="available_users">Users</string>
+    <string name="error_loading_users">Could not load users</string>
 </resources>

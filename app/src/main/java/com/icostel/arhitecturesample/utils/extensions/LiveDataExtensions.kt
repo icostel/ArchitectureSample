@@ -1,12 +1,13 @@
 package com.icostel.arhitecturesample.utils.extensions
 
+import androidx.annotation.MainThread
 import androidx.arch.core.util.Function
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.Executor
 
-// Needed for Java
 class Transformations {
     companion object {
         @JvmStatic
@@ -72,4 +73,9 @@ fun <X : Any, Y : Any> Transformations.Companion.mapAsync(executor: Executor, so
         }
     }
     return result
+}
+
+@MainThread
+fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (t: T?) -> Unit) {
+    observe(owner, Observer<T> { t -> observer(t) })
 }

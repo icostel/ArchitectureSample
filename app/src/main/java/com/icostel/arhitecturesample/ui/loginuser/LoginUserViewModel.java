@@ -2,7 +2,7 @@ package com.icostel.arhitecturesample.ui.loginuser;
 
 import android.text.TextUtils;
 
-import com.icostel.arhitecturesample.api.utils.SignInStatus;
+import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
 import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.repository.UserLogInHandler;

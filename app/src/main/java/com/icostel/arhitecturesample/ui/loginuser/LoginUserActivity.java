@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.icostel.arhitecturesample.R;
-import com.icostel.arhitecturesample.api.utils.SignInStatus;
+import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
 

@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.api.utils;
+package com.icostel.arhitecturesample.api.session;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

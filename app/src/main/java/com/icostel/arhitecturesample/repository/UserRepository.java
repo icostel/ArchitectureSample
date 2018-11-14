@@ -1,7 +1,7 @@
 package com.icostel.arhitecturesample.repository;
 
 import com.icostel.arhitecturesample.api.UsersApi;
-import com.icostel.arhitecturesample.api.utils.SessionStore;
+import com.icostel.arhitecturesample.api.session.SessionStore;
 import com.icostel.arhitecturesample.db.UserDao;
 import com.icostel.arhitecturesample.api.model.User;
 

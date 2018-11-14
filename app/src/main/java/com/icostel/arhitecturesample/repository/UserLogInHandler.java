@@ -5,8 +5,8 @@ import com.icostel.arhitecturesample.api.model.SignInResponse;
 import com.icostel.arhitecturesample.api.utils.ApiErrorResponse;
 import com.icostel.arhitecturesample.api.utils.ApiResponse;
 import com.icostel.arhitecturesample.api.utils.ApiSuccessResponse;
-import com.icostel.arhitecturesample.api.utils.SessionStore;
-import com.icostel.arhitecturesample.api.utils.SignInStatus;
+import com.icostel.arhitecturesample.api.session.SessionStore;
+import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.utils.AppExecutors;
 
 import java.util.concurrent.TimeUnit;

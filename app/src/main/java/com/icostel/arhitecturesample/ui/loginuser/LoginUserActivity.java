@@ -20,8 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginUserActivity extends BaseActivity {
-    private static final String TAG = LoginUserActivity.class.getCanonicalName();
-
     @Inject
     ViewModelFactory viewModelFactory;
 
@@ -53,21 +51,21 @@ public class LoginUserActivity extends BaseActivity {
 
     private void handleLoginStatus(SignInStatus.Status status) {
         switch (status) {
-            case InProgress:
+            case IN_PROGRESS:
                 loadingDialog.setVisibility(View.VISIBLE);
                 loginBtn.setEnabled(false);
                 break;
-            case InputsError:
+            case INPUTS_ERROR:
                 Toast.makeText(LoginUserActivity.this, R.string.inputs_invalid, Toast.LENGTH_SHORT).show();
                 loadingDialog.setVisibility(View.GONE);
                 loginBtn.setEnabled(true);
                 break;
-            case CallError:
+            case CALL_ERROR:
                 Toast.makeText(LoginUserActivity.this, R.string.login_error, Toast.LENGTH_SHORT).show();
                 loadingDialog.setVisibility(View.GONE);
                 loginBtn.setEnabled(true);
                 break;
-            case Success:
+            case SUCCESS:
                 Toast.makeText(LoginUserActivity.this, R.string.login_success, Toast.LENGTH_SHORT).show();
                 loadingDialog.setVisibility(View.GONE);
                 loginUserViewModel.onLoginSuccess();

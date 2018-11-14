@@ -24,7 +24,7 @@ public class LoginUserViewModel extends ViewModel {
         this.signInStatusLive = new MutableLiveData<>();
         this.navigationAction = new SingleLiveEvent<>();
         this.userLogInHandler = userLogInHandler;
-        this.signInStatusLive.setValue(SignInStatus.Status.NotStarted);
+        this.signInStatusLive.setValue(SignInStatus.Status.NOT_STARTED);
     }
 
     // used in the UI for displaying the log in status
@@ -40,9 +40,9 @@ public class LoginUserViewModel extends ViewModel {
     // the log in
     void onLogInBtnClicked(String userEmail, String userPass) {
         if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPass)) {
-            signInStatusLive.setValue(SignInStatus.Status.InputsError);
+            signInStatusLive.setValue(SignInStatus.Status.INPUTS_ERROR);
         } else {
-            signInStatusLive.setValue(SignInStatus.Status.InProgress);
+            signInStatusLive.setValue(SignInStatus.Status.INPUTS_ERROR);
             userLogInHandler.signInUser(userEmail, userPass, signInStatus -> signInStatusLive.postValue(signInStatus.getStatus()));
         }
     }

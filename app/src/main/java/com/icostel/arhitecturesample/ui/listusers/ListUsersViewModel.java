@@ -32,7 +32,7 @@ public class ListUsersViewModel extends ViewModel {
     private MutableLiveData<SignInStatus.Status> loadingStatus = new MutableLiveData<>();
 
     @Inject
-    ListUsersViewModel(UserRepository userRepository) {
+    public ListUsersViewModel(UserRepository userRepository) {
         this.userListLiveData.setValue(new ArrayList<>());
         this.userRepository = userRepository;
         getUsers(userRepository);

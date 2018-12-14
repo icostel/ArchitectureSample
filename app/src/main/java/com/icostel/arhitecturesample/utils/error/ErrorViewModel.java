@@ -14,7 +14,7 @@ public class ErrorViewModel extends ViewModel {
     private final SingleLiveEvent<ErrorData> userAction = new SingleLiveEvent<>();
 
     @Inject
-    ErrorViewModel() {
+    public ErrorViewModel() {
 
     }
 

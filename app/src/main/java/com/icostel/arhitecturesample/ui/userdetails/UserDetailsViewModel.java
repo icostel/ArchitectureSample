@@ -18,7 +18,7 @@ public class UserDetailsViewModel extends ViewModel {
     private UserRepository userRepository;
 
     @Inject
-    UserDetailsViewModel(UserRepository userRepository) {
+    public UserDetailsViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 }

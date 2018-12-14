@@ -20,7 +20,7 @@ public class LoginUserViewModel extends ViewModel {
     private final UserLogInHandler userLogInHandler;
 
     @Inject
-    LoginUserViewModel(UserLogInHandler userLogInHandler) {
+    public LoginUserViewModel(UserLogInHandler userLogInHandler) {
         this.signInStatusLive = new MutableLiveData<>();
         this.navigationAction = new SingleLiveEvent<>();
         this.userLogInHandler = userLogInHandler;

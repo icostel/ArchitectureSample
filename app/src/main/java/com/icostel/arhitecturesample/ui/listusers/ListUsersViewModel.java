@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -82,6 +83,10 @@ public class ListUsersViewModel extends ViewModel {
     void refreshUsers() {
         getUsers(this.userHandler);
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
+    }
+
+    void addUser(@NonNull User user) {
+        //TODO open the add user screen
     }
 
     // navigate to details when the user select a specific user from the list

@@ -37,7 +37,7 @@ public class UserRepository {
 
     ///////////REPO PATTERN API
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unchecked")
     public Observable<Optional<User>> getUserById(String userId) {
         Timber.d("%s getUserById() %d", TAG, userId);
         String userToken = sessionStore.getUserSessionToken();
@@ -45,6 +45,7 @@ public class UserRepository {
     }
 
     // this is exposed to the view model
+    @SuppressWarnings("unchecked")
     public Observable<List<User>> getAllUsers() {
         Timber.d("%s getAllUsers()", TAG);
         String userToken = sessionStore.getUserSessionToken();

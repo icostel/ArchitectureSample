@@ -10,10 +10,10 @@ import android.widget.TextView;
 import com.bumptech.glide.GenericTransitionOptions;
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.modules.GlideApp;
-import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.utils.AnimationFactory;
 import com.icostel.arhitecturesample.utils.ImageRequestListener;
 import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
+import com.icostel.arhitecturesample.view.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         users.clear();
         users.addAll(newUserList);
-        notifyDataSetChanged();//TODO remove this
+        notifyDataSetChanged();//TODO remove this when diff callback works, for now it doesn't ?!
         // push only the new items after the diff is done
         diffResult.dispatchUpdatesTo(this);
     }

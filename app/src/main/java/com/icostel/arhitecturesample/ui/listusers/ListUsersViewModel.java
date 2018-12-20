@@ -5,11 +5,12 @@ import android.os.Bundle;
 import com.icostel.arhitecturesample.BuildConfig;
 import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.api.SignInStatus;
-import com.icostel.arhitecturesample.api.model.User;
+import com.icostel.arhitecturesample.domain.UserHandler;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
 import com.icostel.arhitecturesample.navigation.NavigationAction;
-import com.icostel.arhitecturesample.repository.UserRepository;
 import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
+import com.icostel.arhitecturesample.view.model.User;
+import com.icostel.arhitecturesample.view.model.UserMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +29,16 @@ public class ListUsersViewModel extends ViewModel {
     private MutableLiveData<List<User>> userListLiveData = new MutableLiveData<>();
     private SingleLiveEvent<NavigationAction> navigationActionLiveEvent = new SingleLiveEvent<>();
     private Disposable userDisposable;
-    private UserRepository userRepository;
+    private UserHandler userHandler;
+    private UserMapper userMapper;
     private MutableLiveData<SignInStatus.Status> loadingStatus = new MutableLiveData<>();
 
     @Inject
-    public ListUsersViewModel(UserRepository userRepository) {
+    ListUsersViewModel(UserHandler userHandler, UserMapper userMapper) {
         this.userListLiveData.setValue(new ArrayList<>());
-        this.userRepository = userRepository;
-        getUsers(userRepository);
+        this.userHandler = userHandler;
+        this.userMapper = userMapper;
+        getUsers(userHandler);
     }
 
     // used in the UI for updating the user list
@@ -47,15 +50,15 @@ public class ListUsersViewModel extends ViewModel {
         return navigationActionLiveEvent;
     }
 
-    private void getUsers(UserRepository userRepository) {
+    private void getUsers(UserHandler userHandler) {
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
 
-        userDisposable = userRepository.getAllUsers()
+        userDisposable = userHandler.getAllUsers()
                 .delay(3000, TimeUnit.MILLISECONDS) // just for testing lag
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userList -> {
                     if (userList.size() > 0) {
-                        userListLiveData.setValue(userList);
+                        userListLiveData.setValue(userMapper.mapDomainToView(userList));
                         loadingStatus.postValue(SignInStatus.Status.SUCCESS);
                         if (BuildConfig.DEBUG) {
                             Timber.d("received %d users ", userList.size());
@@ -77,7 +80,7 @@ public class ListUsersViewModel extends ViewModel {
     }
 
     void refreshUsers() {
-        getUsers(this.userRepository);
+        getUsers(this.userHandler);
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
     }
 

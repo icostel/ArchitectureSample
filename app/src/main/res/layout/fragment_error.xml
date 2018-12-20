@@ -1,13 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:visibility="visible"
-    android:background="@android:color/white"
-    android:id="@+id/error_tv"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:ellipsize="end"
-    android:fontFamily="@font/roboto_medium"
-    android:gravity="center"
-    android:padding="8dp"
-    android:textColor="@android:color/holo_purple"
-    android:textSize="16sp" />
+    android:layout_height="wrap_content"
+    android:background="@color/pink_white"
+    android:minHeight="40dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/err_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_error" />
+
+    <TextView
+        android:id="@+id/error_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/err_btn"
+        android:layout_toEndOf="@+id/err_image"
+        android:ellipsize="end"
+        android:padding="8dp"
+        android:textColor="@color/error"
+        android:textSize="12sp"
+        tools:text="A user with this e-mail address already exists."/>
+
+    <TextView
+        android:id="@+id/err_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@null"
+        android:textAllCaps="false"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/blue6"
+        android:textSize="16sp"
+        android:padding="4dp"
+        tools:text="Sign in"/>
+</RelativeLayout>

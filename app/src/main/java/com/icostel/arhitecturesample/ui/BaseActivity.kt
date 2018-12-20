@@ -1,36 +1,86 @@
 package com.icostel.arhitecturesample.ui
 
 import android.content.Context
+import android.os.Bundle
 import android.view.MenuItem
+import androidx.annotation.MainThread
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
-import com.icostel.arhitecturesample.di.InjectableActivity
 import com.icostel.arhitecturesample.navigation.NavigationAction
 import com.icostel.arhitecturesample.navigation.Navigator
+import com.icostel.arhitecturesample.utils.connection.ConnectionLiveData
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorFragment
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel
 import com.icostel.arhitecturesample.utils.extensions.observe
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import timber.log.Timber
+import javax.inject.Inject
 
-abstract class BaseActivity : InjectableActivity(), Navigator, ErrorHandler {
+abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector, Navigator {
+
+    @Inject
+    internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
+    @Inject
+    internal lateinit var connectionLiveData: ConnectionLiveData
+
+    private var errorFragment: ErrorFragment? = null
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = dispatchingAndroidInjector
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        connectionLiveData.observe(this) { onConnectionStateChanged(it) }
+    }
+
+    private fun onConnectionStateChanged(connected: Boolean?) {
+        if (connected == false) {
+            showError(
+                    ErrorData(
+                            TAG_NO_CONNECTION,
+                            getString(R.string.error_no_internet_connection_io),
+                            null,
+                            false))
+        } else {
+            errorFragment?.hideError(TAG_NO_CONNECTION)
+        }
+    }
 
     override fun navigateTo(navigationAction: NavigationAction?) {
         navigationAction?.navigate(this)
     }
 
-    override var errorFragment: ErrorFragment? = null
-        get() {
-            if (field == null) {
-                field = supportFragmentManager.findFragmentById(R.id.fragment_error) as ErrorFragment
-                if (field != null) {
-                    ViewModelProviders.of(this).get(ErrorViewModel::class.java)
-                            .userAction.observe(this, this::onUserErrorAction)
-                }
+    fun showError(errorData: ErrorData?) {
+        errorData?.let {
+            ensureErrorFragment()
+            errorFragment?.apply {
+                makeError(errorData)
             }
-            return field
         }
+    }
+
+    @MainThread
+    private fun ensureErrorFragment() {
+        if (errorFragment == null) {
+            errorFragment = supportFragmentManager.findFragmentByTag(getString(R.string.error_fragment)) as ErrorFragment?
+            if (errorFragment == null) {
+                errorFragment = ErrorFragment()
+                supportFragmentManager.beginTransaction().add(android.R.id.content, errorFragment!!).commit()
+                supportFragmentManager.executePendingTransactions()
+            }
+            if (errorFragment != null && this is ErrorHandler) {
+                ViewModelProviders.of(this).get(ErrorViewModel::class.java)
+                        .userAction.observe(this, this::onUserErrorAction)
+            }
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -51,15 +101,6 @@ abstract class BaseActivity : InjectableActivity(), Navigator, ErrorHandler {
         }
     }
 
-    fun showError(message: String, shouldAutoDismiss: Boolean) {
-        Timber.d("showError() error fragment null ? : %b", (errorFragment == null))
-        errorFragment?.apply {
-            makeError(ErrorData(message, shouldAutoDismiss))
-        }
-    }
-
-    fun hideError() = errorFragment?.apply { hideError() }
-
     // overwrite this if you need to navigate using fragments, use the container ID
     override fun getFragmentContainer(): Int {
         return 0
@@ -69,7 +110,7 @@ abstract class BaseActivity : InjectableActivity(), Navigator, ErrorHandler {
         return this
     }
 
-    override fun onUserErrorAction(errorData: ErrorData?) {
-        TODO("not implemented")
+    companion object {
+        private const val TAG_NO_CONNECTION = "tag_no_connection"
     }
 }

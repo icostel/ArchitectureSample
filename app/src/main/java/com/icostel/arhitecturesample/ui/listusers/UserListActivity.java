@@ -31,7 +31,6 @@ public class UserListActivity extends BaseActivity {
     SwipeRefreshLayout swipeRefreshLayout;
 
     private UserAdapter userAdapter;
-    private ListUsersViewModel listUsersViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class UserListActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
+        ListUsersViewModel listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
 
         userRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);

@@ -6,6 +6,7 @@ import com.icostel.arhitecturesample.di.ViewModelKey;
 import com.icostel.arhitecturesample.ui.loginuser.LoginUserViewModel;
 import com.icostel.arhitecturesample.ui.listusers.ListUsersViewModel;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsViewModel;
+import com.icostel.arhitecturesample.utils.error.ErrorViewModel;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,17 +16,16 @@ import dagger.multibindings.IntoMap;
 
 @Module
 public abstract class ViewModelModule {
-    // Add for each view model
-    //
-    // @Binds
-    // @IntoMap
-    // @ViewModelKey(ViewModel.class)
-    // abstract ViewModel bind[ViewModelName]([ViewModelName] viewModelVar);
 
     @Binds
     @IntoMap
     @ViewModelKey(ListUsersViewModel.class)
     abstract ViewModel bindListUsersViewModel(ListUsersViewModel listUsersViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ErrorViewModel.class)
+    abstract ViewModel bindErrorViewModel(ErrorViewModel listUsersViewModel);
 
     @Binds
     @IntoMap

@@ -49,6 +49,15 @@
                     app:navigationIcon="?attr/homeAsUpIndicator"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+                <fragment
+                    android:name="com.icostel.arhitecturesample.utils.error.ErrorFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:tag="@string/error_fragment"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>

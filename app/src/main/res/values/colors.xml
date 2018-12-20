@@ -7,4 +7,9 @@
     <color name="white">#ffffff</color>
     <color name="colorPrimary_30p">#4C008577</color>
     <color name="colorPrimary_15p">#25008577</color>
+    <color name="success">#47D06C</color>
+    <color name="success_bg">#E7FFF6</color>
+    <color name="pink_white">#FDEEF0</color>
+    <color name="error">#E74D69</color>
+    <color name="blue6">#4D62ED</color>
 </resources>

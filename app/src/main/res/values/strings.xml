@@ -14,4 +14,6 @@
     <string name="login_user">Please login</string>
     <string name="available_users">Users</string>
     <string name="error_loading_users">Could not load users</string>
+    <string name="error_fragment">error_fragment</string>
+    <string name="error_no_internet_connection_io">No internet connection.</string>
 </resources>

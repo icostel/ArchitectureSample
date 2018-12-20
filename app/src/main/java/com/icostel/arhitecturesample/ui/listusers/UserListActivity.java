@@ -8,6 +8,8 @@ import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
 import com.icostel.arhitecturesample.utils.error.ErrorData;
+import com.icostel.arhitecturesample.utils.error.ErrorHandler;
+import com.icostel.arhitecturesample.utils.error.ErrorType;
 import com.icostel.arhitecturesample.view.model.User;
 
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserListActivity extends BaseActivity {
+public class UserListActivity extends BaseActivity implements ErrorHandler {
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -66,7 +68,7 @@ public class UserListActivity extends BaseActivity {
 
         switch (status) {
             case ERROR:
-                showError(getString(R.string.error_loading_users), true);
+                showError(new ErrorData("error", getString(R.string.error_loading_users), "", false, null, ErrorType.Error));
                 break;
             default:
                 break;
@@ -75,8 +77,7 @@ public class UserListActivity extends BaseActivity {
 
     @Override
     public void onUserErrorAction(@Nullable ErrorData errorData) {
-        super.onUserErrorAction(errorData);
-        //TODO
+        //TODO handle error dialogs user input if any
     }
 }
 

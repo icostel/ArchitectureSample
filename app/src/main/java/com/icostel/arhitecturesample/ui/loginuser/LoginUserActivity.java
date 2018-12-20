@@ -12,6 +12,7 @@ import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
 import com.icostel.arhitecturesample.utils.error.ErrorData;
+import com.icostel.arhitecturesample.utils.error.ErrorHandler;
 
 import javax.inject.Inject;
 
@@ -20,7 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginUserActivity extends BaseActivity {
+public class LoginUserActivity extends BaseActivity implements ErrorHandler {
     @Inject
     ViewModelFactory viewModelFactory;
 
@@ -74,5 +75,10 @@ public class LoginUserActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+    @Override
+    public void onUserErrorAction(@org.jetbrains.annotations.Nullable ErrorData errorData) {
+        //TODO handle error dialogs user input if any
     }
 }

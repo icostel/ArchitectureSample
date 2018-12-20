@@ -2,11 +2,13 @@ package com.icostel.arhitecturesample.ui.listusers;
 
 import android.os.Bundle;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
 import com.icostel.arhitecturesample.utils.error.ErrorData;
+import com.icostel.arhitecturesample.view.model.User;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +32,9 @@ public class UserListActivity extends BaseActivity {
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.add_user_fab)
+    FloatingActionButton addUserFab;
+
     private UserAdapter userAdapter;
 
     @Override
@@ -51,6 +56,7 @@ public class UserListActivity extends BaseActivity {
         userAdapter.getSelectedUserLive().observe(this, listUsersViewModel::onUserSelected);
         swipeRefreshLayout.setOnRefreshListener(listUsersViewModel::refreshUsers);
         listUsersViewModel.getLoadingStatus().observe(this, this::handleLoadingStatus);
+        addUserFab.setOnClickListener(v -> listUsersViewModel.addUser(new User()));
 
         enableUpNavigation();
     }

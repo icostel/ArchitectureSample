@@ -1,6 +1,5 @@
 package com.icostel.arhitecturesample.utils.error;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.Injectable;
+import com.icostel.arhitecturesample.utils.prefs.AnimationEndListener;
 
 import javax.inject.Inject;
 
@@ -109,21 +109,7 @@ public class ErrorFragment extends Fragment implements Injectable {
         ObjectAnimator animator = ObjectAnimator
                 .ofFloat(view, View.ALPHA, 1f, 0f)
                 .setDuration(FADE_ANIMATION_DURATION);
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {}
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                rootView.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {}
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {}
-        });
+        animator.addListener((AnimationEndListener) () -> rootView.setVisibility(View.GONE));
         animator.start();
     }
 

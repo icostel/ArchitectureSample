@@ -4,9 +4,9 @@ import android.text.TextUtils;
 
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
-import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.repository.UserLogInHandler;
 import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
+import com.icostel.commons.navigation.NavigationAction;
 
 import javax.inject.Inject;
 

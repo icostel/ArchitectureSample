@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.navigation;
+package com.icostel.commons.navigation;
 
 public abstract class NavigationAction {
     protected Integer requestCode;

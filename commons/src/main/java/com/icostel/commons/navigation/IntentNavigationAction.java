@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.navigation;
+package com.icostel.commons.navigation;
 
 import android.content.Intent;
 

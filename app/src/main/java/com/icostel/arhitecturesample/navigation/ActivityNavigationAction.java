@@ -7,6 +7,8 @@ import android.os.Bundle;
 import com.icostel.arhitecturesample.ui.listusers.UserListActivity;
 import com.icostel.arhitecturesample.ui.loginuser.LoginUserActivity;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
+import com.icostel.commons.navigation.NavigationAction;
+import com.icostel.commons.navigation.Navigator;
 
 public class ActivityNavigationAction extends NavigationAction {
     public enum Screen {

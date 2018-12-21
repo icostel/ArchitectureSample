@@ -7,10 +7,10 @@ import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.domain.UserHandler;
 import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
-import com.icostel.arhitecturesample.navigation.NavigationAction;
 import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 import com.icostel.arhitecturesample.view.model.User;
 import com.icostel.arhitecturesample.view.model.UserMapper;
+import com.icostel.commons.navigation.NavigationAction;
 
 import java.util.ArrayList;
 import java.util.List;

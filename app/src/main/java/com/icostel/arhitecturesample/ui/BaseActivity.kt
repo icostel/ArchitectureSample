@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
-import com.icostel.arhitecturesample.navigation.NavigationAction
-import com.icostel.arhitecturesample.navigation.Navigator
-import com.icostel.arhitecturesample.utils.connection.ConnectionLiveData
+import com.icostel.commons.connection.ConnectionLiveData
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorFragment
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel
 import com.icostel.arhitecturesample.utils.extensions.observe
+import com.icostel.commons.navigation.NavigationAction
+import com.icostel.commons.navigation.Navigator
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector

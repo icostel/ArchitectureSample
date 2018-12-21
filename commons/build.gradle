@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -8,7 +8,6 @@ android {
     buildToolsVersion build_versions.build_tools
 
     defaultConfig {
-        applicationId "com.icostel.arhitecturesample"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode build_versions.version_code
@@ -19,15 +18,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            debuggable false
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "HOST_NAME", "\"https://server.com\""
-        }
-        debug {
-            minifyEnabled false
-            debuggable true
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "HOST_NAME", "\"https://server.com\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -39,9 +30,11 @@ android {
     androidExtensions {
         experimental = true
     }
+
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api deps.timber
     api deps.support.app_compat
@@ -104,7 +97,4 @@ dependencies {
     })
     androidTestImplementation deps.dexmaker
     androidTestImplementation deps.mockito.core, { exclude group: 'net.bytebuddy' }
-
-    //commons dep
-    api project(path: ':commons')
 }

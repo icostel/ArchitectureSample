@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils.connection
+package com.icostel.commons.connection
 
 import android.app.Application
 import android.content.Context

@@ -1,17 +1,19 @@
 package com.icostel.arhitecturesample.utils.extensions
 
 import androidx.annotation.MainThread
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.Executor
 
+// Needed for Java
 class Transformations {
     companion object {
         @JvmStatic
-        fun <X : Any, Y : Any> mapAsync(executor: Executor, source: LiveData<X>, func: (t: X) -> Y): LiveData<Y> {
+        fun <X : Any, Y : Any> mapAsync(executor: Executor,
+                                        source: LiveData<X>,
+                                        func: (t: X) -> Y): LiveData<Y> {
             val result = MediatorLiveData<Y>()
             result.addSource(source) {
                 executor.execute {
@@ -22,24 +24,51 @@ class Transformations {
         }
 
         @JvmStatic
+        fun <X, Y> switchMapAsync(
+                executor: Executor,
+                source: LiveData<X>,
+                switchMapFunction: (t: X?) -> LiveData<Y>): LiveData<Y> {
+            val result = MediatorLiveData<Y>()
+            result.addSource(source, object : Observer<X> {
+                var mSource: LiveData<Y>? = null
+
+                override fun onChanged(x: X) {
+                    executor.execute {
+                        val newLiveData = switchMapFunction(x)
+                        if (mSource !== newLiveData) {
+                            if (mSource != null) {
+                                result.removeSource(mSource!!)
+                            }
+                            mSource = newLiveData
+                            if (mSource != null) {
+                                result.addSource(mSource!!) { y -> result.postValue(y) }
+                            }
+                        }
+                    }
+                }
+            })
+            return result
+        }
+
+        @JvmStatic
         fun <X, Y> map(
                 source: LiveData<X>,
-                mapFunction: Function<X, Y>): LiveData<Y> {
+                func: (t: X) -> Y): LiveData<Y> {
             val result = MediatorLiveData<Y>()
-            result.addSource(source) { x -> result.value = mapFunction.apply(x) }
+            result.addSource(source) { x -> result.value = func(x) }
             return result
         }
 
         @JvmStatic
         fun <X, Y> switchMap(
                 source: LiveData<X>,
-                switchMapFunction: Function<X, LiveData<Y>>): LiveData<Y> {
+                switchMapFunction: (t: X?) -> LiveData<Y>): LiveData<Y> {
             val result = MediatorLiveData<Y>()
             result.addSource(source, object : Observer<X> {
                 var mSource: LiveData<Y>? = null
 
                 override fun onChanged(x: X?) {
-                    val newLiveData = switchMapFunction.apply(x)
+                    val newLiveData = switchMapFunction(x)
                     if (mSource === newLiveData) {
                         return
                     }
@@ -63,16 +92,6 @@ fun <S : Any> MediatorLiveData<S>.addSource(executor: Executor, source: LiveData
             onChanged(it)
         }
     }
-}
-
-fun <X : Any, Y : Any> Transformations.Companion.mapAsync(executor: Executor, source: LiveData<X>, func: (t: X) -> Y): LiveData<Y> {
-    val result = MediatorLiveData<Y>()
-    result.addSource(source) {
-        executor.execute {
-            result.postValue(func(it))
-        }
-    }
-    return result
 }
 
 @MainThread

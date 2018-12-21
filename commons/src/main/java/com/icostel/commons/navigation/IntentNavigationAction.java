@@ -6,18 +6,23 @@ public class IntentNavigationAction extends NavigationAction {
     private Intent intent;
     private Integer flags;
 
+    private IntentNavigationAction() {}
+
     @Override
     public void navigate(Navigator navigator) {
         if (intent != null) {
             if (flags != null) {
                 intent.setFlags(intent.getFlags() | flags);
             }
-            if (requestCode == null) {
-                navigator.startActivity(intent);
-            } else {
-                navigator.startActivityForResult(intent, requestCode);
+
+            if (intent.resolveActivity(navigator.getPackageManager()) != null) {
+                if (requestCode == null) {
+                    navigator.startActivity(intent);
+                } else {
+                    navigator.startActivityForResult(intent, requestCode);
+                }
+                finishIfNeeded(navigator);
             }
-            finishIfNeeded(navigator);
         }
     }
 

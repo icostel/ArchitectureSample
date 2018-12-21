@@ -2,6 +2,7 @@ package com.icostel.commons.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.IdRes;
@@ -20,4 +21,5 @@ public interface Navigator {
     void finish();
     Context getContext();
     void setResult(int resultCode, Intent data);
+    PackageManager getPackageManager();
 }

@@ -6,10 +6,11 @@ import com.icostel.arhitecturesample.BuildConfig;
 import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.domain.UserHandler;
-import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
+import com.icostel.arhitecturesample.navigation.AppScreenProvider;
 import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 import com.icostel.arhitecturesample.view.model.User;
 import com.icostel.arhitecturesample.view.model.UserMapper;
+import com.icostel.commons.navigation.ActivityNavigationAction;
 import com.icostel.commons.navigation.NavigationAction;
 
 import java.util.ArrayList;
@@ -33,12 +34,14 @@ public class ListUsersViewModel extends ViewModel {
     private UserHandler userHandler;
     private UserMapper userMapper;
     private MutableLiveData<SignInStatus.Status> loadingStatus = new MutableLiveData<>();
+    private AppScreenProvider appScreenProvider;
 
     @Inject
-    ListUsersViewModel(UserHandler userHandler, UserMapper userMapper) {
+    ListUsersViewModel(UserHandler userHandler, UserMapper userMapper, AppScreenProvider appScreenProvider) {
         this.userListLiveData.setValue(new ArrayList<>());
         this.userHandler = userHandler;
         this.userMapper = userMapper;
+        this.appScreenProvider = appScreenProvider;
         getUsers(userHandler);
     }
 
@@ -94,7 +97,8 @@ public class ListUsersViewModel extends ViewModel {
         Bundle extras = new Bundle();
         extras.putString(Config.Data.USER_ID, user.getId());
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
-                .setScreen(ActivityNavigationAction.Screen.UserDetais)
+                .setScreenProvider(appScreenProvider)
+                .setScreen(AppScreenProvider.USER_DETAILS)
                 .setBundle(extras)
                 .setShouldFinish(false)
                 .build());

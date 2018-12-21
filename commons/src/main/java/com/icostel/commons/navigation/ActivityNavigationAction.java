@@ -1,44 +1,24 @@
-package com.icostel.arhitecturesample.navigation;
+package com.icostel.commons.navigation;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.icostel.arhitecturesample.ui.listusers.UserListActivity;
-import com.icostel.arhitecturesample.ui.loginuser.LoginUserActivity;
-import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
-import com.icostel.commons.navigation.NavigationAction;
-import com.icostel.commons.navigation.Navigator;
-
 public class ActivityNavigationAction extends NavigationAction {
-    public enum Screen {
-        Finish(null),
-        Main(LoginUserActivity.class),
-        ListUsers(UserListActivity.class),
-        UserDetais(UserDetailsActivity.class);
 
-        private Class targetClass;
-
-        Screen(Class targetClass) {
-            this.targetClass = targetClass;
-        }
-
-        private Class getTargetClass() {
-            return targetClass;
-        }
-    }
-
-    private Screen screen;
+    private int screen;
     private Bundle extras;
     private Integer flags;
     private Bundle transition;
+    private ScreenProvider provider;
 
-    private ActivityNavigationAction() {}
+    private ActivityNavigationAction() {
+    }
 
     @Override
     public void navigate(Navigator navigator) {
         // Check if we actually need to just finish
-        if (screen == Screen.Finish) {
+        if (screen == ScreenProvider.FINISH) {
             if (extras != null) {
                 Intent data = new Intent();
                 data.putExtras(extras);
@@ -50,7 +30,7 @@ public class ActivityNavigationAction extends NavigationAction {
             return;
         }
         // Otherwise navigate to the target screen
-        Intent intent = new Intent(navigator.getContext(), screen.getTargetClass());
+        Intent intent = new Intent(navigator.getContext(), provider.getScreen(screen));
         if (flags != null) {
             intent.setFlags(flags);
         }
@@ -72,7 +52,12 @@ public class ActivityNavigationAction extends NavigationAction {
     public static class Builder {
         private ActivityNavigationAction action = new ActivityNavigationAction();
 
-        public Builder setScreen(Screen screen) {
+        public Builder setScreenProvider(ScreenProvider screenProvider) {
+            action.provider = screenProvider;
+            return this;
+        }
+
+        public Builder setScreen(int screen) {
             action.screen = screen;
             return this;
         }

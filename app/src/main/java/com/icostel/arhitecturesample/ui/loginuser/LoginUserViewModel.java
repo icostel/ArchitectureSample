@@ -3,9 +3,10 @@ package com.icostel.arhitecturesample.ui.loginuser;
 import android.text.TextUtils;
 
 import com.icostel.arhitecturesample.api.SignInStatus;
-import com.icostel.arhitecturesample.navigation.ActivityNavigationAction;
+import com.icostel.arhitecturesample.navigation.AppScreenProvider;
 import com.icostel.arhitecturesample.repository.UserLogInHandler;
 import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
+import com.icostel.commons.navigation.ActivityNavigationAction;
 import com.icostel.commons.navigation.NavigationAction;
 
 import javax.inject.Inject;
@@ -17,13 +18,15 @@ public class LoginUserViewModel extends ViewModel {
 
     private MutableLiveData<SignInStatus.Status> signInStatusLive;
     private SingleLiveEvent<NavigationAction> navigationAction;
-    private final UserLogInHandler userLogInHandler;
+    private UserLogInHandler userLogInHandler;
+    private AppScreenProvider appScreenProvider;
 
     @Inject
-    public LoginUserViewModel(UserLogInHandler userLogInHandler) {
+    public LoginUserViewModel(UserLogInHandler userLogInHandler, AppScreenProvider appScreenProvider) {
         this.signInStatusLive = new MutableLiveData<>();
         this.navigationAction = new SingleLiveEvent<>();
         this.userLogInHandler = userLogInHandler;
+        this.appScreenProvider = appScreenProvider;
         this.signInStatusLive.setValue(SignInStatus.Status.NOT_STARTED);
     }
 
@@ -50,7 +53,8 @@ public class LoginUserViewModel extends ViewModel {
     void onLoginSuccess() {
         navigationAction.postValue(
                 new ActivityNavigationAction.Builder()
-                        .setScreen(ActivityNavigationAction.Screen.ListUsers)
+                        .setScreenProvider(appScreenProvider)
+                        .setScreen(AppScreenProvider.LIST_USERS)
                         .setShouldFinish(true)
                         .build()
         );

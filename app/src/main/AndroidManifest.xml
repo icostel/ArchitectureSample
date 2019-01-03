@@ -15,22 +15,24 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".ui.listusers.UserListActivity"
             android:label="@string/login_user"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ContentTransitions" />
 
         <activity
             android:name=".ui.userdetails.UserDetailsActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.NormalStatus" />
+            android:theme="@style/AppTheme.ContentTransitions" />
 
         <activity
             android:name=".ui.loginuser.LoginUserActivity"
             android:label="@string/available_users"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
 
             <intent-filter>

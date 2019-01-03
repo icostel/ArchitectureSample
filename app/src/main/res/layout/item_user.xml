@@ -20,12 +20,13 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.75" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/user_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/user_image_content_desc"
             android:scaleType="fitXY"
+            android:transitionName="user_image_transition"
             app:layout_constraintBottom_toTopOf="@+id/image_guide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

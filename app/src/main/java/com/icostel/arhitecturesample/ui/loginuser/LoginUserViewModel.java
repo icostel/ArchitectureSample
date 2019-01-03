@@ -45,7 +45,7 @@ public class LoginUserViewModel extends ViewModel {
         if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPass)) {
             signInStatusLive.setValue(SignInStatus.Status.INPUTS_ERROR);
         } else {
-            signInStatusLive.setValue(SignInStatus.Status.INPUTS_ERROR);
+            signInStatusLive.setValue(SignInStatus.Status.SUCCESS);
             userLogInHandler.signInUser(userEmail, userPass, signInStatus -> signInStatusLive.postValue(signInStatus.getStatus()));
         }
     }

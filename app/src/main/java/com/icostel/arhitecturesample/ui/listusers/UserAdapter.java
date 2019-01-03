@@ -1,10 +1,11 @@
 package com.icostel.arhitecturesample.ui.listusers;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.GenericTransitionOptions;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -55,7 +57,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         users.clear();
         users.addAll(newUserList);
-        notifyDataSetChanged();//TODO remove this when diff callback works, for now it doesn't ?!
+        notifyDataSetChanged();
         // push only the new items after the diff is done
         diffResult.dispatchUpdatesTo(this);
     }
@@ -78,7 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         TextView firstName;
 
         @BindView(R.id.user_image)
-        ImageView userImage;
+        AppCompatImageView userImage;
 
         @BindView(R.id.age)
         TextView age;
@@ -86,6 +88,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         UserViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        private ActivityOptions getTransitionOptions() {
+            return ActivityOptions.makeSceneTransitionAnimation((Activity) itemView.getContext(), userImage, "user_image_transition");
         }
 
         void bindUserViewHolder(User user) {
@@ -97,9 +103,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     .dontTransform()
                     .listener((ImageRequestListener) status -> Timber.e("%s, glide listener status: %s", TAG, status.toString()))
                     .into(userImage);
-            rootView.setOnClickListener(v -> selectedUserLive.postValue(user));
+
+            rootView.setOnClickListener(v -> {
+                user.setTransitionBundle(getTransitionOptions().toBundle());
+                selectedUserLive.postValue(user);
+            });
         }
     }
-
-
 }

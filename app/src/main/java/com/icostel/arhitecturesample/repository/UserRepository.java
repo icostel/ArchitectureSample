@@ -39,7 +39,7 @@ public class UserRepository {
 
     @SuppressWarnings("unchecked")
     public Observable<Optional<User>> getUserById(String userId) {
-        Timber.d("%s getUserById() %d", TAG, userId);
+        Timber.d("%s getUserById() %s", TAG, userId);
         String userToken = sessionStore.getUserSessionToken();
         return Observable.concatArray(getUserFromDb(userId), getUserFromApi(userToken, userId));
     }

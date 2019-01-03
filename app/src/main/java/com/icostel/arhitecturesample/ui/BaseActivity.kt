@@ -85,7 +85,7 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector, N
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                supportFinishAfterTransition()
                 return true
             }
         }

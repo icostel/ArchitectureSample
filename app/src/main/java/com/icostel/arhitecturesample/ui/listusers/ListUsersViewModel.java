@@ -99,6 +99,7 @@ public class ListUsersViewModel extends ViewModel {
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
                 .setScreenProvider(appScreenProvider)
                 .setScreen(AppScreenProvider.USER_DETAILS)
+                .setTransitionBundle(user.getTransitionBundle())
                 .setBundle(extras)
                 .setShouldFinish(false)
                 .build());

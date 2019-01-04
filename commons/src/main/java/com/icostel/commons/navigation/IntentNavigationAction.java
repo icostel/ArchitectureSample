@@ -5,14 +5,19 @@ import android.content.Intent;
 public class IntentNavigationAction extends NavigationAction {
     private Intent intent;
     private Integer flags;
+    private String type;
 
-    private IntentNavigationAction() {}
+    private IntentNavigationAction() {
+    }
 
     @Override
     public void navigate(Navigator navigator) {
         if (intent != null) {
             if (flags != null) {
                 intent.setFlags(intent.getFlags() | flags);
+            }
+            if (type != null) {
+                intent.setType(type);
             }
 
             if (intent.resolveActivity(navigator.getPackageManager()) != null) {
@@ -46,6 +51,11 @@ public class IntentNavigationAction extends NavigationAction {
 
         public Builder setFlags(Integer flags) {
             action.flags = flags;
+            return this;
+        }
+
+        public Builder setType(String type) {
+            action.type = type;
             return this;
         }
 

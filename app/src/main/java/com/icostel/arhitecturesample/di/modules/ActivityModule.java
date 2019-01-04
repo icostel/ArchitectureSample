@@ -2,6 +2,7 @@ package com.icostel.arhitecturesample.di.modules;
 
 import com.icostel.arhitecturesample.ui.listusers.UserListActivity;
 import com.icostel.arhitecturesample.ui.loginuser.LoginUserActivity;
+import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
 
 import dagger.Module;
@@ -18,4 +19,7 @@ public abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = {FragmentModule.class})
     abstract LoginUserActivity contributeLoginUserActivity();
+
+    @ContributesAndroidInjector(modules = {FragmentModule.class})
+    abstract NewUserActivity contributeNewUserActivity();
 }

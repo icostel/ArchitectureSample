@@ -2,6 +2,7 @@ package com.icostel.arhitecturesample.navigation;
 
 import com.icostel.arhitecturesample.ui.listusers.UserListActivity;
 import com.icostel.arhitecturesample.ui.loginuser.LoginUserActivity;
+import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
 import com.icostel.commons.navigation.ScreenProvider;
 
@@ -15,6 +16,7 @@ public class AppScreenProvider extends ScreenProvider {
     public static final int MAIN = 1;
     public static final int LIST_USERS = 2;
     public static final int USER_DETAILS = 3;
+    public static final int NEW_USER = 4;
 
 
     @Inject
@@ -28,5 +30,6 @@ public class AppScreenProvider extends ScreenProvider {
         SCREEN_MAP.put(MAIN, LoginUserActivity.class);
         SCREEN_MAP.put(LIST_USERS, UserListActivity.class);
         SCREEN_MAP.put(USER_DETAILS, UserDetailsActivity.class);
+        SCREEN_MAP.put(NEW_USER, NewUserActivity.class);
     }
 }

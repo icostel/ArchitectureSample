@@ -88,8 +88,12 @@ public class ListUsersViewModel extends ViewModel {
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
     }
 
-    void addUser(@NonNull User user) {
-        //TODO open the add user screen
+    void addUser() {
+        navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
+                .setScreenProvider(appScreenProvider)
+                .setScreen(AppScreenProvider.NEW_USER)
+                .setShouldFinish(false)
+                .build());
     }
 
     // navigate to details when the user select a specific user from the list

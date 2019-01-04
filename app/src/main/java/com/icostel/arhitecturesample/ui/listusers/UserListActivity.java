@@ -10,7 +10,6 @@ import com.icostel.arhitecturesample.ui.BaseActivity;
 import com.icostel.arhitecturesample.utils.error.ErrorData;
 import com.icostel.arhitecturesample.utils.error.ErrorHandler;
 import com.icostel.arhitecturesample.utils.error.ErrorType;
-import com.icostel.arhitecturesample.view.model.User;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -57,8 +56,9 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         listUsersViewModel.getNavigationActionLiveEvent().observe(this, this::navigateTo);
         userAdapter.getSelectedUserLive().observe(this, listUsersViewModel::onUserSelected);
         swipeRefreshLayout.setOnRefreshListener(listUsersViewModel::refreshUsers);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary, getTheme()));
         listUsersViewModel.getLoadingStatus().observe(this, this::handleLoadingStatus);
-        addUserFab.setOnClickListener(v -> listUsersViewModel.addUser(new User()));
+        addUserFab.setOnClickListener(v -> listUsersViewModel.addUser());
 
         enableUpNavigation();
     }

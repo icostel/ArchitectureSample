@@ -32,4 +32,14 @@
         <item name="android:textColor">@color/black_100p</item>
     </style>
 
+    <style name="AppButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/app_btn_height</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@drawable/app_btn_text_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/app_btn_selector</item>
+    </style>
+
 </resources>

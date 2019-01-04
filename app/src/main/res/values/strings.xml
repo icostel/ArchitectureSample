@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ArhitectureSample</string>
     <string name="first_name">First Name</string>
+    <string name="country">Country</string>
+    <string name="age_header">Age</string>
+    <string name="last_name">Last Name</string>
     <string name="age">Age: %1$s</string>
     <string name="logged_in_success">Login successful</string>
     <string name="logged_in_error">Login error</string>
@@ -16,4 +19,6 @@
     <string name="error_loading_users">Could not load users</string>
     <string name="error_fragment">error_fragment</string>
     <string name="error_no_internet_connection_io">No internet connection.</string>
+    <string name="label_new_user">Add User</string>
+    <string name="add_user">Add User</string>
 </resources>

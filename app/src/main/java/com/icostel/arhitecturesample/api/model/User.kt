@@ -39,15 +39,14 @@ data class User(
 
         @SerializedName("age")
         @ColumnInfo(name = "age")
-        var age: Int) {
+        var age: String) {
 
     companion object Consts {
         val TAG: String? = User::class.java.canonicalName
         const val UNDEFINED = ""
-        const val NO_AGE = -1
     }
 
-    @Ignore constructor() : this(UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, NO_AGE)
+    @Ignore constructor() : this(UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED, UNDEFINED)
 
     override fun toString(): String {
         return "User(id='$id', firstName='$firstName', lastName='$lastName', resourceUrl='$resourceUrl', country='$country', age=$age)"

@@ -12,7 +12,6 @@ import com.icostel.arhitecturesample.utils.error.ErrorType
 import com.icostel.arhitecturesample.utils.extensions.observe
 import com.icostel.arhitecturesample.view.model.User
 import kotlinx.android.synthetic.main.layout_new_user.*
-import kotlinx.android.synthetic.main.layout_new_user.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,6 +30,7 @@ class NewUserActivity : BaseActivity() {
         newUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewUserViewModel::class.java)
         newUserViewModel.navigationAction.observe(this, this::navigateTo)
         newUserViewModel.apiResponse.observe(this, this::handleAddUserResponse)
+        newUserViewModel.inputValidation.observe(this, this::handleUserInputError)
 
         buildUi()
     }
@@ -67,14 +67,30 @@ class NewUserActivity : BaseActivity() {
         }
     }
 
+    private fun handleUserInputError(error: Int?) {
+        error?.let {
+            when (error) {
+                NewUserViewModel.ERROR_FIRST_NAME -> first_name_input_layout.error = getString(R.string.first_name_not_valid)
+                NewUserViewModel.ERROR_LAST_NAME -> last_name_input_layout.error = getString(R.string.last_name_not_valid)
+                NewUserViewModel.ERROR_COUNTRY -> country_input_layout.error = getString(R.string.country_name_not_valid)
+                NewUserViewModel.ERROR_AGE -> age_input_layout.error = getString(R.string.age_not_valid)
+                else -> {
+                    first_name_input_layout.error = ""
+                    last_name_input_layout.error = ""
+                    country_input_layout.error = ""
+                    age_input_layout.error = ""
+                }
+            }
+        }
+    }
+
     private fun addUser() {
-        //TODO validation and ui error handling
-        val user = User()
-        user.firstName = first_name_tv.text.toString()
-        user.lastName = last_name_tv.text.toString()
-        user.country = country_tv.text.toString()
-        user.age = Integer.parseInt(age_tv.text.toString())
-        newUserViewModel.onAddUser(user)
+        newUserViewModel.onAddUser(User(
+                first_name_tv.text.toString(),
+                last_name_tv.text.toString(),
+                country_tv.text.toString(),
+                age_tv.text.toString()
+        ))
     }
 
     companion object {

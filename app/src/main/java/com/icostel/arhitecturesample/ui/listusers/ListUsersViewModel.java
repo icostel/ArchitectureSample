@@ -19,11 +19,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class ListUsersViewModel extends ViewModel {
@@ -58,11 +58,12 @@ public class ListUsersViewModel extends ViewModel {
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
 
         userDisposable = userHandler.getAllUsers()
-                .delay(3000, TimeUnit.MILLISECONDS) // just for testing lag
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .delay(3000, TimeUnit.MILLISECONDS) // just for testing lag
                 .subscribe(userList -> {
                     if (userList.size() > 0) {
-                        userListLiveData.setValue(userMapper.mapDomainToView(userList));
+                        userListLiveData.postValue(userMapper.mapDomainToView(userList));
                         loadingStatus.postValue(SignInStatus.Status.SUCCESS);
                         if (BuildConfig.DEBUG) {
                             Timber.d("received %d users ", userList.size());
@@ -112,6 +113,7 @@ public class ListUsersViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
+        
         if (userDisposable != null && !userDisposable.isDisposed()) {
             userDisposable.dispose();
         }

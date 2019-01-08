@@ -19,15 +19,15 @@ public class UsersApi {
 
     private static final String TAG = UsersApi.class.getCanonicalName();
 
-    private UserApiService apiSevice;
+    private UserApiService apiService;
 
     @Inject
     UsersApi(UserApiService userApiService) {
-        this.apiSevice = userApiService;
+        this.apiService = userApiService;
     }
 
     public Observable<Optional<User>> getUser(final String authToken, final String userId) {
-        return apiSevice.getUsers(authToken)
+        return apiService.getUsers(authToken)
                 .map(userResponse -> {
                     int usersSize = userResponse.getData().size();
                     Timber.d(TAG + " getUsers() size: %d", usersSize);
@@ -44,9 +44,14 @@ public class UsersApi {
                 });
     }
 
+    public Observable<Integer> addUser(final String authToken, User user) {
+        return apiService.addUser(authToken, user)
+                .map(userResponse -> userResponse.getData().get(0));
+    }
+
     // maps the user response to the user list as we don't use the REST object in calling API
     public Observable<List<User>> getUsers(final String authToken) {
-        return apiSevice.getUsers(authToken)
+        return apiService.getUsers(authToken)
                 .map(userResponse -> {
                     int usersSize = userResponse.getData().size();
                     Timber.d(TAG + " getUsers() size: %d", usersSize);

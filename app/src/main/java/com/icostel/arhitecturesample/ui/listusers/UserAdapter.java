@@ -3,6 +3,7 @@ package com.icostel.arhitecturesample.ui.listusers;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,12 +98,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         void bindUserViewHolder(User user) {
             firstName.setText(user.getFirstName());
             age.setText(context.getString(R.string.age, String.valueOf(user.getAge())));
-            GlideApp.with(context)
-                    .load(user.getResourceUrl())
-                    .transition(GenericTransitionOptions.with(AnimationFactory.getTransition(AnimationFactory.AnimationType.FADE_IN)))
-                    .dontTransform()
-                    .listener((ImageRequestListener) status -> Timber.e("%s, glide listener status: %s", TAG, status.toString()))
-                    .into(userImage);
+
+            if (TextUtils.isEmpty(user.getResourceUrl())) {
+                Timber.d("no user image available");
+            } else {
+                GlideApp.with(context)
+                        .load(user.getResourceUrl())
+                        .transition(GenericTransitionOptions.with(AnimationFactory.getTransition(AnimationFactory.AnimationType.FADE_IN)))
+                        .dontTransform()
+                        .listener((ImageRequestListener) status -> Timber.e("%s, glide listener status: %s", TAG, status.toString()))
+                        .into(userImage);
+            }
 
             rootView.setOnClickListener(v -> {
                 user.setTransitionBundle(getTransitionOptions().toBundle());

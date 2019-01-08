@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -45,10 +47,16 @@ public class MockServer {
                 MockResponse response = new MockResponse().setResponseCode(INTERNAL_ERROR);
                 String requestPath = request.getPath();
                 Timber.d(TAG + " received request path: " + requestPath);
-                if (request.getPath().equals("/users/")) {
-                    response = getAllResourcesResponse(GenericResponseData.USERS);
-                } else if (request.getPath().equals("/login/")) {
-                    response = getLoginResponse();
+                switch (request.getPath()) {
+                    case "/users/":
+                        response = getAllResourcesResponse(GenericResponseData.USERS);
+                        break;
+                    case "/newuser/":
+                        response = getNewUserResponse();
+                        break;
+                    case "/login/":
+                        response = getLoginResponse();
+                        break;
                 }
                 Timber.d(TAG + " response body: %s", response.getBody().toString());
 
@@ -101,6 +109,23 @@ public class MockServer {
             Timber.e(TAG + "getAllUsersResponse(), err: " + e.getMessage());
             return new MockResponse().setResponseCode(INTERNAL_ERROR);
         }
+    }
+
+    private MockResponse getNewUserResponse() {
+        ArrayList<Integer> newUser = new ArrayList<>(1);
+        AddUserResponse response = new AddUserResponse();
+        try {
+            newUser.add(new Random().ints(0, Integer.MAX_VALUE).findFirst().getAsInt());
+        } catch (Exception e) {
+            Timber.e(TAG + "getAllUsersResponse(), err: " + e.getMessage());
+            newUser.add(-1);
+        }
+        response.setData(newUser);
+        return new MockResponse()
+                .addHeader("Content-Type", "application/json; charset=utf-8")
+                .addHeader("Cache-Control", "no-cache")
+                .setBody(gson.toJson(response))
+                .throttleBody(1024, REQUEST_DURATION, TimeUnit.SECONDS);
     }
 
     private GenericResponseData getResponseBody(int resourceType) {

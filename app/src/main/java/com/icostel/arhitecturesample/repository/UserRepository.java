@@ -1,9 +1,9 @@
 package com.icostel.arhitecturesample.repository;
 
 import com.icostel.arhitecturesample.api.UsersApi;
+import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.api.session.SessionStore;
 import com.icostel.arhitecturesample.db.UserDao;
-import com.icostel.arhitecturesample.api.model.User;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,26 +35,32 @@ public class UserRepository {
         this.sessionStore = sessionStore;
     }
 
-    ///////////REPO PATTERN API
+    public Observable<Boolean> addUser(User apiUser) {
+        Timber.d("%s addUser() %s", TAG, apiUser.toString());
+
+        return usersApi.addUser(sessionStore.getUserSessionToken(), apiUser)
+                .doOnNext(userId -> {
+                    if (userId != -1) {
+                        Timber.d("%s user valid received", TAG);
+                        apiUser.setId(String.valueOf(userId));
+                        storeUserInDb(apiUser);
+                    }
+                })
+                .map(userId -> userId != -1);
+    }
 
     @SuppressWarnings("unchecked")
     public Observable<Optional<User>> getUserById(String userId) {
         Timber.d("%s getUserById() %s", TAG, userId);
-        String userToken = sessionStore.getUserSessionToken();
-        return Observable.concatArray(getUserFromDb(userId), getUserFromApi(userToken, userId));
+        return getUserFromDb(sessionStore.getUserSessionToken());
     }
 
     // this is exposed to the view model
     @SuppressWarnings("unchecked")
     public Observable<List<User>> getAllUsers() {
         Timber.d("%s getAllUsers()", TAG);
-        String userToken = sessionStore.getUserSessionToken();
-        return Observable.concatArray(getUsersFromDb(), getUsersFromApi(userToken));
+        return Observable.concatArray(getUsersFromDb(), getUsersFromApi(sessionStore.getUserSessionToken()));
     }
-
-    ///////////REPO PATTERN API
-
-    //SINGLE USER API
 
     // store the new users in DB
     private void storeUsersInDb(List<User> users) {
@@ -64,25 +70,20 @@ public class UserRepository {
     // get the users from db
     private Observable<List<User>> getUsersFromDb() {
         return userDao.getUsers()
-                .subscribeOn(Schedulers.io())
                 .filter(users -> users != null && !users.isEmpty())
                 .toObservable();
     }
 
     private Observable<Optional<User>> getUserFromDb(String userId) {
         return userDao.getUserById(userId)
-                .subscribeOn(Schedulers.io())
                 .filter(Objects::nonNull)
                 .map(Optional::of)
                 .toObservable();
     }
 
-    //MORE USERS API
-
     // get users from api service
     private Observable<List<User>> getUsersFromApi(String token) {
         return usersApi.getUsers(token)
-                .subscribeOn(Schedulers.io())
                 .map(users -> {
                     storeUsersInDb(users);
                     return users;
@@ -96,7 +97,6 @@ public class UserRepository {
     // get user from api service
     private Observable<Optional<User>> getUserFromApi(String token, String userId) {
         return usersApi.getUsers(token)
-                .subscribeOn(Schedulers.io())
                 .map(users -> {
                     for (User user : users) {
                         if (user.getId().equalsIgnoreCase(userId)) {

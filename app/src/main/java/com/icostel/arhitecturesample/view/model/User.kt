@@ -8,7 +8,7 @@ data class User constructor(var id: String = "",
                             var lastName: String = "",
                             var resourceUrl: String = "",
                             var country: String = "",
-                            var age: Int = 0,
+                            var age: String = "",
                             var transitionBundle: Bundle? = null) {
 
     override fun toString(): String {

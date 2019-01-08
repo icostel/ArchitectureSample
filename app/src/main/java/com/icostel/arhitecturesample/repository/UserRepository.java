@@ -8,6 +8,7 @@ import com.icostel.arhitecturesample.db.UserDao;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,6 +24,7 @@ import timber.log.Timber;
 public class UserRepository {
 
     private static final String TAG = UserRepository.class.getCanonicalName();
+    private static final int API_DEBOUNCE_TIME = 500;
 
     private final UsersApi usersApi;
     private final UserDao userDao;
@@ -59,7 +61,8 @@ public class UserRepository {
     @SuppressWarnings("unchecked")
     public Observable<List<User>> getAllUsers() {
         Timber.d("%s getAllUsers()", TAG);
-        return Observable.concatArray(getUsersFromDb(), getUsersFromApi(sessionStore.getUserSessionToken()));
+        return Observable.concatArray(getUsersFromDb(), getUsersFromApi(sessionStore.getUserSessionToken()))
+                .debounce(API_DEBOUNCE_TIME, TimeUnit.MILLISECONDS);
     }
 
     // store the new users in DB

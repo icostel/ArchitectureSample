@@ -32,4 +32,9 @@ public class UserHandler {
     public Observable<User> getUser(String userId) {
         return userRepository.getUserById(userId).filter(Optional::isPresent).map(Optional::get).map(userMapper::mapApiToDomain);
     }
+
+    public Observable<Boolean> addUser(User user) {
+        return userRepository.addUser(userMapper.mapDomainToApi(user));
+    }
+
 }

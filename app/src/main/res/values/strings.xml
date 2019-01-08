@@ -17,6 +17,8 @@
     <string name="login_user">Please login</string>
     <string name="available_users">Users</string>
     <string name="error_loading_users">Could not load users</string>
+    <string name="error_adding_user">Could not add user, please retry</string>
+    <string name="add_user_success">User added successfully</string>
     <string name="error_fragment">error_fragment</string>
     <string name="error_no_internet_connection_io">No internet connection.</string>
     <string name="label_new_user">Add User</string>

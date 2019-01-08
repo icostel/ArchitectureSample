@@ -65,6 +65,7 @@ dependencies {
     api deps.rx.adapter
     api deps.butterknife.runtime
     api deps.okhttp
+    api deps.okhttp_logging_interceptor
     api deps.mock_server
     api deps.cardview
     api deps.work.runtime

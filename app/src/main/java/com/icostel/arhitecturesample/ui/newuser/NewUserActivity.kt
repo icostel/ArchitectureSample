@@ -22,6 +22,7 @@ class NewUserActivity : BaseActivity() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var newUserViewModel: NewUserViewModel
+    private var imageUri = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,7 @@ class NewUserActivity : BaseActivity() {
                 data?.apply {
                     val selectedImageUri = data.data
                     selectedImageUri?.apply {
+                        imageUri = selectedImageUri.toString()
                         user_image.setImageURI(selectedImageUri)
                     }
                 }
@@ -85,9 +87,11 @@ class NewUserActivity : BaseActivity() {
     }
 
     private fun addUser() {
-        newUserViewModel.onAddUser(User(
+        // the id will be set after the adding is done on the API, the BE will provide that
+        newUserViewModel.onAddUser(User("",
                 first_name_tv.text.toString(),
                 last_name_tv.text.toString(),
+                imageUri,
                 country_tv.text.toString(),
                 age_tv.text.toString()
         ))

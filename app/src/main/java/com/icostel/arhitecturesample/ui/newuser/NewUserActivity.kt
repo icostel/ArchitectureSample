@@ -44,7 +44,7 @@ class NewUserActivity : BaseActivity() {
                 data?.apply {
                     val selectedImageUri = data.data
                     selectedImageUri?.apply {
-                        imageUri = selectedImageUri.toString()
+                        imageUri = selectedImageUri.path ?: ""
                         user_image.setImageURI(selectedImageUri)
                     }
                 }
@@ -62,9 +62,10 @@ class NewUserActivity : BaseActivity() {
     private fun handleAddUserResponse(status: Boolean?) {
         status?.let {
             if (status) {
-                showError(ErrorData("error", getString(R.string.add_user_success), "", false, null, ErrorType.Success))
+                setResult(Activity.RESULT_OK)
+                showError(ErrorData("success", getString(R.string.add_user_success), "", false, null, ErrorType.Success))
             } else {
-                showError(ErrorData("success", getString(R.string.error_adding_user), "", false, null, ErrorType.Error))
+                showError(ErrorData("error", getString(R.string.error_adding_user), "", false, null, ErrorType.Error))
             }
         }
     }
@@ -99,5 +100,6 @@ class NewUserActivity : BaseActivity() {
 
     companion object {
         const val TAG = "NewUserActivity"
+        const val RESULT_CODE_USER_ADDED = 6
     }
 }

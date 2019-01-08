@@ -36,7 +36,7 @@ public class UserDetailsViewModel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(domainUser -> userLiveData.setValue(userMapper.mapDomainToView(domainUser)),
-                        throwable -> Timber.d("Could not get user with id %s", userId));
+                        throwable -> Timber.d("Could not get user with id %s cause: %s", userId, throwable.getMessage()));
     }
 
     MutableLiveData<User> getUserLiveData() {

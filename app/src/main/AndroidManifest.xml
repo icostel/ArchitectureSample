@@ -19,9 +19,8 @@
         <activity
             android:name=".ui.listusers.UserListActivity"
             android:label="@string/login_user"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.ContentTransitions">
+            android:theme="@style/AppTheme.ContentTransitions.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,20 +29,18 @@
 
         <activity
             android:name=".ui.userdetails.UserDetailsActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.ContentTransitions" />
+            android:theme="@style/AppTheme.ContentTransitions.NoActionBar" />
 
         <activity
             android:name=".ui.newuser.NewUserActivity"
             android:label="@string/label_new_user"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ContentTransitions.WithActionBar" />
 
         <activity
             android:name=".ui.loginuser.LoginUserActivity"
             android:label="@string/available_users"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
     </application>
 

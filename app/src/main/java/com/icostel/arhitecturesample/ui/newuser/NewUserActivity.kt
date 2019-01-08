@@ -55,7 +55,7 @@ class NewUserActivity : BaseActivity() {
     private fun buildUi() {
         setContentView(R.layout.layout_new_user)
         crate_user_btn.setOnClickListener { addUser() }
-        add_user_image.setOnClickListener { newUserViewModel.onAddUserImage() }
+        add_user_image_fab.setOnClickListener { newUserViewModel.onAddUserImage() }
         enableUpNavigation()
     }
 

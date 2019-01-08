@@ -1,6 +1,7 @@
 package com.icostel.arhitecturesample.ui.listusers;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -64,7 +65,11 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         swipeRefreshLayout.setOnRefreshListener(listUsersViewModel::refreshUsers);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary, getTheme()));
         listUsersViewModel.getLoadingStatus().observe(this, this::handleLoadingStatus);
-        addUserFab.setOnClickListener(v -> listUsersViewModel.onUserAdd());
+        addUserFab.setOnClickListener(v -> {
+            Bundle transitionBundle = ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),
+                    addUserFab, "floating_btn_animation").toBundle();
+            listUsersViewModel.onUserAdd(transitionBundle);
+        });
 
         enableUpNavigation();
     }

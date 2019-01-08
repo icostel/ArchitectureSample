@@ -54,7 +54,7 @@ public class UserRepository {
     @SuppressWarnings("unchecked")
     public Observable<Optional<User>> getUserById(String userId) {
         Timber.d("%s getUserById() %s", TAG, userId);
-        return getUserFromDb(sessionStore.getUserSessionToken());
+        return getUserFromDb(userId);
     }
 
     // this is exposed to the view model
@@ -78,6 +78,7 @@ public class UserRepository {
     }
 
     private Observable<Optional<User>> getUserFromDb(String userId) {
+        Timber.d("getUserFromDb(id=%s)", userId);
         return userDao.getUserById(userId)
                 .filter(Objects::nonNull)
                 .map(Optional::of)

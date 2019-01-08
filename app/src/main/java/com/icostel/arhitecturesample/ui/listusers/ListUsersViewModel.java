@@ -90,11 +90,12 @@ public class ListUsersViewModel extends ViewModel {
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
     }
 
-    void onUserAdd() {
+    void onUserAdd(Bundle transitionBundle) {
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
                 .setScreenProvider(appScreenProvider)
                 .setScreen(AppScreenProvider.NEW_USER)
                 .setRequestCode(NewUserActivity.RESULT_CODE_USER_ADDED)
+                .setTransitionBundle(transitionBundle)
                 .setShouldFinish(false)
                 .build());
     }

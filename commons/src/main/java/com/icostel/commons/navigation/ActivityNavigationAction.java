@@ -34,6 +34,7 @@ public class ActivityNavigationAction extends NavigationAction {
         if (flags != null) {
             intent.setFlags(flags);
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         if (extras != null) {
             intent.putExtras(extras);
         }

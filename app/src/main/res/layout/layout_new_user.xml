@@ -22,12 +22,13 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_user_image"
+            android:id="@+id/add_user_image_fab"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_margin="16dp"
             android:elevation="8dp"
             android:src="@drawable/ic_add_primary_24dp"
+            android:transitionName="floating_btn_animation"
             app:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/image_guideline"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -43,10 +44,10 @@
             android:id="@+id/name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="@dimen/screen_margin"
             android:orientation="horizontal"
             android:padding="@dimen/screen_margin"
-            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_guideline">
@@ -55,8 +56,8 @@
                 android:id="@+id/first_name_input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="@dimen/screen_margin"
+                android:layout_weight="1"
                 android:imeOptions="flagNoExtractUi">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -89,10 +90,10 @@
             android:id="@+id/other_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="@dimen/screen_margin"
             android:orientation="horizontal"
             android:padding="@dimen/screen_margin"
-            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_layout">
@@ -101,8 +102,8 @@
                 android:id="@+id/country_input_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="@dimen/screen_margin"
+                android:layout_weight="1"
                 android:imeOptions="flagNoExtractUi">
 
                 <com.google.android.material.textfield.TextInputEditText

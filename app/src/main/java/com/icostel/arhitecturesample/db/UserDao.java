@@ -20,7 +20,7 @@ public abstract class UserDao implements BaseDao<User> {
     @Query("SELECT * FROM " + Config.Db.USER_TABLE)
     public abstract Single<List<User>> getUsers();
 
-    // gets the use with the specific id
+    // gets the user with the specific id
     @Query("SELECT * FROM " + Config.Db.USER_TABLE + " WHERE id = :userId")
     public abstract Single<User> getUserById(String userId);
 

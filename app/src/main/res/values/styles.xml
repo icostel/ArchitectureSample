@@ -7,7 +7,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.ContentTransitions" parent="AppTheme.NoActionBar.NormalStatus">
+    <style name="AppTheme.ContentTransitions.NoActionBar" parent="AppTheme.NoActionBar.NormalStatus">
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="AppTheme.ContentTransitions.WithActionBar" parent="AppTheme.WithActionBar.NormalStatus">
         <item name="android:windowContentTransitions">true</item>
     </style>
 
@@ -18,6 +22,14 @@
     </style>
 
     <style name="AppTheme.NoActionBar.NormalStatus" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/primary_text_dark</item>
+        <item name="android:textColorSecondary">@android:color/primary_text_dark</item>
+    </style>
+
+    <style name="AppTheme.WithActionBar.NormalStatus" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

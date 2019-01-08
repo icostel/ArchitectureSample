@@ -7,6 +7,7 @@ import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.domain.UserHandler;
 import com.icostel.arhitecturesample.navigation.AppScreenProvider;
+import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
 import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 import com.icostel.arhitecturesample.view.model.User;
 import com.icostel.arhitecturesample.view.model.UserMapper;
@@ -89,10 +90,12 @@ public class ListUsersViewModel extends ViewModel {
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
     }
 
-    void addUser() {
+    void onUserAdd(Bundle transitionBundle) {
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
                 .setScreenProvider(appScreenProvider)
                 .setScreen(AppScreenProvider.NEW_USER)
+                .setRequestCode(NewUserActivity.RESULT_CODE_USER_ADDED)
+                .setTransitionBundle(transitionBundle)
                 .setShouldFinish(false)
                 .build());
     }

@@ -1,5 +1,8 @@
 package com.icostel.arhitecturesample.ui.listusers;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -7,6 +10,7 @@ import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
+import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
 import com.icostel.arhitecturesample.utils.error.ErrorData;
 import com.icostel.arhitecturesample.utils.error.ErrorHandler;
 import com.icostel.arhitecturesample.utils.error.ErrorType;
@@ -21,11 +25,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class UserListActivity extends BaseActivity implements ErrorHandler {
 
     @Inject
     ViewModelFactory viewModelFactory;
+
+    ListUsersViewModel listUsersViewModel;
 
     @BindView(R.id.user_recycler)
     RecyclerView userRecyclerView;
@@ -44,7 +51,7 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        ListUsersViewModel listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
+        listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
 
         userRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -58,7 +65,11 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         swipeRefreshLayout.setOnRefreshListener(listUsersViewModel::refreshUsers);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary, getTheme()));
         listUsersViewModel.getLoadingStatus().observe(this, this::handleLoadingStatus);
-        addUserFab.setOnClickListener(v -> listUsersViewModel.addUser());
+        addUserFab.setOnClickListener(v -> {
+            Bundle transitionBundle = ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),
+                    addUserFab, "floating_btn_animation").toBundle();
+            listUsersViewModel.onUserAdd(transitionBundle);
+        });
 
         enableUpNavigation();
     }
@@ -72,6 +83,17 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Timber.d("onActivityResult(), requestCode: %d, resultCode: %d", requestCode, resultCode);
+
+        if (requestCode == NewUserActivity.RESULT_CODE_USER_ADDED
+                && resultCode == Activity.RESULT_OK) {
+            listUsersViewModel.refreshUsers();
         }
     }
 

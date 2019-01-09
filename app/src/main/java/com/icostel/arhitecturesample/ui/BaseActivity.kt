@@ -101,6 +101,15 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector, N
         }
     }
 
+    protected fun hideTitle() {
+        val actionBar = supportActionBar
+        if (actionBar == null) {
+            Timber.w("no action bar available")
+        } else {
+            actionBar.title = ""
+        }
+    }
+
     // overwrite this if you need to navigate using fragments, use the container ID
     override fun getFragmentContainer(): Int {
         return 0

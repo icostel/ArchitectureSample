@@ -15,6 +15,7 @@
     <string name="login_success">Login success !</string>
     <string name="user_image_content_desc">user image</string>
     <string name="login_user">Please login</string>
+    <string name="splash_screen_label">Splash Screen</string>
     <string name="available_users">Users</string>
     <string name="error_loading_users">Could not load users</string>
     <string name="error_adding_user">Could not add user, please retry</string>

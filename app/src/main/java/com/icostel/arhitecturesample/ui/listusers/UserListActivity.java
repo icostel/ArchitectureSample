@@ -72,6 +72,7 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         });
 
         enableUpNavigation();
+        hideTitle();
     }
 
     private void handleLoadingStatus(SignInStatus.Status status) {

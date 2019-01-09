@@ -10,7 +10,6 @@ import com.icostel.arhitecturesample.api.utils.ApiSuccessResponse
 import com.icostel.arhitecturesample.utils.AppExecutors
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,7 +21,7 @@ internal constructor(private val appExecutors: AppExecutors, private val userApi
     fun signInUser(userEmail: String, userPass: String,
                    listener: OnUserSignInResultListener) {
         // add a delay to simulate a bad network or something
-        Schedulers.io().createWorker().schedule({
+        Schedulers.io().createWorker().schedule {
             appExecutors.networkIO().execute {
                 try {
                     manageResponse(ApiResponse.create(userApiService.signInUser(userEmail, userPass).execute()), listener)
@@ -31,7 +30,7 @@ internal constructor(private val appExecutors: AppExecutors, private val userApi
                     listener.onUserSignInResult(SignInStatus.Error())
                 }
             }
-        }, 3000, TimeUnit.MILLISECONDS)
+        }
     }
 
     private fun manageResponse(response: ApiResponse<SignInResponse>, listener: OnUserSignInResultListener) {

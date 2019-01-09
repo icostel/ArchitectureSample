@@ -19,6 +19,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="AppTheme.SplashScreen.NoActionBar" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_bg</item>
     </style>
 
     <style name="AppTheme.NoActionBar.NormalStatus" parent="Theme.AppCompat.Light.NoActionBar">

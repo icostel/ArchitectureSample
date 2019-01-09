@@ -17,15 +17,21 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.listusers.UserListActivity"
-            android:label="@string/login_user"
+            android:name=".ui.splashscreen.SplashScreenActivity"
+            android:label="@string/splash_screen_label"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.ContentTransitions.NoActionBar">
+            android:theme="@style/AppTheme.SplashScreen.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.listusers.UserListActivity"
+            android:label="@string/login_user"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ContentTransitions.WithActionBar" />
 
         <activity
             android:name=".ui.userdetails.UserDetailsActivity"
@@ -40,7 +46,7 @@
 
         <activity
             android:name=".ui.loginuser.LoginUserActivity"
-            android:label="@string/available_users"
+            android:label="@string/login_user"
             android:screenOrientation="portrait" />
     </application>
 

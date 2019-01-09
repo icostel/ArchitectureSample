@@ -43,7 +43,7 @@ public class ListUsersViewModel extends ViewModel {
         this.userHandler = userHandler;
         this.userMapper = userMapper;
         this.appScreenProvider = appScreenProvider;
-        getUsers(userHandler);
+        getUsers(userHandler, null);
     }
 
     // used in the UI for updating the user list
@@ -55,23 +55,25 @@ public class ListUsersViewModel extends ViewModel {
         return navigationActionLiveEvent;
     }
 
-    private void getUsers(UserHandler userHandler) {
+    void onSearchInput(String searchInput) {
+        getUsers(userHandler, searchInput);
+    }
+
+    private void getUsers(UserHandler userHandler, String nameQuery) {
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
 
-        userDisposable = userHandler.getAllUsers()
+        userDisposable = userHandler.getAllUsers(nameQuery)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .delay(3000, TimeUnit.MILLISECONDS) // just for testing lag
+                .delay(1000, TimeUnit.MILLISECONDS) // just for testing lag
                 .subscribe(userList -> {
-                    if (userList.size() > 0) {
-                        userListLiveData.postValue(userMapper.mapDomainToView(userList));
-                        loadingStatus.postValue(SignInStatus.Status.SUCCESS);
-                        if (BuildConfig.DEBUG) {
-                            Timber.d("received %d users ", userList.size());
-                            if (userListLiveData.getValue() != null) {
-                                for (User u : userListLiveData.getValue()) {
-                                    Timber.d("user: " + u.toString());
-                                }
+                    userListLiveData.postValue(userMapper.mapDomainToView(userList));
+                    loadingStatus.postValue(SignInStatus.Status.SUCCESS);
+                    if (BuildConfig.DEBUG) {
+                        Timber.d("received %d users ", userList.size());
+                        if (userListLiveData.getValue() != null) {
+                            for (User u : userListLiveData.getValue()) {
+                                Timber.d("user: " + u.toString());
                             }
                         }
                     }
@@ -85,8 +87,12 @@ public class ListUsersViewModel extends ViewModel {
         return loadingStatus;
     }
 
+    SignInStatus.Status getLoadingStatusInstant() {
+        return loadingStatus.getValue();
+    }
+
     void refreshUsers() {
-        getUsers(this.userHandler);
+        getUsers(this.userHandler, null);
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
     }
 
@@ -116,7 +122,7 @@ public class ListUsersViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        
+
         if (userDisposable != null && !userDisposable.isDisposed()) {
             userDisposable.dispose();
         }

@@ -1,5 +1,7 @@
 package com.icostel.arhitecturesample.repository;
 
+import android.text.TextUtils;
+
 import com.icostel.arhitecturesample.api.UsersApi;
 import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.api.session.SessionStore;
@@ -59,10 +61,15 @@ public class UserRepository {
 
     // this is exposed to the view model
     @SuppressWarnings("unchecked")
-    public Observable<List<User>> getAllUsers() {
-        Timber.d("%s getAllUsers()", TAG);
-        return Observable.concatArray(getUsersFromDb(), getUsersFromApi(sessionStore.getUserSessionToken()))
-                .debounce(API_DEBOUNCE_TIME, TimeUnit.MILLISECONDS);
+    public Observable<List<User>> getAllUsers(String nameQuery) {
+        if (TextUtils.isEmpty(nameQuery)) {
+            Timber.d("%s getAllUsers()", TAG);
+            return Observable.concatArray(getUsersFromDb(null), getUsersFromApi(sessionStore.getUserSessionToken()))
+                    .debounce(API_DEBOUNCE_TIME, TimeUnit.MILLISECONDS);
+        } else {
+            // get the users from DB
+            return getUsersFromDb(nameQuery);
+        }
     }
 
     // store the new users in DB
@@ -71,9 +78,11 @@ public class UserRepository {
     }
 
     // get the users from db
-    private Observable<List<User>> getUsersFromDb() {
-        return userDao.getUsers()
-                .filter(users -> users != null && !users.isEmpty())
+    private Observable<List<User>> getUsersFromDb(String nameQuery) {
+        // append % to the beginning and end of the query
+        nameQuery = "%" + nameQuery + "%";
+        return userDao.getUsers(nameQuery)
+                .filter(Objects::nonNull)
                 .toObservable();
     }
 

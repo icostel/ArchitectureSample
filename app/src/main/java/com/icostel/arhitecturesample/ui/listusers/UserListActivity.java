@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.icostel.arhitecturesample.R;
@@ -14,6 +16,7 @@ import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
 import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
+import com.icostel.arhitecturesample.utils.OnQueryTextChangedListener;
 import com.icostel.arhitecturesample.utils.error.ErrorData;
 import com.icostel.arhitecturesample.utils.error.ErrorHandler;
 import com.icostel.arhitecturesample.utils.error.ErrorType;
@@ -23,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,13 +52,16 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
     @BindView(R.id.add_user_fab)
     FloatingActionButton addUserFab;
 
+    @BindView(R.id.empty_view)
+    AppCompatTextView emptyView;
+
     private SearchView searchView;
     private UserAdapter userAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.acitivity_user_list);
 
         ButterKnife.bind(this);
         listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
@@ -65,12 +72,14 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         userAdapter = new UserAdapter(UserListActivity.this);
         userRecyclerView.setAdapter(userAdapter);
 
+        // live data
         listUsersViewModel.getUserListLiveData().observe(this, users -> userAdapter.updateUserList(users));
         listUsersViewModel.getNavigationActionLiveEvent().observe(this, this::navigateTo);
         userAdapter.getSelectedUserLive().observe(this, listUsersViewModel::onUserSelected);
         swipeRefreshLayout.setOnRefreshListener(listUsersViewModel::refreshUsers);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary, getTheme()));
         listUsersViewModel.getLoadingStatus().observe(this, this::handleLoadingStatus);
+
         addUserFab.setOnClickListener(v -> {
             Bundle transitionBundle = ActivityOptions.makeSceneTransitionAnimation((Activity) getContext(),
                     addUserFab, "floating_btn_animation").toBundle();
@@ -82,11 +91,19 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
     }
 
     private void handleLoadingStatus(SignInStatus.Status status) {
-        swipeRefreshLayout.setRefreshing(status == SignInStatus.Status.IN_PROGRESS);
 
         switch (status) {
+            case IN_PROGRESS:
+                swipeRefreshLayout.setRefreshing(true);
+                break;
+            case SUCCESS:
+                emptyView.setVisibility(userAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+                userRecyclerView.setVisibility(userAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
+                break;
             case ERROR:
                 showError(new ErrorData("error", getString(R.string.error_loading_users), "", false, null, ErrorType.Error));
+                swipeRefreshLayout.setRefreshing(false);
                 break;
             default:
                 break;
@@ -113,8 +130,10 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         searchView = (SearchView) searchItem.getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint(getString(R.string.search_for_user));
+        ImageView searchCloseBtn = searchView.findViewById(R.id.search_close_btn);
+        searchCloseBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_white_24dp, getTheme()));
+
         searchView.setOnSearchClickListener(v -> {
-            enableUpNavigation(false);
             showTitle(false);
             v.requestFocus();
         });
@@ -123,18 +142,37 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
             showTitle(true);
             return false;
         });
+        searchView.setOnQueryTextListener((OnQueryTextChangedListener) newText ->
+                listUsersViewModel.onSearchInput(newText));
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
-        if (item.getItemId() == R.id.search_item) {
+        switch (item.getItemId()) {
+            case R.id.search_item:
+                searchView.onActionViewCollapsed();
+                showTitle(true);
+                return true;
+            case android.R.id.home:
+                if (!searchView.isIconified()) {
+                    searchView.onActionViewCollapsed();
+                    showTitle(true);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
             searchView.onActionViewCollapsed();
             showTitle(true);
-            enableUpNavigation(false);
-            return true;
         } else {
-            return super.onOptionsItemSelected(item);
+            super.onBackPressed();
         }
     }
 

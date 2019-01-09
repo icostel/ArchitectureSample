@@ -17,17 +17,20 @@ import androidx.lifecycle.ViewModel;
 public class LoginUserViewModel extends ViewModel {
 
     private MutableLiveData<SignInStatus.Status> signInStatusLive;
+    private MutableLiveData<Boolean> allInputsAvailable;
     private SingleLiveEvent<NavigationAction> navigationAction;
     private UserLogInHandler userLogInHandler;
     private AppScreenProvider appScreenProvider;
 
     @Inject
-    public LoginUserViewModel(UserLogInHandler userLogInHandler, AppScreenProvider appScreenProvider) {
+    LoginUserViewModel(UserLogInHandler userLogInHandler, AppScreenProvider appScreenProvider) {
         this.signInStatusLive = new MutableLiveData<>();
         this.navigationAction = new SingleLiveEvent<>();
+        this.allInputsAvailable = new MutableLiveData<>();
+        this.allInputsAvailable.postValue(false);
         this.userLogInHandler = userLogInHandler;
         this.appScreenProvider = appScreenProvider;
-        this.signInStatusLive.setValue(SignInStatus.Status.NOT_STARTED);
+        this.signInStatusLive.postValue(SignInStatus.Status.NOT_STARTED);
     }
 
     // used in the UI for displaying the log in status
@@ -38,6 +41,15 @@ public class LoginUserViewModel extends ViewModel {
     // used for navigation
     SingleLiveEvent<NavigationAction> getNavigationAction() {
         return navigationAction;
+    }
+
+    // used for enabling/disabling the log in btn
+    MutableLiveData<Boolean> getAllInputsAvailable() {
+        return allInputsAvailable;
+    }
+
+    void allInputsAvailable(CharSequence userEmail, CharSequence userPass) {
+        allInputsAvailable.postValue(!TextUtils.isEmpty(userEmail) && !TextUtils.isEmpty(userPass));
     }
 
     // the log in

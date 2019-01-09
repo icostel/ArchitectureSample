@@ -13,7 +13,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -30,7 +29,6 @@ public class MockServer {
     private static final String TAG = MockServer.class.getCanonicalName();
 
     private static final int INTERNAL_ERROR = 500;
-    private static final int REQUEST_DURATION = 3;
 
     private final MockWebServer server = new MockWebServer();
     private final Gson gson = new Gson();
@@ -89,8 +87,7 @@ public class MockServer {
             return new MockResponse()
                     .addHeader("Content-Type", "application/json; charset=utf-8")
                     .addHeader("Cache-Control", "no-cache")
-                    .setBody(gson.toJson(getResponseBody(resourceType)))
-                    .throttleBody(1024, REQUEST_DURATION, TimeUnit.SECONDS);
+                    .setBody(gson.toJson(getResponseBody(resourceType)));
         } catch (Exception e) {
             Timber.e(TAG + "getAllUsersResponse(), err: " + e.getMessage());
             return new MockResponse().setResponseCode(INTERNAL_ERROR);
@@ -103,8 +100,7 @@ public class MockServer {
             return new MockResponse()
                     .addHeader("Content-Type", "application/json; charset=utf-8")
                     .addHeader("Cache-Control", "no-cache")
-                    .setBody(gson.toJson(signInResponse))
-                    .throttleBody(1024, REQUEST_DURATION, TimeUnit.SECONDS);
+                    .setBody(gson.toJson(signInResponse));
         } catch (Exception e) {
             Timber.e(TAG + "getAllUsersResponse(), err: " + e.getMessage());
             return new MockResponse().setResponseCode(INTERNAL_ERROR);
@@ -124,8 +120,7 @@ public class MockServer {
         return new MockResponse()
                 .addHeader("Content-Type", "application/json; charset=utf-8")
                 .addHeader("Cache-Control", "no-cache")
-                .setBody(gson.toJson(response))
-                .throttleBody(1024, REQUEST_DURATION, TimeUnit.SECONDS);
+                .setBody(gson.toJson(response));
     }
 
     private GenericResponseData getResponseBody(int resourceType) {

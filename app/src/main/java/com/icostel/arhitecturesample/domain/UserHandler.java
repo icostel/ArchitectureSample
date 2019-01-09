@@ -20,13 +20,13 @@ public class UserHandler {
     private final UserMapper userMapper;
 
     @Inject
-    public UserHandler(UserRepository userRepository, UserMapper userMapper) {
+    UserHandler(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
 
-    public Observable<List<User>> getAllUsers() {
-        return userRepository.getAllUsers().map(userMapper::mapApiToDomain);
+    public Observable<List<User>> getAllUsers(String nameQuery) {
+        return userRepository.getAllUsers(nameQuery).map(userMapper::mapApiToDomain);
     }
 
     public Observable<User> getUser(String userId) {

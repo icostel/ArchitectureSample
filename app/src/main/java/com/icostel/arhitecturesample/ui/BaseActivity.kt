@@ -101,6 +101,19 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector, N
         }
     }
 
+    protected fun enableUpNavigation(enable:Boolean) {
+        val actionBar = supportActionBar
+        if (actionBar == null) {
+            Timber.w("no action bar available")
+        } else {
+            if (enable) {
+                actionBar.setDisplayHomeAsUpEnabled(true)
+            } else {
+                actionBar.setDisplayHomeAsUpEnabled(false)
+            }
+        }
+    }
+
     protected fun hideTitle() {
         val actionBar = supportActionBar
         if (actionBar == null) {

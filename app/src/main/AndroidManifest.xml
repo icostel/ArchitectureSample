@@ -31,7 +31,7 @@
             android:name=".ui.listusers.UserListActivity"
             android:label="@string/login_user"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.ContentTransitions.WithActionBar" />
+            android:theme="@style/AppTheme.SearchView" />
 
         <activity
             android:name=".ui.userdetails.UserDetailsActivity"

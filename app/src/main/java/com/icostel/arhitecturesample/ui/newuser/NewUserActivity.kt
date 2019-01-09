@@ -7,12 +7,15 @@ import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.ui.BaseActivity
+import com.icostel.arhitecturesample.utils.AfterTextChangeListener
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorType
 import com.icostel.arhitecturesample.utils.extensions.observe
 import com.icostel.arhitecturesample.view.model.User
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.layout_new_user.*
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -22,7 +25,8 @@ class NewUserActivity : BaseActivity() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var newUserViewModel: NewUserViewModel
-    private var imageUri = ""
+
+    private val user: User = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +48,7 @@ class NewUserActivity : BaseActivity() {
                 data?.apply {
                     val selectedImageUri = data.data
                     selectedImageUri?.apply {
-                        imageUri = selectedImageUri.path ?: ""
+                        user.resourceUrl = selectedImageUri.path ?: ""
                         user_image.setImageURI(selectedImageUri)
                     }
                 }
@@ -54,8 +58,15 @@ class NewUserActivity : BaseActivity() {
 
     private fun buildUi() {
         setContentView(R.layout.layout_new_user)
-        crate_user_btn.setOnClickListener { addUser() }
+
+        newUserViewModel.allDataAvailable.observe(this) { create_user_btn.isEnabled = it ?: false }
+        create_user_btn.setOnClickListener { newUserViewModel.onAddUser(user) }
         add_user_image_fab.setOnClickListener { newUserViewModel.onAddUserImage() }
+        first_name_tv.addTextChangedListener( (AfterTextChangeListener { user.firstName = it; newUserViewModel.allDataAvailable(user) } ))
+        last_name_tv.addTextChangedListener( (AfterTextChangeListener { user.lastName = it; newUserViewModel.allDataAvailable(user) } ))
+        country_tv.addTextChangedListener( (AfterTextChangeListener { user.country = it; newUserViewModel.allDataAvailable(user) } ))
+        age_tv.addTextChangedListener( (AfterTextChangeListener { user.age = it; newUserViewModel.allDataAvailable(user) } ))
+
         enableUpNavigation()
     }
 
@@ -64,6 +75,7 @@ class NewUserActivity : BaseActivity() {
             if (status) {
                 setResult(Activity.RESULT_OK)
                 showError(ErrorData("success", getString(R.string.add_user_success), "", false, null, ErrorType.Success))
+                AndroidSchedulers.mainThread().createWorker().schedule({ finish() }, FINISH_DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
             } else {
                 showError(ErrorData("error", getString(R.string.error_adding_user), "", false, null, ErrorType.Error))
             }
@@ -87,19 +99,9 @@ class NewUserActivity : BaseActivity() {
         }
     }
 
-    private fun addUser() {
-        // the id will be set after the adding is done on the API, the BE will provide that
-        newUserViewModel.onAddUser(User("",
-                first_name_tv.text.toString(),
-                last_name_tv.text.toString(),
-                imageUri,
-                country_tv.text.toString(),
-                age_tv.text.toString()
-        ))
-    }
-
     companion object {
         const val TAG = "NewUserActivity"
         const val RESULT_CODE_USER_ADDED = 6
+        const val FINISH_DELAY_IN_MILLIS: Long = 2000
     }
 }

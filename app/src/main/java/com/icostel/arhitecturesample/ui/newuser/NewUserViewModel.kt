@@ -21,8 +21,13 @@ class NewUserViewModel @Inject constructor(private val userHandler: UserHandler,
     val navigationAction: SingleLiveEvent<NavigationAction> = SingleLiveEvent()
     val apiResponse: MutableLiveData<Boolean> = MutableLiveData()
     val inputValidation: MutableLiveData<Int> = MutableLiveData()
+    val allDataAvailable: MutableLiveData<Boolean> = MutableLiveData()
 
     private val apiDisposable: CompositeDisposable = CompositeDisposable()
+
+    init {
+        allDataAvailable.postValue(false)
+    }
 
     fun onAddUser(user: User) {
         Timber.d("onAddUser() %s", user.toString())
@@ -38,6 +43,17 @@ class NewUserViewModel @Inject constructor(private val userHandler: UserHandler,
         }
     }
 
+    fun allDataAvailable(user: User) {
+        allDataAvailable.postValue(
+                !TextUtils.isEmpty(user.firstName)
+                && !TextUtils.isEmpty(user.lastName)
+                && !TextUtils.isEmpty(user.age)
+                && !TextUtils.isEmpty(user.country)
+                && TextUtils.isDigitsOnly(user.age)
+        )
+    }
+
+    // error handling after submitting
     private fun validateData(user: User): Boolean {
         var ret = false
 

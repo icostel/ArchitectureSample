@@ -30,4 +30,5 @@
     <string name="country_name_not_valid">Country name not valid</string>
     <string name="age_not_valid">Age not valid</string>
     <string name="search_for_user">Search for user</string>
+    <string name="no_users">No users</string>
 </resources>

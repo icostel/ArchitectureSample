@@ -11,6 +11,7 @@ import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
+import com.icostel.arhitecturesample.utils.AfterTextChangeListener;
 import com.icostel.arhitecturesample.utils.error.ErrorData;
 import com.icostel.arhitecturesample.utils.error.ErrorHandler;
 
@@ -45,9 +46,13 @@ public class LoginUserActivity extends BaseActivity implements ErrorHandler {
 
         setContentView(R.layout.activity_login_user);
         ButterKnife.bind(this);
+
         loginUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginUserViewModel.class);
+        userEmailTv.addTextChangedListener((AfterTextChangeListener) input -> loginUserViewModel.allInputsAvailable(userEmailTv.getText(), userPassTv.getText()));
+        userPassTv.addTextChangedListener((AfterTextChangeListener) input -> loginUserViewModel.allInputsAvailable(userEmailTv.getText(), userPassTv.getText()));
         loginUserViewModel.getNavigationAction().observe(this, this::navigateTo);
         loginUserViewModel.getSignInStatusLive().observe(this, this::handleLoginStatus);
+        loginUserViewModel.getAllInputsAvailable().observe(this, loginBtn::setEnabled);
         loginBtn.setOnClickListener(v -> loginUserViewModel.onLogInBtnClicked(userEmailTv.getText().toString(), userPassTv.getText().toString()));
     }
 

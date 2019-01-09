@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.icostel.arhitecturesample.R;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,13 +50,16 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
     @BindView(R.id.add_user_fab)
     FloatingActionButton addUserFab;
 
+    @BindView(R.id.empty_view)
+    AppCompatTextView emptyView;
+
     private SearchView searchView;
     private UserAdapter userAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.acitivity_user_list);
 
         ButterKnife.bind(this);
         listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel.class);
@@ -65,7 +70,10 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         userAdapter = new UserAdapter(UserListActivity.this);
         userRecyclerView.setAdapter(userAdapter);
 
-        listUsersViewModel.getUserListLiveData().observe(this, users -> userAdapter.updateUserList(users));
+        listUsersViewModel.getUserListLiveData().observe(this, users -> {
+            userAdapter.updateUserList(users);
+            emptyView.setVisibility(users.size() == 0 ? View.VISIBLE : View.GONE);
+        });
         listUsersViewModel.getNavigationActionLiveEvent().observe(this, this::navigateTo);
         userAdapter.getSelectedUserLive().observe(this, listUsersViewModel::onUserSelected);
         swipeRefreshLayout.setOnRefreshListener(listUsersViewModel::refreshUsers);

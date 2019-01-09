@@ -47,6 +47,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="@dimen/screen_margin"
             android:orientation="horizontal"
+            android:baselineAligned="false"
             android:padding="@dimen/screen_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +97,7 @@
             android:layout_marginBottom="@dimen/screen_margin"
             android:orientation="horizontal"
             android:padding="@dimen/screen_margin"
+            android:baselineAligned="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_layout">
@@ -136,7 +138,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/crate_user_btn"
+            android:id="@+id/create_user_btn"
             style="@style/AppButton"
             android:layout_margin="@dimen/screen_margin"
             android:text="@string/add_user"

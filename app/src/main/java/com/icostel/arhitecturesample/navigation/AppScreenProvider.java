@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 @Singleton
 public class AppScreenProvider extends ScreenProvider {
 
-    public static final int MAIN = 1;
+    public static final int LOGIN_USER = 1;
     public static final int LIST_USERS = 2;
     public static final int USER_DETAILS = 3;
     public static final int NEW_USER = 4;
@@ -27,7 +27,7 @@ public class AppScreenProvider extends ScreenProvider {
 
     @Override
     protected void initScreenMap() {
-        SCREEN_MAP.put(MAIN, LoginUserActivity.class);
+        SCREEN_MAP.put(LOGIN_USER, LoginUserActivity.class);
         SCREEN_MAP.put(LIST_USERS, UserListActivity.class);
         SCREEN_MAP.put(USER_DETAILS, UserDetailsActivity.class);
         SCREEN_MAP.put(NEW_USER, NewUserActivity.class);

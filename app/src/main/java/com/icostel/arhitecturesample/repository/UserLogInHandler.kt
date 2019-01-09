@@ -8,6 +8,7 @@ import com.icostel.arhitecturesample.api.utils.ApiErrorResponse
 import com.icostel.arhitecturesample.api.utils.ApiResponse
 import com.icostel.arhitecturesample.api.utils.ApiSuccessResponse
 import com.icostel.arhitecturesample.utils.AppExecutors
+import com.icostel.arhitecturesample.utils.prefs.LoggedInProvider
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UserLogInHandler @Inject
-internal constructor(private val appExecutors: AppExecutors, private val userApiService: UserApiService, private val sessionStore: SessionStore) {
+internal constructor(private val appExecutors: AppExecutors, private val userApiService: UserApiService, private val sessionStore: SessionStore, private val loggedInProvider: LoggedInProvider) {
 
     // other API calls will use the token obtained from user sign in and stored in session store
     fun signInUser(userEmail: String, userPass: String,
@@ -39,10 +40,12 @@ internal constructor(private val appExecutors: AppExecutors, private val userApi
                 val (success, _, token) = (response as ApiSuccessResponse<SignInResponse>).body
                 if (success) {
                     sessionStore.userSessionToken = token
+                    loggedInProvider.updateValue(true)
                     listener.onUserSignInResult(SignInStatus.Success())
                     Timber.d("===Sign in success: " + (response as ApiSuccessResponse<*>).body)
                 } else {
                     listener.onUserSignInResult(SignInStatus.Error())
+                    loggedInProvider.updateValue(true)
                     Timber.d("===Sign in error: " + (response as ApiErrorResponse<*>).errorMessage)
                 }
             }

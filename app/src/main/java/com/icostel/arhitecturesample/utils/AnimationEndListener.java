@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils.prefs;
+package com.icostel.arhitecturesample.utils;
 
 import android.animation.Animator;
 

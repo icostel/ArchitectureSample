@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.icostel.arhitecturesample.R;
@@ -15,10 +18,12 @@ import com.icostel.arhitecturesample.utils.error.ErrorData;
 import com.icostel.arhitecturesample.utils.error.ErrorHandler;
 import com.icostel.arhitecturesample.utils.error.ErrorType;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +48,7 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
     @BindView(R.id.add_user_fab)
     FloatingActionButton addUserFab;
 
+    private SearchView searchView;
     private UserAdapter userAdapter;
 
     @Override
@@ -72,7 +78,7 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         });
 
         enableUpNavigation();
-        hideTitle();
+        showTitle(true);
     }
 
     private void handleLoadingStatus(SignInStatus.Status status) {
@@ -95,6 +101,50 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         if (requestCode == NewUserActivity.RESULT_CODE_USER_ADDED
                 && resultCode == Activity.RESULT_OK) {
             listUsersViewModel.refreshUsers();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.user_list_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search_item);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint(getString(R.string.search_for_user));
+        searchView.setOnSearchClickListener(v -> {
+            enableUpNavigation(false);
+            showTitle(false);
+            v.requestFocus();
+        });
+        searchView.setOnCloseListener(() -> {
+            enableUpNavigation(true);
+            showTitle(true);
+            return false;
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+        if (item.getItemId() == R.id.search_item) {
+            searchView.onActionViewCollapsed();
+            showTitle(true);
+            enableUpNavigation(false);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showTitle(boolean showTitle) {
+        if (showTitle) {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.user_list_label);
+            }
+        } else {
+            hideTitle();
         }
     }
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.Injectable;
-import com.icostel.arhitecturesample.utils.prefs.AnimationEndListener;
+import com.icostel.arhitecturesample.utils.AnimationEndListener;
 
 import javax.inject.Inject;
 

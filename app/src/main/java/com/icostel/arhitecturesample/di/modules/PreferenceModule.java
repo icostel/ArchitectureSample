@@ -20,7 +20,7 @@ public class PreferenceModule {
 
     @Provides
     @PerApp
-    SharedPreferences providesAppPreferance(Context context) {
+    SharedPreferences provideAppPreferences(Context context) {
         return context.getSharedPreferences(Config.Pref.PREF_APP, Context.MODE_PRIVATE);
     }
 }

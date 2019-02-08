@@ -59,7 +59,7 @@ dependencies {
     api deps.dagger.android
     api deps.dagger.android_support
     api deps.constraint_layout
-    api deps.kotlin.stdlib
+    api deps.kotlin_stdlib
     api deps.rx.android
     api deps.rx.java
     api deps.rx.adapter

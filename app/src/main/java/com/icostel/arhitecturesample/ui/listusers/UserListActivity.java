@@ -159,6 +159,8 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
                 if (!searchView.isIconified()) {
                     searchView.onActionViewCollapsed();
                     showTitle(true);
+                } else {
+                    onBackPressed();
                 }
                 return true;
             default:

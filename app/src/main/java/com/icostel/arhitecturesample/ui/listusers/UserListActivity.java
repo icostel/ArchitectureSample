@@ -132,15 +132,15 @@ public class UserListActivity extends BaseActivity implements ErrorHandler {
         searchView.setQueryHint(getString(R.string.search_for_user));
         ImageView searchCloseBtn = searchView.findViewById(R.id.search_close_btn);
         searchCloseBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_white_24dp, getTheme()));
-
+        searchCloseBtn.setOnClickListener(v -> {
+            if (!searchView.isIconified()) {
+                searchView.onActionViewCollapsed();
+                showTitle(true);
+            }
+        });
         searchView.setOnSearchClickListener(v -> {
             showTitle(false);
             v.requestFocus();
-        });
-        searchView.setOnCloseListener(() -> {
-            enableUpNavigation(true);
-            showTitle(true);
-            return false;
         });
         searchView.setOnQueryTextListener((OnQueryTextChangedListener) newText ->
                 listUsersViewModel.onSearchInput(newText));

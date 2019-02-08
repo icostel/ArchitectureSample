@@ -6,6 +6,7 @@ import com.icostel.arhitecturesample.api.UsersApi;
 import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.api.session.SessionStore;
 import com.icostel.arhitecturesample.db.UserDao;
+import com.icostel.arhitecturesample.utils.AppExecutors;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,12 +32,14 @@ public class UserRepository {
     private final UsersApi usersApi;
     private final UserDao userDao;
     private final SessionStore sessionStore;
+    private final AppExecutors appExecutors;
 
     @Inject
-    UserRepository(UsersApi usersApi, UserDao userDao, SessionStore sessionStore) {
+    UserRepository(UsersApi usersApi, UserDao userDao, AppExecutors appExecutors, SessionStore sessionStore) {
         this.usersApi = usersApi;
         this.userDao = userDao;
         this.sessionStore = sessionStore;
+        this.appExecutors = appExecutors;
     }
 
     public Observable<Boolean> addUser(User apiUser) {
@@ -104,6 +107,7 @@ public class UserRepository {
     }
 
     private void storeUserInDb(User user) {
+        appExecutors.diskIO().execute(() -> userDao.upsert(user));
         Schedulers.io().createWorker().schedule(() -> userDao.upsert(user));
     }
 

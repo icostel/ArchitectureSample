@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils;
+package com.icostel.commons.utils;
 
 import android.text.Editable;
 import android.text.TextWatcher;

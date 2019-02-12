@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils.prefs;
+package com.icostel.commons.utils.prefs;
 
 import androidx.lifecycle.LiveData;
 

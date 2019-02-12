@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.ui.BaseActivity
-import com.icostel.arhitecturesample.utils.AfterTextChangeListener
+import com.icostel.commons.utils.AfterTextChangeListener
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorType
-import com.icostel.arhitecturesample.utils.extensions.observe
+import com.icostel.commons.utils.extensions.observe
 import com.icostel.arhitecturesample.view.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.layout_new_user.*
@@ -62,10 +62,10 @@ class NewUserActivity : BaseActivity() {
         newUserViewModel.allDataAvailable.observe(this) { create_user_btn.isEnabled = it ?: false }
         create_user_btn.setOnClickListener { newUserViewModel.onAddUser(user) }
         add_user_image_fab.setOnClickListener { newUserViewModel.onAddUserImage() }
-        first_name_tv.addTextChangedListener( (AfterTextChangeListener { user.firstName = it; newUserViewModel.allDataAvailable(user) } ))
-        last_name_tv.addTextChangedListener( (AfterTextChangeListener { user.lastName = it; newUserViewModel.allDataAvailable(user) } ))
-        country_tv.addTextChangedListener( (AfterTextChangeListener { user.country = it; newUserViewModel.allDataAvailable(user) } ))
-        age_tv.addTextChangedListener( (AfterTextChangeListener { user.age = it; newUserViewModel.allDataAvailable(user) } ))
+        first_name_tv.addTextChangedListener( (AfterTextChangeListener { user.firstName = it; newUserViewModel.allDataAvailable(user) }))
+        last_name_tv.addTextChangedListener( (AfterTextChangeListener { user.lastName = it; newUserViewModel.allDataAvailable(user) }))
+        country_tv.addTextChangedListener( (AfterTextChangeListener { user.country = it; newUserViewModel.allDataAvailable(user) }))
+        age_tv.addTextChangedListener( (AfterTextChangeListener { user.age = it; newUserViewModel.allDataAvailable(user) }))
 
         enableUpNavigation()
     }

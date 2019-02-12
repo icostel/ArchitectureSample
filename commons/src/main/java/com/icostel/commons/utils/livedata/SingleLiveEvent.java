@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils.livedata;
+package com.icostel.commons.utils.livedata;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

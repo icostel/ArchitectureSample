@@ -8,11 +8,11 @@ import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.domain.UserHandler;
 import com.icostel.arhitecturesample.navigation.AppScreenProvider;
 import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
-import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 import com.icostel.arhitecturesample.view.model.User;
-import com.icostel.arhitecturesample.view.model.UserMapper;
+import com.icostel.arhitecturesample.view.mapper.UserMapper;
 import com.icostel.commons.navigation.ActivityNavigationAction;
 import com.icostel.commons.navigation.NavigationAction;
+import com.icostel.commons.utils.livedata.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +96,7 @@ public class ListUsersViewModel extends ViewModel {
         loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
     }
 
-    void onUserAdd(Bundle transitionBundle) {
+    public void onUserAdd(Bundle transitionBundle) {
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
                 .setScreenProvider(appScreenProvider)
                 .setScreen(AppScreenProvider.NEW_USER)
@@ -108,6 +108,7 @@ public class ListUsersViewModel extends ViewModel {
 
     // navigate to details when the user select a specific user from the list
     void onUserSelected(User user) {
+        Timber.d("onUserSelected()");
         Bundle extras = new Bundle();
         extras.putString(Config.Data.USER_ID, user.getId());
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()

@@ -7,8 +7,8 @@ import com.icostel.arhitecturesample.api.session.SessionStore
 import com.icostel.arhitecturesample.api.utils.ApiErrorResponse
 import com.icostel.arhitecturesample.api.utils.ApiResponse
 import com.icostel.arhitecturesample.api.utils.ApiSuccessResponse
-import com.icostel.arhitecturesample.utils.AppExecutors
-import com.icostel.arhitecturesample.utils.prefs.LoggedInProvider
+import com.icostel.commons.utils.AppExecutors
+import com.icostel.arhitecturesample.utils.settings.LoggedInProvider
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject

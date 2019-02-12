@@ -2,7 +2,7 @@ package com.icostel.arhitecturesample.ui.userdetails;
 
 import com.icostel.arhitecturesample.domain.UserHandler;
 import com.icostel.arhitecturesample.view.model.User;
-import com.icostel.arhitecturesample.view.model.UserMapper;
+import com.icostel.arhitecturesample.view.mapper.UserMapper;
 
 import javax.inject.Inject;
 

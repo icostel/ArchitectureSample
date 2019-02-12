@@ -1,7 +1,8 @@
-package com.icostel.arhitecturesample.utils.prefs
+package com.icostel.arhitecturesample.utils.settings
 
 import android.content.SharedPreferences
 import com.icostel.arhitecturesample.di.qualifers.PerApp
+import com.icostel.commons.utils.prefs.PersistentSetting
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.Injectable;
-import com.icostel.arhitecturesample.utils.AnimationEndListener;
+import com.icostel.commons.utils.AnimationEndListener;
 
 import javax.inject.Inject;
 
@@ -86,7 +86,7 @@ public class ErrorFragment extends Fragment implements Injectable {
     }
 
     private void customize(ErrorType errorType) {
-        // Default is Error, no change there
+        // Default is Error, no change there`
         switch (errorType) {
             case Success:
                 rootView.setBackgroundResource(R.color.success_bg);

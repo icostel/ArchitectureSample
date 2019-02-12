@@ -5,9 +5,9 @@ import android.text.TextUtils;
 import com.icostel.arhitecturesample.api.SignInStatus;
 import com.icostel.arhitecturesample.navigation.AppScreenProvider;
 import com.icostel.arhitecturesample.repository.UserLogInHandler;
-import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
 import com.icostel.commons.navigation.ActivityNavigationAction;
 import com.icostel.commons.navigation.NavigationAction;
+import com.icostel.commons.utils.livedata.SingleLiveEvent;
 
 import javax.inject.Inject;
 
@@ -66,7 +66,7 @@ public class LoginUserViewModel extends ViewModel {
         navigationAction.postValue(
                 new ActivityNavigationAction.Builder()
                         .setScreenProvider(appScreenProvider)
-                        .setScreen(AppScreenProvider.LIST_USERS)
+                        .setScreen(AppScreenProvider.MAIN)
                         .setShouldFinish(true)
                         .build()
         );

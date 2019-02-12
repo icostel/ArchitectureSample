@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils.extensions
+package com.icostel.commons.utils.extensions
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
@@ -95,6 +95,6 @@ fun <S : Any> MediatorLiveData<S>.addSource(executor: Executor, source: LiveData
 }
 
 @MainThread
-fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (t: T?) -> Unit) {
-    observe(owner, Observer<T> { t -> observer(t) })
+fun <T> LiveData<T>.observe(owner: LifecycleOwner, block: (t: T?) -> Unit) {
+    observe(owner, Observer<T> { t -> block(t) })
 }

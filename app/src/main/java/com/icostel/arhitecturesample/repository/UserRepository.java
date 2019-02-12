@@ -6,7 +6,7 @@ import com.icostel.arhitecturesample.api.UsersApi;
 import com.icostel.arhitecturesample.api.model.User;
 import com.icostel.arhitecturesample.api.session.SessionStore;
 import com.icostel.arhitecturesample.db.UserDao;
-import com.icostel.arhitecturesample.utils.AppExecutors;
+import com.icostel.commons.utils.AppExecutors;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package com.icostel.arhitecturesample.utils.error;
 
-import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
+import com.icostel.commons.utils.livedata.SingleLiveEvent;
 
 import javax.inject.Inject;
 

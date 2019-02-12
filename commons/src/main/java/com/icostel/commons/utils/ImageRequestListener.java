@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils;
+package com.icostel.commons.utils;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;

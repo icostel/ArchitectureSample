@@ -9,8 +9,8 @@ import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.di.modules.GlideApp;
 import com.icostel.arhitecturesample.ui.BaseActivity;
-import com.icostel.arhitecturesample.utils.AnimationFactory;
-import com.icostel.arhitecturesample.utils.ImageRequestListener;
+import com.icostel.commons.utils.AnimationFactory;
+import com.icostel.commons.utils.ImageRequestListener;
 import com.icostel.arhitecturesample.view.model.User;
 
 import javax.inject.Inject;

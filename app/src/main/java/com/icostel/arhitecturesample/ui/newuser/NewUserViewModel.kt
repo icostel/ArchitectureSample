@@ -5,11 +5,11 @@ import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.icostel.arhitecturesample.domain.UserHandler
-import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent
 import com.icostel.arhitecturesample.view.model.User
-import com.icostel.arhitecturesample.view.model.UserMapper
+import com.icostel.arhitecturesample.view.mapper.UserMapper
 import com.icostel.commons.navigation.IntentNavigationAction
 import com.icostel.commons.navigation.NavigationAction
+import com.icostel.commons.utils.livedata.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

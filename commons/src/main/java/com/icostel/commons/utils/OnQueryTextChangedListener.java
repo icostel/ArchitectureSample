@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.utils;
+package com.icostel.commons.utils;
 
 import androidx.appcompat.widget.SearchView;
 

@@ -5,7 +5,6 @@ import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.di.ViewModelKey;
 import com.icostel.arhitecturesample.ui.loginuser.LoginUserViewModel;
 import com.icostel.arhitecturesample.ui.listusers.ListUsersViewModel;
-import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
 import com.icostel.arhitecturesample.ui.newuser.NewUserViewModel;
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsViewModel;
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel;

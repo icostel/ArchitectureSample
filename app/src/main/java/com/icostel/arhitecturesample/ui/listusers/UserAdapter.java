@@ -12,10 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.GenericTransitionOptions;
 import com.icostel.arhitecturesample.R;
 import com.icostel.arhitecturesample.di.modules.GlideApp;
-import com.icostel.arhitecturesample.utils.AnimationFactory;
-import com.icostel.arhitecturesample.utils.ImageRequestListener;
-import com.icostel.arhitecturesample.utils.livedata.SingleLiveEvent;
+import com.icostel.commons.utils.AnimationFactory;
+import com.icostel.commons.utils.ImageRequestListener;
 import com.icostel.arhitecturesample.view.model.User;
+import com.icostel.commons.utils.livedata.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +34,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     private final List<User> users = new ArrayList<>();
     private Context context;
-    private SingleLiveEvent<User> selectedUserLive = new SingleLiveEvent<>();
+    SingleLiveEvent<User> selectedUserLive = new SingleLiveEvent<>();
 
-    UserAdapter(Context context) {
+    public UserAdapter(Context context) {
         this.context = context;
     }
 
@@ -52,7 +52,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.bindUserViewHolder(users.get(position));
     }
 
-    void updateUserList(List<User> newUserList) {
+    public void updateUserList(List<User> newUserList) {
         Timber.d("updateUserList(), size: %d", newUserList.size());
         final UserDiffCallback diffCallback = new UserDiffCallback(users, newUserList);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
@@ -61,10 +61,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         notifyDataSetChanged();
         // push only the new items after the diff is done
         diffResult.dispatchUpdatesTo(this);
-    }
-
-    SingleLiveEvent<User> getSelectedUserLive() {
-        return selectedUserLive;
     }
 
     @Override

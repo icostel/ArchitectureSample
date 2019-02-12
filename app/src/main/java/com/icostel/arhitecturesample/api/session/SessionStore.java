@@ -3,7 +3,7 @@ package com.icostel.arhitecturesample.api.session;
 import android.content.SharedPreferences;
 
 import com.icostel.arhitecturesample.di.qualifers.PerUser;
-import com.icostel.arhitecturesample.utils.prefs.PersistentSetting;
+import com.icostel.commons.utils.prefs.PersistentSetting;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

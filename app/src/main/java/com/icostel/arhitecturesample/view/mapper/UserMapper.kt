@@ -1,5 +1,6 @@
-package com.icostel.arhitecturesample.view.model
+package com.icostel.arhitecturesample.view.mapper
 
+import com.icostel.arhitecturesample.view.model.User
 import javax.inject.Inject
 import javax.inject.Singleton
 

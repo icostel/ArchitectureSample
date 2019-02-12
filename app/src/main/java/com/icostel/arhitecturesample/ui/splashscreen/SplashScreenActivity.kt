@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.icostel.arhitecturesample.navigation.AppScreenProvider
 import com.icostel.arhitecturesample.ui.BaseActivity
-import com.icostel.arhitecturesample.utils.prefs.LoggedInProvider
+import com.icostel.arhitecturesample.utils.settings.LoggedInProvider
 import com.icostel.commons.navigation.ActivityNavigationAction
 import javax.inject.Inject
 
@@ -19,11 +19,11 @@ class SplashScreenActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        loggedInProvider.instantValue()?.let {
-            if (it) {
+        loggedInProvider.instantValue()?.let { signedIn ->
+            if (signedIn) {
                 navigateTo(ActivityNavigationAction.Builder()
                         .setScreenProvider(appScreenProvider)
-                        .setScreen(AppScreenProvider.LIST_USERS)
+                        .setScreen(AppScreenProvider.MAIN)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         .build())
             } else {

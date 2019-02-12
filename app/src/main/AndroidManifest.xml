@@ -28,12 +28,6 @@
         </activity>
 
         <activity
-            android:name=".ui.listusers.UserListActivity"
-            android:label="@string/login_user"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.SearchView" />
-
-        <activity
             android:name=".ui.userdetails.UserDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ContentTransitions.NoActionBar" />
@@ -46,6 +40,11 @@
 
         <activity
             android:name=".ui.loginuser.LoginUserActivity"
+            android:label="@string/login_user"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.main.MainActivity"
             android:label="@string/login_user"
             android:screenOrientation="portrait" />
     </application>

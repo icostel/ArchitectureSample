@@ -15,7 +15,7 @@ public class SyncWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        // TODO work , sync users in DB
+        // TODO work , sync users with rx calls
         return Result.SUCCESS;
     }
 

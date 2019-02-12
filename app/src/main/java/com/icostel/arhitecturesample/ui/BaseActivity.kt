@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.MainThread
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.commons.connection.ConnectionLiveData
@@ -13,26 +11,20 @@ import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorFragment
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel
-import com.icostel.arhitecturesample.utils.extensions.observe
+import com.icostel.commons.utils.extensions.observe
 import com.icostel.commons.navigation.NavigationAction
 import com.icostel.commons.navigation.Navigator
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector, Navigator {
-
-    @Inject
-    internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+abstract class BaseActivity : DaggerAppCompatActivity(), HasSupportFragmentInjector, Navigator {
 
     @Inject
     internal lateinit var connectionLiveData: ConnectionLiveData
 
     private var errorFragment: ErrorFragment? = null
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = dispatchingAndroidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

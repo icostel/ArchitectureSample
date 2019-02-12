@@ -15,7 +15,7 @@ public class UserDiffCallback extends DiffUtil.Callback {
     private final List<User> oldUserList;
     private final List<User> newUserList;
 
-    UserDiffCallback(List<User> oldUserList, List<User> newUserList) {
+    public UserDiffCallback(List<User> oldUserList, List<User> newUserList) {
         this.oldUserList = oldUserList;
         this.newUserList = newUserList;
     }

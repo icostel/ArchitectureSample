@@ -13,7 +13,7 @@ public class FragmentNavigationAction extends NavigationAction {
 
     private TargetFragment targetFragment;
     private Bundle args;
-    private boolean addToBackstack;
+    private boolean addToBackStack;
 
     @Override
     public void navigate(Navigator navigator) {
@@ -23,7 +23,7 @@ public class FragmentNavigationAction extends NavigationAction {
             FragmentTransaction transaction = navigator.getSupportFragmentManager().beginTransaction();
             transaction.replace(navigator.getFragmentContainer(), fragment,
                     Integer.toString(navigator.getSupportFragmentManager().getBackStackEntryCount()));
-            if (addToBackstack) {
+            if (addToBackStack) {
                 transaction.addToBackStack(null);
             }
             transaction.commit();
@@ -45,8 +45,8 @@ public class FragmentNavigationAction extends NavigationAction {
             return this;
         }
 
-        public Builder setAddToBackstack(boolean addToBackstack) {
-            action.addToBackstack = addToBackstack;
+        public Builder setAddToBackStack(boolean addToBackStack) {
+            action.addToBackStack = addToBackStack;
             return this;
         }
 

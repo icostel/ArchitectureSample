@@ -2,7 +2,7 @@ package com.icostel.arhitecturesample.ui.loginuser;
 
 import android.text.TextUtils;
 
-import com.icostel.arhitecturesample.api.SignInStatus;
+import com.icostel.arhitecturesample.api.Status;
 import com.icostel.arhitecturesample.navigation.AppScreenProvider;
 import com.icostel.arhitecturesample.repository.UserLogInHandler;
 import com.icostel.commons.navigation.ActivityNavigationAction;
@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModel;
 
 public class LoginUserViewModel extends ViewModel {
 
-    private MutableLiveData<SignInStatus.Status> signInStatusLive;
+    private MutableLiveData<Status.Type> signInStatusLive;
     private MutableLiveData<Boolean> allInputsAvailable;
     private SingleLiveEvent<NavigationAction> navigationAction;
     private UserLogInHandler userLogInHandler;
@@ -30,11 +30,11 @@ public class LoginUserViewModel extends ViewModel {
         this.allInputsAvailable.postValue(false);
         this.userLogInHandler = userLogInHandler;
         this.appScreenProvider = appScreenProvider;
-        this.signInStatusLive.postValue(SignInStatus.Status.NOT_STARTED);
+        this.signInStatusLive.postValue(Status.Type.NOT_STARTED);
     }
 
     // used in the UI for displaying the log in status
-    MutableLiveData<SignInStatus.Status> getSignInStatusLive() {
+    MutableLiveData<Status.Type> getSignInStatusLive() {
         return signInStatusLive;
     }
 
@@ -55,10 +55,10 @@ public class LoginUserViewModel extends ViewModel {
     // the log in
     void onLogInBtnClicked(String userEmail, String userPass) {
         if (TextUtils.isEmpty(userEmail) || TextUtils.isEmpty(userPass)) {
-            signInStatusLive.setValue(SignInStatus.Status.INPUTS_ERROR);
+            signInStatusLive.setValue(Status.Type.INPUTS_ERROR);
         } else {
-            signInStatusLive.setValue(SignInStatus.Status.SUCCESS);
-            userLogInHandler.signInUser(userEmail, userPass, signInStatus -> signInStatusLive.postValue(signInStatus.getStatus()));
+            signInStatusLive.setValue(Status.Type.SUCCESS);
+            userLogInHandler.signInUser(userEmail, userPass, status -> signInStatusLive.postValue(status.getType()));
         }
     }
 

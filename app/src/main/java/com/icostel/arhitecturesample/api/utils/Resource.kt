@@ -1,23 +1,23 @@
 package com.icostel.arhitecturesample.api.utils
 
-import com.icostel.arhitecturesample.api.SignInStatus
+import com.icostel.arhitecturesample.api.Status
 
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
 </T> */
-data class Resource<out T>(val status: SignInStatus.Status, val data: T?, val message: String?) {
+data class Resource<out T>(val status: Status.Type, val data: T?, val message: String?) {
     companion object {
         fun <T> success(data: T?): Resource<T> {
-            return Resource(SignInStatus.Status.SUCCESS, data, null)
+            return Resource(Status.Type.SUCCESS, data, null)
         }
 
         fun <T> error(msg: String, data: T?): Resource<T> {
-            return Resource(SignInStatus.Status.ERROR, data, msg)
+            return Resource(Status.Type.ERROR, data, msg)
         }
 
         fun <T> loading(data: T?): Resource<T> {
-            return Resource(SignInStatus.Status.LOADING, data, null)
+            return Resource(Status.Type.LOADING, data, null)
         }
     }
 }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.icostel.arhitecturesample.R;
-import com.icostel.arhitecturesample.api.SignInStatus;
+import com.icostel.arhitecturesample.api.Status;
 import com.icostel.arhitecturesample.di.ViewModelFactory;
 import com.icostel.arhitecturesample.ui.BaseActivity;
 import com.icostel.commons.utils.AfterTextChangeListener;
@@ -19,8 +19,6 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class LoginUserActivity extends BaseActivity implements ErrorHandler {
     @Inject
@@ -28,24 +26,21 @@ public class LoginUserActivity extends BaseActivity implements ErrorHandler {
 
     LoginUserViewModel loginUserViewModel;
 
-    @BindView(R.id.login_btn)
-    Button loginBtn;
-
-    @BindView(R.id.user_email_tv)
-    TextView userEmailTv;
-
-    @BindView(R.id.user_pass_tv)
-    TextView userPassTv;
-
-    @BindView(R.id.loading_dialog)
-    ProgressBar loadingDialog;
+    private Button loginBtn;
+    private TextView userEmailTv;
+    private TextView userPassTv;
+    private ProgressBar loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login_user);
-        ButterKnife.bind(this);
+
+        loginBtn = findViewById(R.id.login_btn);
+        userEmailTv = findViewById(R.id.user_email_tv);
+        userPassTv = findViewById(R.id.user_pass_tv);
+        loadingDialog = findViewById(R.id.loading_dialog);
 
         loginUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginUserViewModel.class);
         userEmailTv.addTextChangedListener((AfterTextChangeListener) input -> loginUserViewModel.allInputsAvailable(userEmailTv.getText(), userPassTv.getText()));
@@ -56,8 +51,8 @@ public class LoginUserActivity extends BaseActivity implements ErrorHandler {
         loginBtn.setOnClickListener(v -> loginUserViewModel.onLogInBtnClicked(userEmailTv.getText().toString(), userPassTv.getText().toString()));
     }
 
-    private void handleLoginStatus(SignInStatus.Status status) {
-        switch (status) {
+    private void handleLoginStatus(Status.Type type) {
+        switch (type) {
             case IN_PROGRESS:
                 loadingDialog.setVisibility(View.VISIBLE);
                 loginBtn.setEnabled(false);

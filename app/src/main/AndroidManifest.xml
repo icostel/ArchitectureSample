@@ -28,11 +28,6 @@
         </activity>
 
         <activity
-            android:name=".ui.userdetails.UserDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.ContentTransitions.NoActionBar" />
-
-        <activity
             android:name=".ui.newuser.NewUserActivity"
             android:label="@string/label_new_user"
             android:screenOrientation="portrait"

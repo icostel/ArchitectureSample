@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-class SessionData {
+public class SessionData {
     // token received after user logins with user & pass, used for making API calls
     String userToken = null;
 

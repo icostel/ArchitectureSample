@@ -2,10 +2,10 @@ package com.icostel.arhitecturesample.ui.listusers
 
 import android.app.Activity
 import android.app.ActivityOptions
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
@@ -14,13 +14,20 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.icostel.arhitecturesample.R
-import com.icostel.arhitecturesample.api.SignInStatus
+import com.icostel.arhitecturesample.api.Status
 import com.icostel.arhitecturesample.di.Injectable
 import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.ui.BaseFragment
+import com.icostel.arhitecturesample.utils.error.ErrorData
+import com.icostel.arhitecturesample.utils.error.ErrorHandler
+import com.icostel.arhitecturesample.utils.error.ErrorType
+import com.icostel.arhitecturesample.view.model.User
 import com.icostel.commons.navigation.Navigator
+import com.icostel.commons.utils.OnQueryTextChangedListener
 import com.icostel.commons.utils.bind
 import com.icostel.commons.utils.extensions.observe
+import org.jetbrains.annotations.NotNull
+import timber.log.Timber
 import javax.inject.Inject
 
 class ListUsersFragment : BaseFragment(), Injectable {
@@ -28,15 +35,14 @@ class ListUsersFragment : BaseFragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var listUsersViewModel: ListUsersViewModel
-
+    private lateinit var listUsersViewModel: ListUsersViewModel
+    private lateinit var userAdapter: UserAdapter
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var addUserFab: FloatingActionButton
     private lateinit var emptyView: AppCompatTextView
+    private lateinit var searchView: SearchView
 
-    private var searchView: SearchView? = null
-    private var userAdapter: UserAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel::class.java)
@@ -47,16 +53,17 @@ class ListUsersFragment : BaseFragment(), Injectable {
         swipeRefreshLayout = fragView.bind(R.id.swipe_layout)
         addUserFab = fragView.bind(R.id.add_user_fab)
         emptyView = fragView.bind(R.id.empty_view)
+
         userRecyclerView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(activity)
         userRecyclerView.layoutManager = mLayoutManager
-        userAdapter = UserAdapter(activity)
+        userAdapter = UserAdapter(activity as Context)
         userRecyclerView.adapter = userAdapter
         swipeRefreshLayout.setColorSchemeColors(resources.getColor(R.color.colorPrimary, activity!!.theme))
 
-        listUsersViewModel.userListLiveData.observe(this) { userAdapter?.updateUserList(it) }
-        userAdapter?.selectedUserLive?.observe(this) { listUsersViewModel.onUserSelected(it) }
-        swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.refreshUsers() }
+        listUsersViewModel.userListLiveData.observe(this) { userAdapter.updateUserList(it as List<User>) }
+        userAdapter.selectedUserLive.observe(this) { listUsersViewModel.onUserSelected(it) }
+        swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.refreshUsers(searchView.query.toString()) }
         listUsersViewModel.loadingStatus.observe(this) { this.handleLoadingStatus(it) }
         listUsersViewModel.navigationActionLiveEvent.observe(this) { (activity as Navigator).navigateTo(it) }
 
@@ -65,22 +72,78 @@ class ListUsersFragment : BaseFragment(), Injectable {
                     addUserFab, "floating_btn_animation").toBundle()
             listUsersViewModel.onUserAdd(transitionBundle)
         }
-        enableUpNavigation(true)
+
+        enableUpNavigation(false)
+        setHasOptionsMenu(true)
 
         return fragView
     }
 
-    private fun handleLoadingStatus(status: SignInStatus.Status?) {
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.user_list_menu, menu)
+
+        val searchItem: MenuItem? = menu?.findItem(R.id.search_item)
+        searchView = searchItem?.actionView as SearchView
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.queryHint = getString(R.string.search_for_user)
+        val searchCloseBtn: ImageView? = searchView.findViewById(R.id.search_close_btn)
+        searchCloseBtn?.setImageDrawable(resources.getDrawable(R.drawable.ic_close_white_24dp, activity?.theme))
+        searchCloseBtn?.setOnClickListener {
+            if (!searchView.isIconified) {
+                searchView.onActionViewCollapsed()
+                setShouldHandleBack(false)
+            }
+        }
+        searchView.setOnSearchClickListener {
+            it.requestFocus()
+            setShouldHandleBack(true)
+        }
+        searchView.setOnQueryTextListener((OnQueryTextChangedListener { listUsersViewModel.onSearchInput(it) }))
+
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onBackPress() {
+        Timber.d("onBackPress()")
+
+        if (shouldHandleBack()) {
+            if (!searchView.isIconified) {
+                setShouldHandleBack(false)
+                searchView.onActionViewCollapsed()
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(@NotNull item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_item -> {
+                searchView.onActionViewCollapsed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun handleLoadingStatus(status: Status.Type?) {
+        Timber.d("handleLoadingStatus(): " + status?.name)
 
         status?.let {
             when (status) {
-                SignInStatus.InProgress() -> swipeRefreshLayout.isRefreshing = true
-                SignInStatus.Success() -> {
-                    emptyView.visibility = if (userAdapter?.itemCount == 0) View.VISIBLE else View.GONE
+                Status.Type.IN_PROGRESS -> swipeRefreshLayout.isRefreshing = true
+                Status.Type.SUCCESS -> {
+                    emptyView.visibility = if (userAdapter.itemCount == 0) View.VISIBLE else View.GONE
                     swipeRefreshLayout.isRefreshing = false
                 }
-                SignInStatus.Error() -> {
-                } //TODO handle error in the parent
+                Status.Type.ERROR -> {
+                    (activity as ErrorHandler).onUserErrorAction(
+                            ErrorData(null,
+                                    getString(R.string.failed_to_load_users),
+                                    null,
+                                    true,
+                                    ErrorHandler.UserAction.Nothing,
+                                    ErrorType.Error))
+                    swipeRefreshLayout.isRefreshing = false
+                }
                 else -> swipeRefreshLayout.isRefreshing = false
             }
         }

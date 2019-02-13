@@ -6,14 +6,14 @@ import android.view.MenuItem
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
-import com.icostel.commons.connection.ConnectionLiveData
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorFragment
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel
-import com.icostel.commons.utils.extensions.observe
+import com.icostel.commons.connection.ConnectionLiveData
 import com.icostel.commons.navigation.NavigationAction
 import com.icostel.commons.navigation.Navigator
+import com.icostel.commons.utils.extensions.observe
 import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import timber.log.Timber
@@ -93,7 +93,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), HasSupportFragmentInjec
         }
     }
 
-    protected fun enableUpNavigation(enable:Boolean) {
+    protected fun enableUpNavigation(enable: Boolean) {
         val actionBar = supportActionBar
         if (actionBar == null) {
             Timber.w("no action bar available")
@@ -113,11 +113,6 @@ abstract class BaseActivity : DaggerAppCompatActivity(), HasSupportFragmentInjec
         } else {
             actionBar.title = ""
         }
-    }
-
-    // overwrite this if you need to navigate using fragments, use the container ID
-    override fun getFragmentContainer(): Int {
-        return 0
     }
 
     override fun getContext(): Context {

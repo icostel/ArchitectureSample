@@ -3,14 +3,15 @@ package com.icostel.arhitecturesample.ui.listusers;
 import android.os.Bundle;
 
 import com.icostel.arhitecturesample.BuildConfig;
-import com.icostel.arhitecturesample.Config;
-import com.icostel.arhitecturesample.api.SignInStatus;
+import com.icostel.arhitecturesample.api.Status;
 import com.icostel.arhitecturesample.domain.UserHandler;
 import com.icostel.arhitecturesample.navigation.AppScreenProvider;
 import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
+import com.icostel.arhitecturesample.ui.userdetails.UserDetailsFragment;
 import com.icostel.arhitecturesample.view.model.User;
 import com.icostel.arhitecturesample.view.mapper.UserMapper;
 import com.icostel.commons.navigation.ActivityNavigationAction;
+import com.icostel.commons.navigation.FragmentNavigationAction;
 import com.icostel.commons.navigation.NavigationAction;
 import com.icostel.commons.utils.livedata.SingleLiveEvent;
 
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -30,11 +32,11 @@ import timber.log.Timber;
 public class ListUsersViewModel extends ViewModel {
 
     private MutableLiveData<List<User>> userListLiveData = new MutableLiveData<>();
+    private MutableLiveData<Status.Type> loadingStatus = new MutableLiveData<>();
     private SingleLiveEvent<NavigationAction> navigationActionLiveEvent = new SingleLiveEvent<>();
     private Disposable userDisposable;
     private UserHandler userHandler;
     private UserMapper userMapper;
-    private MutableLiveData<SignInStatus.Status> loadingStatus = new MutableLiveData<>();
     private AppScreenProvider appScreenProvider;
 
     @Inject
@@ -60,7 +62,7 @@ public class ListUsersViewModel extends ViewModel {
     }
 
     private void getUsers(UserHandler userHandler, String nameQuery) {
-        loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
+        loadingStatus.setValue(Status.Type.IN_PROGRESS);
 
         userDisposable = userHandler.getAllUsers(nameQuery)
                 .subscribeOn(Schedulers.io())
@@ -68,7 +70,7 @@ public class ListUsersViewModel extends ViewModel {
                 .delay(1000, TimeUnit.MILLISECONDS) // just for testing lag
                 .subscribe(userList -> {
                     userListLiveData.postValue(userMapper.mapDomainToView(userList));
-                    loadingStatus.postValue(SignInStatus.Status.SUCCESS);
+                    loadingStatus.postValue(Status.Type.SUCCESS);
                     if (BuildConfig.DEBUG) {
                         Timber.d("received %d users ", userList.size());
                         if (userListLiveData.getValue() != null) {
@@ -79,21 +81,21 @@ public class ListUsersViewModel extends ViewModel {
                     }
                 }, throwable -> {
                     Timber.e("Could not get users: " + throwable);
-                    loadingStatus.setValue(SignInStatus.Status.ERROR);
+                    loadingStatus.setValue(Status.Type.ERROR);
                 });
     }
 
-    MutableLiveData<SignInStatus.Status> getLoadingStatus() {
+    MutableLiveData<Status.Type> getLoadingStatus() {
         return loadingStatus;
     }
 
-    SignInStatus.Status getLoadingStatusInstant() {
+    Status.Type getLoadingStatusInstant() {
         return loadingStatus.getValue();
     }
 
-    void refreshUsers() {
-        getUsers(this.userHandler, null);
-        loadingStatus.setValue(SignInStatus.Status.IN_PROGRESS);
+    void refreshUsers(String query) {
+        getUsers(this.userHandler, query);
+        loadingStatus.setValue(Status.Type.IN_PROGRESS);
     }
 
     public void onUserAdd(Bundle transitionBundle) {
@@ -106,18 +108,20 @@ public class ListUsersViewModel extends ViewModel {
                 .build());
     }
 
-    // navigate to details when the user select a specific user from the list
+    // navigate to details when the user selects a specific user from the list
     void onUserSelected(User user) {
         Timber.d("onUserSelected()");
-        Bundle extras = new Bundle();
-        extras.putString(Config.Data.USER_ID, user.getId());
-        navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
-                .setScreenProvider(appScreenProvider)
-                .setScreen(AppScreenProvider.USER_DETAILS)
-                .setTransitionBundle(user.getTransitionBundle())
-                .setBundle(extras)
-                .setShouldFinish(false)
-                .build());
+
+        //TODO add transition bundle, .setTransitionBundle(user.getTransitionBundle())
+        /*
+        Bundle args = new Bundle();
+        args.putString(Config.Data.USER_ID, user.getId());
+        navigationActionLiveEvent.postValue(
+                new FragmentNavigationAction.Builder()
+                        .setTargetFragment(TargetFragment.UserDetails)
+                        .setArguments(args)
+                        .setAddToBackStack(true)
+                        .build()); */
     }
 
     @Override
@@ -126,6 +130,20 @@ public class ListUsersViewModel extends ViewModel {
 
         if (userDisposable != null && !userDisposable.isDisposed()) {
             userDisposable.dispose();
+        }
+    }
+
+    private enum TargetFragment implements FragmentNavigationAction.TargetFragment {
+        UserDetails;
+
+        @Override
+        public Class<? extends Fragment> getFragmentClass() {
+            switch (this) {
+                case UserDetails:
+                    return UserDetailsFragment.class;
+                default:
+                    return UserDetailsFragment.class;
+            }
         }
     }
 }

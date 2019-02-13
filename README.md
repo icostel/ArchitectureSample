@@ -2,4 +2,4 @@
 
 Android MVVM Clean Arhitecture
 
-Sample app that uses Android architecture components and various frameworks
+User Management app that uses jetpack and clean arhitecture + various frameworks

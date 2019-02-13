@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.Injectable

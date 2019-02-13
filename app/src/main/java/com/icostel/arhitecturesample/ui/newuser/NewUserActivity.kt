@@ -7,14 +7,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.ui.BaseActivity
-import com.icostel.commons.utils.AfterTextChangeListener
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorType
-import com.icostel.commons.utils.extensions.observe
 import com.icostel.arhitecturesample.view.model.User
+import com.icostel.commons.utils.AfterTextChangeListener
+import com.icostel.commons.utils.extensions.observe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.layout_new_user.*
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -30,7 +29,6 @@ class NewUserActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("onCreate():: %s", TAG)
 
         newUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewUserViewModel::class.java)
         newUserViewModel.navigationAction.observe(this, this::navigateTo)
@@ -62,10 +60,10 @@ class NewUserActivity : BaseActivity() {
         newUserViewModel.allDataAvailable.observe(this) { create_user_btn.isEnabled = it ?: false }
         create_user_btn.setOnClickListener { newUserViewModel.onAddUser(user) }
         add_user_image_fab.setOnClickListener { newUserViewModel.onAddUserImage() }
-        first_name_tv.addTextChangedListener( (AfterTextChangeListener { user.firstName = it; newUserViewModel.allDataAvailable(user) }))
-        last_name_tv.addTextChangedListener( (AfterTextChangeListener { user.lastName = it; newUserViewModel.allDataAvailable(user) }))
-        country_tv.addTextChangedListener( (AfterTextChangeListener { user.country = it; newUserViewModel.allDataAvailable(user) }))
-        age_tv.addTextChangedListener( (AfterTextChangeListener { user.age = it; newUserViewModel.allDataAvailable(user) }))
+        first_name_tv.addTextChangedListener(AfterTextChangeListener { user.firstName = it; newUserViewModel.allDataAvailable(user) })
+        last_name_tv.addTextChangedListener(AfterTextChangeListener { user.lastName = it; newUserViewModel.allDataAvailable(user) })
+        country_tv.addTextChangedListener(AfterTextChangeListener { user.country = it; newUserViewModel.allDataAvailable(user) })
+        age_tv.addTextChangedListener(AfterTextChangeListener { user.age = it; newUserViewModel.allDataAvailable(user) })
 
         enableUpNavigation()
     }
@@ -100,7 +98,6 @@ class NewUserActivity : BaseActivity() {
     }
 
     companion object {
-        const val TAG = "NewUserActivity"
         const val RESULT_CODE_USER_ADDED = 6
         const val FINISH_DELAY_IN_MILLIS: Long = 2000
     }

@@ -1,6 +1,6 @@
 package com.icostel.arhitecturesample.repository
 
-import com.icostel.arhitecturesample.api.SignInStatus
+import com.icostel.arhitecturesample.api.Status
 import com.icostel.arhitecturesample.api.UserApiService
 import com.icostel.arhitecturesample.api.model.SignInResponse
 import com.icostel.arhitecturesample.api.session.SessionStore
@@ -28,7 +28,7 @@ internal constructor(private val appExecutors: AppExecutors, private val userApi
                     manageResponse(ApiResponse.create(userApiService.signInUser(userEmail, userPass).execute()), listener)
                 } catch (e: Exception) {
                     Timber.e(e)
-                    listener.onUserSignInResult(SignInStatus.Error())
+                    listener.onUserSignInResult(Status.Error())
                 }
             }
         }
@@ -41,22 +41,22 @@ internal constructor(private val appExecutors: AppExecutors, private val userApi
                 if (success) {
                     sessionStore.userSessionToken = token
                     loggedInProvider.updateValue(true)
-                    listener.onUserSignInResult(SignInStatus.Success())
+                    listener.onUserSignInResult(Status.Success())
                     Timber.d("===Sign in success: " + (response as ApiSuccessResponse<*>).body)
                 } else {
-                    listener.onUserSignInResult(SignInStatus.Error())
+                    listener.onUserSignInResult(Status.Error())
                     loggedInProvider.updateValue(true)
                     Timber.d("===Sign in error: " + (response as ApiErrorResponse<*>).errorMessage)
                 }
             }
             is ApiErrorResponse<*> -> {
-                listener.onUserSignInResult(SignInStatus.Error())
+                listener.onUserSignInResult(Status.Error())
                 Timber.d("===Sign in error: " + (response as ApiErrorResponse<*>).errorMessage)
             }
         }
     }
 
     interface OnUserSignInResultListener {
-        fun onUserSignInResult(status: SignInStatus)
+        fun onUserSignInResult(status: Status)
     }
 }

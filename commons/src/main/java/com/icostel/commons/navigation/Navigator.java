@@ -12,14 +12,25 @@ import androidx.fragment.app.FragmentManager;
 
 public interface Navigator {
     void navigateTo(@Nullable NavigationAction navigationAction);
-    @IdRes int getFragmentContainer();
+
+    default @IdRes
+    int getFragmentContainer() {
+        return 0;
+    }
 
     FragmentManager getSupportFragmentManager();
+
     void startActivity(Intent intent);
+
     void startActivity(Intent intent, Bundle options);
+
     void startActivityForResult(Intent intent, int requestCode);
+
     void finish();
+
     Context getContext();
+
     void setResult(int resultCode, Intent data);
+
     PackageManager getPackageManager();
 }

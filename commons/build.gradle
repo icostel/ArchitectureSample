@@ -56,7 +56,6 @@ dependencies {
     api deps.rx.android
     api deps.rx.java
     api deps.rx.adapter
-    api deps.butterknife.runtime
     api deps.okhttp
     api deps.mock_server
     api deps.cardview
@@ -68,7 +67,6 @@ dependencies {
     annotationProcessor deps.dagger.compiler
     annotationProcessor deps.room.compiler
     annotationProcessor deps.lifecycle.compiler
-    annotationProcessor deps.butterknife.compiler
 
     testImplementation deps.mock_server
     testImplementation deps.junit

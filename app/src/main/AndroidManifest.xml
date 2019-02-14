@@ -35,6 +35,12 @@
             android:theme="@style/AppTheme.ContentTransitions.WithActionBar" />
 
         <activity
+            android:name=".ui.userdetails.UserDetailsActivity"
+            android:label="@string/label_user_details"
+            android:theme="@style/AppTheme.ContentTransitions.NoActionBar"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.loginuser.LoginUserActivity"
             android:label="@string/login_user"
             android:screenOrientation="portrait" />

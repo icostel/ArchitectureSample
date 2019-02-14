@@ -24,6 +24,7 @@
     <string name="error_fragment">error_fragment</string>
     <string name="error_no_internet_connection_io">No internet connection.</string>
     <string name="label_new_user">Add User</string>
+    <string name="label_user_details">User Details</string>
     <string name="add_user">Add User</string>
     <string name="first_name_not_valid">First name not valid</string>
     <string name="last_name_not_valid">Last name not valid</string>

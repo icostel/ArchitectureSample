@@ -5,6 +5,7 @@
     <color name="colorAccent">#BC8F6D</color>
     <color name="black_100p">#1e2022</color>
     <color name="white">#ffffff</color>
+    <color name="white_95">#f2f2f2</color>
     <color name="colorPrimary_30p">#4C008577</color>
     <color name="colorPrimary_15p">#25008577</color>
     <color name="success">#47D06C</color>

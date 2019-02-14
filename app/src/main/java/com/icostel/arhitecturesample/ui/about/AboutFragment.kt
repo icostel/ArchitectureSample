@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import com.icostel.arhitecturesample.BuildConfig
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.navigation.AppScreenProvider
 import com.icostel.arhitecturesample.ui.BaseFragment
@@ -24,8 +26,13 @@ class AboutFragment : BaseFragment() {
     lateinit var loggedInProvider: LoggedInProvider
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val layout: View = inflater.inflate(R.layout.layout_about, container, false)
+
         val signOutBtn: Button = layout.bind(R.id.sign_out_btn)
+        val aboutTv: TextView = layout.bind(R.id.about)
+        aboutTv.text = context?.getString(R.string.about, BuildConfig.VERSION_NAME)
+
         signOutBtn.setOnClickListener {
             loggedInProvider.updateValue(false)
             // got to splash screen

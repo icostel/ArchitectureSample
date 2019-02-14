@@ -1,84 +1,46 @@
 package com.icostel.arhitecturesample.ui.listusers
 
-import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.GenericTransitionOptions
 import com.icostel.arhitecturesample.R
-import com.icostel.arhitecturesample.di.modules.GlideApp
 import com.icostel.arhitecturesample.view.model.User
-import com.icostel.commons.utils.AnimationFactory
-import com.icostel.commons.utils.bind
-import com.icostel.commons.utils.livedata.SingleLiveEvent
-import timber.log.Timber
-import java.util.*
+import com.icostel.commons.adapter.BaseAdapter
 
-class UserAdapter(private val context: Context) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+private const val TYPE_USER = 0
+private const val TYPE_HEADER = 1
 
-    private val users = ArrayList<User>()
-    internal var selectedUserLive = SingleLiveEvent<User>()
+class UserAdapter(private val context: Context) : BaseAdapter() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val charityItemView = LayoutInflater.from(this.context).inflate(R.layout.item_user, parent, false)
-        return UserViewHolder(charityItemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+
+        TYPE_HEADER -> object : RecyclerView.ViewHolder(LayoutInflater.from(this.context).inflate(R.layout.item_header, parent, false)) {}
+        TYPE_USER -> UserViewHolder(context, LayoutInflater.from(this.context).inflate(R.layout.item_user, parent, false))
+        else -> UserViewHolder(context, LayoutInflater.from(this.context).inflate(R.layout.item_user, parent, false))
     }
 
-    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.bindUserViewHolder(users[position])
-    }
-
-    fun updateUserList(newUserList: List<User>) {
-        Timber.d("updateUserList(), size: %d", newUserList.size)
-        val diffCallback = UserDiffCallback(users, newUserList)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        users.clear()
-        users.addAll(newUserList)
-        notifyDataSetChanged()
-        // push only the new items after the diff is done
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    override fun getItemCount(): Int {
-        return users.size
-    }
-
-    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        private var rootView: View = itemView.bind(R.id.root_view)
-        private var firstName: TextView = itemView.bind(R.id.first_name)
-        private var userImage: ImageView = itemView.bind(R.id.user_image)
-        private var age: TextView = itemView.bind(R.id.age)
-
-        private val transitionOptions: ActivityOptions
-            get() = ActivityOptions.makeSceneTransitionAnimation(itemView.context as Activity, userImage, "user_image_transition")
-
-        fun bindUserViewHolder(user: User) {
-            firstName.text = user.firstName
-            age.text = context.getString(R.string.age, user.age)
-
-            if (TextUtils.isEmpty(user.resourceUrl)) {
-                Timber.d("no user image available")
-            } else {
-                GlideApp.with(context)
-                        .load(user.resourceUrl)
-                        .transition(GenericTransitionOptions.with<Drawable>(AnimationFactory.getTransition(AnimationFactory.AnimationType.FADE_IN)))
-                        .dontTransform()
-                        .into(userImage)
-            }
-
-            rootView.setOnClickListener {
-                user.transitionBundle = transitionOptions.toBundle()
-                selectedUserLive.postValue(user)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is UserViewHolder) {
+            val user = data[position]
+            holder.bind(user as User)
+            holder.rootView.setOnClickListener {
+                user.transitionBundle = holder.transitionOptions.toBundle()
+                selectedItem.postValue(user)
             }
         }
+    }
+
+    fun updateItems(newUserList: List<User>) {
+        data.clear()
+        data.add(context.getString(R.string.all_users))
+        data.addAll(newUserList)
+        notifyDataSetChanged()
+    }
+
+    override fun getItemViewType(position: Int): Int = when (data[position]) {
+        is String -> TYPE_HEADER
+        is User -> TYPE_USER
+        else -> TYPE_USER
     }
 }

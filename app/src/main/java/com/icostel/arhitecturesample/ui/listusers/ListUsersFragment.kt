@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ import com.icostel.commons.navigation.Navigator
 import com.icostel.commons.utils.OnQueryTextChangedListener
 import com.icostel.commons.utils.bind
 import com.icostel.commons.utils.extensions.observe
+import kotlinx.android.synthetic.main.layout_user_list_start.*
 import org.jetbrains.annotations.NotNull
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,17 +44,19 @@ class ListUsersFragment : BaseFragment(), Injectable {
     private lateinit var addUserFab: FloatingActionButton
     private lateinit var emptyView: AppCompatTextView
     private lateinit var searchView: SearchView
+    private lateinit var motionLayout: MotionLayout
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel::class.java)
 
-        val fragView = inflater.inflate(R.layout.layout_user_list, container, false)
+        val fragView = inflater.inflate(R.layout.layout_user_list_start, container, false)
 
         userRecyclerView = fragView.bind(R.id.user_recycler)
         swipeRefreshLayout = fragView.bind(R.id.swipe_layout)
         addUserFab = fragView.bind(R.id.add_user_fab)
         emptyView = fragView.bind(R.id.empty_view)
+        motionLayout = fragView.bind(R.id.motion_layout)
 
         userRecyclerView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(activity)
@@ -61,8 +65,8 @@ class ListUsersFragment : BaseFragment(), Injectable {
         userRecyclerView.adapter = userAdapter
         swipeRefreshLayout.setColorSchemeColors(resources.getColor(R.color.colorPrimary, activity!!.theme))
 
-        listUsersViewModel.userListLiveData.observe(this) { userAdapter.updateUserList(it as List<User>) }
-        userAdapter.selectedUserLive.observe(this) { listUsersViewModel.onUserSelected(it) }
+        listUsersViewModel.userListLiveData.observe(this) { userAdapter.updateItems(it as List<User>) }
+        userAdapter.selectedItem.observe(this) { listUsersViewModel.onUserSelected(it as User) }
         swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.refreshUsers(searchView.query.toString()) }
         listUsersViewModel.loadingStatus.observe(this) { this.handleLoadingStatus(it) }
         listUsersViewModel.navigationActionLiveEvent.observe(this) { (activity as Navigator).navigateTo(it) }
@@ -75,6 +79,7 @@ class ListUsersFragment : BaseFragment(), Injectable {
 
         enableUpNavigation(false)
         setHasOptionsMenu(true)
+        motionLayout.transitionToEnd()
 
         return fragView
     }
@@ -131,7 +136,8 @@ class ListUsersFragment : BaseFragment(), Injectable {
             when (status) {
                 Status.Type.IN_PROGRESS -> swipeRefreshLayout.isRefreshing = true
                 Status.Type.SUCCESS -> {
-                    emptyView.visibility = if (userAdapter.itemCount == 0) View.VISIBLE else View.GONE
+                    emptyView.visibility = if (userAdapter.itemCount == 1) View.VISIBLE else View.GONE
+                    user_recycler.visibility = if (userAdapter.itemCount == 1) View.GONE else View.VISIBLE
                     swipeRefreshLayout.isRefreshing = false
                 }
                 Status.Type.ERROR -> {

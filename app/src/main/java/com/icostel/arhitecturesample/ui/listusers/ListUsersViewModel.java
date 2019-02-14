@@ -3,15 +3,14 @@ package com.icostel.arhitecturesample.ui.listusers;
 import android.os.Bundle;
 
 import com.icostel.arhitecturesample.BuildConfig;
+import com.icostel.arhitecturesample.Config;
 import com.icostel.arhitecturesample.api.Status;
 import com.icostel.arhitecturesample.domain.UserHandler;
 import com.icostel.arhitecturesample.navigation.AppScreenProvider;
 import com.icostel.arhitecturesample.ui.newuser.NewUserActivity;
-import com.icostel.arhitecturesample.ui.userdetails.UserDetailsFragment;
-import com.icostel.arhitecturesample.view.model.User;
 import com.icostel.arhitecturesample.view.mapper.UserMapper;
+import com.icostel.arhitecturesample.view.model.User;
 import com.icostel.commons.navigation.ActivityNavigationAction;
-import com.icostel.commons.navigation.FragmentNavigationAction;
 import com.icostel.commons.navigation.NavigationAction;
 import com.icostel.commons.utils.livedata.SingleLiveEvent;
 
@@ -21,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -99,6 +97,8 @@ public class ListUsersViewModel extends ViewModel {
     }
 
     public void onUserAdd(Bundle transitionBundle) {
+        Timber.d("onUserAdd()");
+
         navigationActionLiveEvent.postValue(new ActivityNavigationAction.Builder()
                 .setScreenProvider(appScreenProvider)
                 .setScreen(AppScreenProvider.NEW_USER)
@@ -112,16 +112,15 @@ public class ListUsersViewModel extends ViewModel {
     void onUserSelected(User user) {
         Timber.d("onUserSelected()");
 
-        //TODO add transition bundle, .setTransitionBundle(user.getTransitionBundle())
-        /*
         Bundle args = new Bundle();
         args.putString(Config.Data.USER_ID, user.getId());
         navigationActionLiveEvent.postValue(
-                new FragmentNavigationAction.Builder()
-                        .setTargetFragment(TargetFragment.UserDetails)
-                        .setArguments(args)
-                        .setAddToBackStack(true)
-                        .build()); */
+                new ActivityNavigationAction.Builder()
+                        .setScreen(AppScreenProvider.USER_DETAILS)
+                        .setBundle(args)
+                        .setShouldFinish(false)
+                        .setScreenProvider(appScreenProvider)
+                        .build());
     }
 
     @Override
@@ -130,20 +129,6 @@ public class ListUsersViewModel extends ViewModel {
 
         if (userDisposable != null && !userDisposable.isDisposed()) {
             userDisposable.dispose();
-        }
-    }
-
-    private enum TargetFragment implements FragmentNavigationAction.TargetFragment {
-        UserDetails;
-
-        @Override
-        public Class<? extends Fragment> getFragmentClass() {
-            switch (this) {
-                case UserDetails:
-                    return UserDetailsFragment.class;
-                default:
-                    return UserDetailsFragment.class;
-            }
         }
     }
 }

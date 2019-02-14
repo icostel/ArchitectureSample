@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">ArhitectureSample</string>
+    <string name="app_name">ArchitectureSample</string>
     <string name="first_name">First Name</string>
     <string name="country">Country</string>
     <string name="age_header">Age</string>
     <string name="last_name">Last Name</string>
-    <string name="age">Age: %1$s</string>
+    <string name="age">Age %1$s</string>
     <string name="logged_in_success">Login successful</string>
     <string name="logged_in_error">Login error</string>
     <string name="login">Login</string>
@@ -39,4 +39,6 @@
     <string name="log_out">Logout</string>
     <string name="failed_to_load_users">Could not load users</string>
     <string name="users_loaded">Users loaded</string>
+    <string name="all_users">Available People</string>
+    <string name="browse_all_people">browse them</string>
 </resources>

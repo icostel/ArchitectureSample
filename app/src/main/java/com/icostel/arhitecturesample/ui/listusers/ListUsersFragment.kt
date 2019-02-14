@@ -61,8 +61,8 @@ class ListUsersFragment : BaseFragment(), Injectable {
         userRecyclerView.adapter = userAdapter
         swipeRefreshLayout.setColorSchemeColors(resources.getColor(R.color.colorPrimary, activity!!.theme))
 
-        listUsersViewModel.userListLiveData.observe(this) { userAdapter.updateUserList(it as List<User>) }
-        userAdapter.selectedUserLive.observe(this) { listUsersViewModel.onUserSelected(it) }
+        listUsersViewModel.userListLiveData.observe(this) { userAdapter.updateItems(it as List<User>) }
+        userAdapter.selectedItem.observe(this) { listUsersViewModel.onUserSelected(it as User) }
         swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.refreshUsers(searchView.query.toString()) }
         listUsersViewModel.loadingStatus.observe(this) { this.handleLoadingStatus(it) }
         listUsersViewModel.navigationActionLiveEvent.observe(this) { (activity as Navigator).navigateTo(it) }

@@ -11,6 +11,7 @@ import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorType
 import com.icostel.arhitecturesample.view.model.User
 import com.icostel.commons.utils.AfterTextChangeListener
+import com.icostel.commons.utils.IntentUtils
 import com.icostel.commons.utils.extensions.observe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.layout_new_user.*
@@ -41,7 +42,7 @@ class NewUserActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == NewUserViewModel.IMAGE_REQUEST_CODE) {
+        if (requestCode == IntentUtils.IMAGE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 data?.apply {
                     val selectedImageUri = data.data

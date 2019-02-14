@@ -1,7 +1,5 @@
 package com.icostel.arhitecturesample.ui.newuser
 
-import android.content.Intent
-import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.icostel.arhitecturesample.domain.UserHandler
@@ -9,6 +7,8 @@ import com.icostel.arhitecturesample.view.model.User
 import com.icostel.arhitecturesample.view.mapper.UserMapper
 import com.icostel.commons.navigation.IntentNavigationAction
 import com.icostel.commons.navigation.NavigationAction
+import com.icostel.commons.utils.IntentUtils
+import com.icostel.commons.utils.isNotDigitsOnly
 import com.icostel.commons.utils.livedata.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -45,11 +45,11 @@ class NewUserViewModel @Inject constructor(private val userHandler: UserHandler,
 
     fun allDataAvailable(user: User) {
         allDataAvailable.postValue(
-                !TextUtils.isEmpty(user.firstName)
-                && !TextUtils.isEmpty(user.lastName)
-                && !TextUtils.isEmpty(user.age)
-                && !TextUtils.isEmpty(user.country)
-                && TextUtils.isDigitsOnly(user.age)
+                user.firstName.isNotEmpty()
+                && user.lastName.isNotEmpty()
+                && user.age.isNotEmpty()
+                && user.country.isNotEmpty()
+                && user.age.isNotEmpty()
         )
     }
 
@@ -57,13 +57,13 @@ class NewUserViewModel @Inject constructor(private val userHandler: UserHandler,
     private fun validateData(user: User): Boolean {
         var ret = false
 
-        if (TextUtils.isEmpty(user.firstName)) {
+        if (user.firstName.isEmpty()) {
             inputValidation.postValue(ERROR_FIRST_NAME)
-        } else if (TextUtils.isEmpty(user.lastName)) {
+        } else if (user.lastName.isEmpty()) {
             inputValidation.postValue(ERROR_LAST_NAME)
-        } else if (TextUtils.isEmpty(user.country)) {
+        } else if (user.country.isEmpty()) {
             inputValidation.postValue(ERROR_COUNTRY)
-        } else if (TextUtils.isEmpty(user.age) || !TextUtils.isDigitsOnly(user.age)) {
+        } else if (user.age.isEmpty() || user.age.isNotDigitsOnly()) {
             inputValidation.postValue(ERROR_AGE)
         } else {
             Timber.d("user data valid")
@@ -77,9 +77,8 @@ class NewUserViewModel @Inject constructor(private val userHandler: UserHandler,
         Timber.d("onAddUserImage()")
 
         navigationAction.postValue(IntentNavigationAction.Builder()
-                .setIntent(Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI))
-                .setRequestCode(IMAGE_REQUEST_CODE)
+                .setIntent(IntentUtils.IntentFactory.getImagePickerIntent())
+                .setRequestCode(IntentUtils.IMAGE_REQUEST_CODE)
                 .setShouldFinish(false)
                 .setType("image/*")
                 .build())
@@ -94,7 +93,6 @@ class NewUserViewModel @Inject constructor(private val userHandler: UserHandler,
     }
 
     companion object {
-        const val IMAGE_REQUEST_CODE = 1
         const val TAG = "NewUserViewModel"
 
         const val ERROR_FIRST_NAME = 1

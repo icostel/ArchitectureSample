@@ -1,12 +1,12 @@
-package com.icostel.commons.connection
+package com.icostel.arhitecturesample.utils
 
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkInfo
 import android.net.NetworkRequest
 import androidx.lifecycle.MutableLiveData
+import com.icostel.arhitecturesample.SampleApp
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +17,7 @@ import javax.inject.Singleton
  * This will emmit false only when all network connections are lost and will remain true as long as we have at least one active connection
  */
 @Singleton
-class ConnectionLiveData @Inject constructor(val context: Application) : MutableLiveData<Boolean>() {
+class ConnectionLiveData @Inject constructor(val context: SampleApp) : MutableLiveData<Boolean>() {
 
     private var connectivityManager: ConnectivityManager? = null
     private var areWeConnected: Boolean? = false

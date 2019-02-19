@@ -1,10 +1,10 @@
 package com.icostel.arhitecturesample.ui.userdetails
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.Config
 import com.icostel.arhitecturesample.R
-import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.commons.utils.extensions.observe
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class UserDetailsActivity : BaseActivity() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var userDetailsViewModel: UserDetailsViewModel

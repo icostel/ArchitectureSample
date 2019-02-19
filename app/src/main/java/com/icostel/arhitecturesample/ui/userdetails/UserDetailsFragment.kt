@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.GenericTransitionOptions
 import com.icostel.arhitecturesample.Config
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.Injectable
-import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.di.modules.GlideApp
 import com.icostel.arhitecturesample.ui.BaseFragment
 import com.icostel.arhitecturesample.view.model.User
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class UserDetailsFragment : BaseFragment(), Injectable {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var toolbar: Toolbar
     private lateinit var userImage: ImageView

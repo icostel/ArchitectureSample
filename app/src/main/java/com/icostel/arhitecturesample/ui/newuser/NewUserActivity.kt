@@ -3,9 +3,9 @@ package com.icostel.arhitecturesample.ui.newuser
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
-import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorType
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class NewUserActivity : BaseActivity() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var newUserViewModel: NewUserViewModel
 

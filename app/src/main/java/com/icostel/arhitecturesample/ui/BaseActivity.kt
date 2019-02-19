@@ -6,11 +6,11 @@ import android.view.MenuItem
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
+import com.icostel.arhitecturesample.utils.ConnectionLiveData
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorFragment
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel
-import com.icostel.commons.connection.ConnectionLiveData
 import com.icostel.commons.navigation.NavigationAction
 import com.icostel.commons.navigation.Navigator
 import com.icostel.commons.utils.extensions.observe

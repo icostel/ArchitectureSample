@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.api.Status
 import com.icostel.arhitecturesample.di.Injectable
-import com.icostel.arhitecturesample.di.ViewModelFactory
 import com.icostel.arhitecturesample.ui.BaseFragment
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class ListUsersFragment : BaseFragment(), Injectable {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var listUsersViewModel: ListUsersViewModel
     private lateinit var userAdapter: UserAdapter

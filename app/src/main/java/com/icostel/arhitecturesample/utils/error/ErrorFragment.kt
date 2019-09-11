@@ -77,7 +77,7 @@ class ErrorFragment : BaseFragment(), Injectable {
     }
 
     private fun customize(errorType: ErrorType) {
-        // Default is Error, no change there`
+        // Default is error, no change there`
         when (errorType) {
             ErrorType.Success -> {
                 rootView.setBackgroundResource(R.color.success_bg)

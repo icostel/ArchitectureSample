@@ -39,10 +39,14 @@ class SplashScreenActivity : BaseActivity() {
                             .build())
                 }, 2000L)
             }
-        } ?: navigateTo(ActivityNavigationAction.Builder()
-                .setScreenProvider(appScreenProvider)
-                .setScreen(AppScreenProvider.LOGIN_USER)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .build())
+        } ?: run {
+            Handler().postDelayed({
+                navigateTo(ActivityNavigationAction.Builder()
+                        .setScreenProvider(appScreenProvider)
+                        .setScreen(AppScreenProvider.LOGIN_USER)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .build())
+            }, 2000L)
+        }
     }
 }

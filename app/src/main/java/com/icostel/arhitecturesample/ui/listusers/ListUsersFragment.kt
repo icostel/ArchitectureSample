@@ -15,7 +15,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.api.Status
-import com.icostel.arhitecturesample.di.Injectable
 import com.icostel.arhitecturesample.ui.BaseFragment
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
@@ -25,11 +24,10 @@ import com.icostel.commons.navigation.Navigator
 import com.icostel.commons.utils.OnQueryTextChangedListener
 import com.icostel.commons.utils.bind
 import com.icostel.commons.utils.extensions.observe
-import kotlinx.android.synthetic.main.layout_user_list_start.*
 import org.jetbrains.annotations.NotNull
 import timber.log.Timber
 
-class ListUsersFragment : BaseFragment(), Injectable {
+class ListUsersFragment : BaseFragment() {
 
     private lateinit var listUsersViewModel: ListUsersViewModel
     private lateinit var userAdapter: UserAdapter
@@ -73,6 +71,12 @@ class ListUsersFragment : BaseFragment(), Injectable {
 
         enableUpNavigation(false)
         setHasOptionsMenu(true)
+        // for when the frag view is ready
+        fragView.post {
+            swipeRefreshLayout.setProgressViewOffset(false,fragView.height / 5,
+                    fragView.height / 5 + swipeRefreshLayout.progressCircleDiameter)
+            swipeRefreshLayout.isRefreshing = true
+        }
         motionLayout.transitionToEnd()
 
         return fragView
@@ -131,7 +135,7 @@ class ListUsersFragment : BaseFragment(), Injectable {
                 Status.Type.IN_PROGRESS -> swipeRefreshLayout.isRefreshing = true
                 Status.Type.SUCCESS -> {
                     emptyView.visibility = if (userAdapter.itemCount == 1) View.VISIBLE else View.GONE
-                    user_recycler.visibility = if (userAdapter.itemCount == 1) View.GONE else View.VISIBLE
+                    userRecyclerView.visibility = if (userAdapter.itemCount == 1) View.GONE else View.VISIBLE
                     swipeRefreshLayout.isRefreshing = false
                 }
                 Status.Type.ERROR -> {

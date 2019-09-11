@@ -15,7 +15,6 @@ internal constructor() {
 
     private val diskIO: Executor
     private val networkIO: Executor
-    private val delayedNetworkIO: Executor
     private val mainThread: Executor
     private val background: Executor
 
@@ -23,7 +22,6 @@ internal constructor() {
         diskIO = Executors.newSingleThreadExecutor()
         networkIO = Executors.newFixedThreadPool(NETWORK_THREADS)
         background = Executors.newSingleThreadExecutor()
-        delayedNetworkIO = NetworkIODelayedExecutor()
         mainThread = MainThreadExecutor()
     }
 
@@ -33,10 +31,6 @@ internal constructor() {
 
     fun networkIO(): Executor {
         return networkIO
-    }
-
-    fun delayedNetworkIO(): Executor {
-        return delayedNetworkIO
     }
 
     fun mainThread(): Executor {
@@ -55,17 +49,8 @@ internal constructor() {
         }
     }
 
-    private class NetworkIODelayedExecutor : Executor {
-        private val mainThreadHandler = Handler()
-
-        override fun execute(runnable: Runnable) {
-            mainThreadHandler.postDelayed(runnable, NETWORK_DELAY_MILLIS)
-        }
-    }
-
     companion object {
         private const val NETWORK_THREADS = 3
-        private const val NETWORK_DELAY_MILLIS = 3000L
     }
 }
 

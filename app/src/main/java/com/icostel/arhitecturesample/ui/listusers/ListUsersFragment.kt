@@ -9,8 +9,6 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -30,12 +28,8 @@ import com.icostel.commons.utils.extensions.observe
 import kotlinx.android.synthetic.main.layout_user_list_start.*
 import org.jetbrains.annotations.NotNull
 import timber.log.Timber
-import javax.inject.Inject
 
 class ListUsersFragment : BaseFragment(), Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var listUsersViewModel: ListUsersViewModel
     private lateinit var userAdapter: UserAdapter
@@ -48,7 +42,7 @@ class ListUsersFragment : BaseFragment(), Injectable {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        listUsersViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListUsersViewModel::class.java)
+        listUsersViewModel = getViewModel(ListUsersViewModel::class.java)
 
         val fragView = inflater.inflate(R.layout.layout_user_list_start, container, false)
 

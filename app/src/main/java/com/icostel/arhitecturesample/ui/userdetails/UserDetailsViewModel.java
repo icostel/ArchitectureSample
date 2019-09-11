@@ -3,7 +3,7 @@ package com.icostel.arhitecturesample.ui.userdetails;
 import android.os.Bundle;
 
 import com.icostel.arhitecturesample.Config;
-import com.icostel.arhitecturesample.domain.UserHandler;
+import com.icostel.arhitecturesample.domain.usecases.UserUseCase;
 import com.icostel.arhitecturesample.view.mapper.UserMapper;
 import com.icostel.arhitecturesample.view.model.User;
 import com.icostel.commons.navigation.FragmentNavigationAction;
@@ -27,20 +27,20 @@ import timber.log.Timber;
 public class UserDetailsViewModel extends ViewModel {
 
     private MutableLiveData<User> userLiveData;
-    private UserHandler userHandler;
+    private UserUseCase userUseCase;
     private UserMapper userMapper;
     private Disposable userDisposable;
     private SingleLiveEvent<NavigationAction> navigationAction = new SingleLiveEvent<>();
 
     @Inject
-    UserDetailsViewModel(UserHandler userHandler, UserMapper userMapper) {
+    UserDetailsViewModel(UserUseCase userUseCase, UserMapper userMapper) {
         userLiveData = new MutableLiveData<>();
-        this.userHandler = userHandler;
+        this.userUseCase = userUseCase;
         this.userMapper = userMapper;
     }
 
     void init(String userId) {
-        userDisposable = userHandler.getUser(userId)
+        userDisposable = userUseCase.getUser(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(domainUser -> userLiveData.setValue(userMapper.mapDomainToView(domainUser)),

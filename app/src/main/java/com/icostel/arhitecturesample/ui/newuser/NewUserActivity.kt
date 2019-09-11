@@ -3,8 +3,6 @@ package com.icostel.arhitecturesample.ui.newuser
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.arhitecturesample.utils.error.ErrorData
@@ -16,13 +14,8 @@ import com.icostel.commons.utils.extensions.observe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.layout_new_user.*
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-
 
 class NewUserActivity : BaseActivity() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var newUserViewModel: NewUserViewModel
 
@@ -31,7 +24,7 @@ class NewUserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        newUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewUserViewModel::class.java)
+        newUserViewModel = getViewModel(NewUserViewModel::class.java)
         newUserViewModel.navigationAction.observe(this, this::navigateTo)
         newUserViewModel.apiResponse.observe(this, this::handleAddUserResponse)
         newUserViewModel.inputValidation.observe(this, this::handleUserInputError)

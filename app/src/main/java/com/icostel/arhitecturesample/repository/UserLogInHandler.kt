@@ -7,9 +7,8 @@ import com.icostel.arhitecturesample.api.session.SessionStore
 import com.icostel.arhitecturesample.api.utils.ApiErrorResponse
 import com.icostel.arhitecturesample.api.utils.ApiResponse
 import com.icostel.arhitecturesample.api.utils.ApiSuccessResponse
-import com.icostel.commons.utils.AppExecutors
 import com.icostel.arhitecturesample.utils.settings.LoggedInProvider
-import io.reactivex.schedulers.Schedulers
+import com.icostel.commons.utils.AppExecutors
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,15 +20,12 @@ internal constructor(private val appExecutors: AppExecutors, private val userApi
     // other API calls will use the token obtained from user sign in and stored in session store
     fun signInUser(userEmail: String, userPass: String,
                    listener: OnUserSignInResultListener) {
-        // add a delay to simulate a bad network or something
-        Schedulers.io().createWorker().schedule {
-            appExecutors.networkIO().execute {
-                try {
-                    manageResponse(ApiResponse.create(userApiService.signInUser(userEmail, userPass).execute()), listener)
-                } catch (e: Exception) {
-                    Timber.e(e)
-                    listener.onUserSignInResult(Status.Error())
-                }
+        appExecutors.delayedNetworkIO().execute {
+            try {
+                manageResponse(ApiResponse.create(userApiService.signInUser(userEmail, userPass).execute()), listener)
+            } catch (e: Exception) {
+                Timber.e(e)
+                listener.onUserSignInResult(Status.Error())
             }
         }
     }

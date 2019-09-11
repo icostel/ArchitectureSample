@@ -2,6 +2,7 @@ package com.icostel.arhitecturesample.ui.splashscreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import com.icostel.arhitecturesample.navigation.AppScreenProvider
 import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.arhitecturesample.utils.settings.LoggedInProvider
@@ -21,18 +22,22 @@ class SplashScreenActivity : BaseActivity() {
 
         loggedInProvider.instantValue()?.let { signedIn ->
             if (signedIn) {
-                navigateTo(ActivityNavigationAction.Builder()
-                        .setScreenProvider(appScreenProvider)
-                        .setScreen(AppScreenProvider.MAIN)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        .build())
+                Handler().postDelayed({
+                    navigateTo(ActivityNavigationAction.Builder()
+                            .setScreenProvider(appScreenProvider)
+                            .setScreen(AppScreenProvider.MAIN)
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .build())
+                }, 2000L)
             } else {
-                navigateTo(ActivityNavigationAction.Builder()
-                        .setScreenProvider(appScreenProvider)
-                        .setScreen(AppScreenProvider.LOGIN_USER)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        .setShouldFinish(true)
-                        .build())
+                Handler().postDelayed({
+                    navigateTo(ActivityNavigationAction.Builder()
+                            .setScreenProvider(appScreenProvider)
+                            .setScreen(AppScreenProvider.LOGIN_USER)
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .setShouldFinish(true)
+                            .build())
+                }, 2000L)
             }
         } ?: navigateTo(ActivityNavigationAction.Builder()
                 .setScreenProvider(appScreenProvider)

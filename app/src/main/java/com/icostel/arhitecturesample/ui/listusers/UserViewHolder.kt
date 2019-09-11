@@ -8,11 +8,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.GenericTransitionOptions
+import com.bumptech.glide.request.transition.ViewPropertyTransition
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.modules.GlideApp
 import com.icostel.arhitecturesample.view.model.User
-import com.icostel.commons.utils.AnimationFactory
 import com.icostel.commons.adapter.BaseViewHolder
+import com.icostel.commons.utils.AnimatorFactory
 import com.icostel.commons.utils.bind
 import timber.log.Timber
 
@@ -36,7 +37,11 @@ class UserViewHolder(private val context: Context, itemView: View) : BaseViewHol
             } else {
                 GlideApp.with(context)
                         .load(item.resourceUrl)
-                        .transition(GenericTransitionOptions.with<Drawable>(AnimationFactory.getTransition(AnimationFactory.AnimationType.FADE_IN)))
+                        .transition(GenericTransitionOptions.with<Drawable>(ViewPropertyTransition.Animator {
+                            if (it != null) {
+                                AnimatorFactory.getAnimator(AnimatorFactory.AnimationType.FADE_IN, it)?.start()
+                            }
+                        }))
                         .dontTransform()
                         .into(userImage)
             }

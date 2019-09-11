@@ -7,7 +7,9 @@ import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity;
 import com.icostel.commons.navigation.ScreenProvider;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class AppScreenProvider extends ScreenProvider {
 
     public static final int LOGIN_USER = 1;

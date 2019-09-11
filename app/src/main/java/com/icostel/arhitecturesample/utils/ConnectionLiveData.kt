@@ -16,6 +16,7 @@ import javax.inject.Singleton
  *
  * This will emmit false only when all network connections are lost and will remain true as long as we have at least one active connection
  */
+//TODO refactor deprecated stuff
 @Singleton
 class ConnectionLiveData @Inject constructor(val context: SampleApp) : MutableLiveData<Boolean>() {
 
@@ -25,13 +26,17 @@ class ConnectionLiveData @Inject constructor(val context: SampleApp) : MutableLi
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
         override fun onAvailable(network: Network?) {
-            super.onAvailable(network)
-            areWeConnected()
+            if(network != null) {
+                super.onAvailable(network)
+                areWeConnected()
+            }
         }
 
         override fun onLost(network: Network?) {
-            super.onLost(network)
-            areWeConnected()
+            if(network != null) {
+                super.onLost(network)
+                areWeConnected()
+            }
         }
 
         fun areWeConnected() {

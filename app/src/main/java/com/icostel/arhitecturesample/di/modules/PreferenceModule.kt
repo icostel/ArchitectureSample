@@ -12,6 +12,7 @@ import dagger.Provides
 
 @Module
 class PreferenceModule {
+
     @Provides
     @PerUser
     fun provideUserPreferences(context: Context): SharedPreferences {

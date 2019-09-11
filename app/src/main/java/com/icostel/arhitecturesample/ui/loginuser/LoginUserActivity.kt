@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.api.Status
@@ -15,14 +14,10 @@ import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.commons.utils.AfterTextChangeListener
 import com.icostel.commons.utils.extensions.observe
-import javax.inject.Inject
 
 class LoginUserActivity : BaseActivity(), ErrorHandler {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    lateinit var loginUserViewModel: LoginUserViewModel
+    private lateinit var loginUserViewModel: LoginUserViewModel
 
     private var loginBtn: Button? = null
     private var userEmailTv: TextView? = null

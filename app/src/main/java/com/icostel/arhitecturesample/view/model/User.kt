@@ -2,7 +2,7 @@ package com.icostel.arhitecturesample.view.model
 
 import android.os.Bundle
 
-/** The View view model */
+/** The View model */
 data class User constructor(var id: String = "",
                             var firstName: String = "",
                             var lastName: String = "",

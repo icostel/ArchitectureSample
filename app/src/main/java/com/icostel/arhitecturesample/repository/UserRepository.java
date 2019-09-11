@@ -67,7 +67,8 @@ public class UserRepository {
     public Observable<List<User>> getAllUsers(String nameQuery) {
         if (TextUtils.isEmpty(nameQuery)) {
             Timber.d("%s getAllUsers()", TAG);
-            return Observable.concatArray(getUsersFromDb(null), getUsersFromApi(sessionStore.getUserSessionToken()))
+            return Observable.concatArray(getUsersFromDb(null),
+                    getUsersFromApi(sessionStore.getUserSessionToken()))
                     .debounce(API_DEBOUNCE_TIME, TimeUnit.MILLISECONDS);
         } else {
             // get the users from DB
@@ -77,7 +78,7 @@ public class UserRepository {
 
     // store the new users in DB
     private void storeUsersInDb(List<User> users) {
-        Schedulers.io().createWorker().schedule(() -> userDao.upsert(users));
+        appExecutors.diskIO().execute(() -> userDao.upsert(users));
     }
 
     // get the users from db
@@ -85,7 +86,7 @@ public class UserRepository {
         // append % to the beginning and end of the query
         nameQuery = "%" + nameQuery + "%";
         return userDao.getUsers(nameQuery)
-                .filter(Objects::nonNull)
+                .filter(users -> users != null)
                 .toObservable();
     }
 

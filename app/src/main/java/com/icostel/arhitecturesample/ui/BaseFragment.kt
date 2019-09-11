@@ -6,13 +6,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.Injectable
 import timber.log.Timber
-import java.util.*
+import javax.inject.Inject
 
 open class BaseFragment : BackFragment(), Injectable {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    // the param is used to identify the class at compile time so that
+    // it's instance can pe provided from the factory (ViewModelFactory.kt)
+    @MainThread
+    internal inline fun <reified T : ViewModel?> getViewModel(viewModelClass: Class<T>): T {
+        return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
+    }
 
     private var loadingView: LoadingView? = null
     private var actionBarColorDrawable: ColorDrawable? = null
@@ -43,7 +57,7 @@ open class BaseFragment : BackFragment(), Injectable {
     }
 
     fun enableUpNavigation(enable: Boolean) {
-        if (Objects.isNull(activity)) {
+        if (activity == null) {
             Timber.w("enableUpNavigation(), not activity available")
         } else {
             val actionBar = (activity as AppCompatActivity).supportActionBar
@@ -52,7 +66,7 @@ open class BaseFragment : BackFragment(), Injectable {
     }
 
     private fun showTitle(title: String?) {
-        if (Objects.isNull(activity)) {
+        if (activity == null) {
             Timber.w("showTitle(), not activity available")
         } else {
             title?.let {
@@ -81,5 +95,4 @@ open class BaseFragment : BackFragment(), Injectable {
             actionBarColorDrawable = nextDrawable
         }
     }
-
 }

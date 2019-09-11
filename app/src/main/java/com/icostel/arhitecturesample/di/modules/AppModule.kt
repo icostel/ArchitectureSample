@@ -5,7 +5,15 @@ import com.icostel.arhitecturesample.SampleApp
 import dagger.Binds
 import dagger.Module
 
-@Module(includes = [ViewModelFactory::class, ViewModelModule::class, ApiModule::class, PreferenceModule::class, HttpClientModule::class, DbModule::class])
+@Module(includes = [
+    ViewModelFactory::class,
+    ViewModelModule::class,
+    ApiModule::class,
+    PreferenceModule::class,
+    HttpClientModule::class,
+    DbModule::class,
+    UseCaseModule::class
+    ])
 abstract class AppModule {
 
     @Binds

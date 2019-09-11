@@ -2,7 +2,7 @@ package com.icostel.arhitecturesample.ui.newuser
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.icostel.arhitecturesample.domain.UserHandler
+import com.icostel.arhitecturesample.domain.usecases.UserUseCase
 import com.icostel.arhitecturesample.view.model.User
 import com.icostel.arhitecturesample.view.mapper.UserMapper
 import com.icostel.commons.navigation.IntentNavigationAction
@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class NewUserViewModel @Inject constructor(private val userHandler: UserHandler, private val userMapper: UserMapper) : ViewModel() {
+class NewUserViewModel @Inject constructor(private val userUseCase: UserUseCase, private val userMapper: UserMapper) : ViewModel() {
 
     val navigationAction: SingleLiveEvent<NavigationAction> = SingleLiveEvent()
     val apiResponse: MutableLiveData<Boolean> = MutableLiveData()
@@ -33,7 +33,7 @@ class NewUserViewModel @Inject constructor(private val userHandler: UserHandler,
         Timber.d("onAddUser() %s", user.toString())
 
         if (validateData(user)) {
-            apiDisposable.add(userHandler.addUser(userMapper.mapViewToDomain(user))
+            apiDisposable.add(userUseCase.addUser(userMapper.mapViewToDomain(user))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { success ->

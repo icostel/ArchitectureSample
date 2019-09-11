@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.MainThread
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.utils.ConnectionLiveData
@@ -23,6 +25,16 @@ abstract class BaseActivity : DaggerAppCompatActivity(), HasSupportFragmentInjec
 
     @Inject
     internal lateinit var connectionLiveData: ConnectionLiveData
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    // the param is used to identify the class at compile time so that
+    // it's instance can pe provided from the factory (ViewModelFactory.kt)
+    @MainThread
+    inline fun <reified T : ViewModel?> getViewModel(viewModelClass: Class<T>): T {
+        return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
+    }
 
     private var errorFragment: ErrorFragment? = null
 

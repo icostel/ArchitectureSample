@@ -16,7 +16,6 @@ import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.commons.utils.bind
 import timber.log.Timber
 
-//TODO use a global view model for all the fragments ?
 class MainActivity : BaseActivity(), ErrorHandler {
 
     companion object PagerScreens {

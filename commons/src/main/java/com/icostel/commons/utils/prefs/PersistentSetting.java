@@ -42,6 +42,7 @@ public abstract class PersistentSetting<T> implements Setting<T> {
     @Override
     public void updateValue(T value) {
         write(value);
+        data.postValue(value);
     }
 
     @Override

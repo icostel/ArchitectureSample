@@ -125,7 +125,7 @@ public class MockServer {
 
     private GenericResponseData getResponseBody(int resourceType) {
         // get raw json file from /raw
-        int usersJsonId = context.getResources().getIdentifier(GenericResponseData.getResource(resourceType), "raw", context.getPackageName());
+        int usersJsonId = context.getResources().getIdentifier(GenericResponseData.Companion.getResource(resourceType), "raw", context.getPackageName());
         Reader jsonReader = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(usersJsonId)));
         GenericResponseData response;
         switch (resourceType) {

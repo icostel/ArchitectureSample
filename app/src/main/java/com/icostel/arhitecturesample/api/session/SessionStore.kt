@@ -10,16 +10,22 @@ import javax.inject.Singleton
 
 @Singleton
 class SessionStore
-@Inject constructor(@PerUser preferences: SharedPreferences,
-                    private val sessionData: SessionData)
+@Inject constructor(@PerUser preferences: SharedPreferences)
     : PersistentSetting<SessionData>(preferences) {
 
-    var userSessionToken: String?
-        get() = sessionData.userToken
-        set(userSessionToken) {
-            sessionData.userToken = userSessionToken
-            updateValue(this.sessionData)
-        }
+    private var userSessionToken: String? = null
+
+    init {
+        userSessionToken = instantValue()?.userToken
+    }
+
+    fun getUserToken(): String? {
+        return get()?.userToken
+    }
+
+    fun setUserToken(userToken: String?) {
+        updateValue(SessionData(userToken))
+    }
 
     override fun key(): String {
         return "session"

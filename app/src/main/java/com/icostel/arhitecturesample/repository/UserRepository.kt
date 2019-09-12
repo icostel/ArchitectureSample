@@ -55,8 +55,8 @@ internal constructor(private val usersApi: UsersApi,
         return if (TextUtils.isEmpty(nameQuery)) {
             Timber.d("%s getAllUsers()", TAG)
             Observable.concatArray(getUsersFromDb(""),
-                    getUsersFromApi(sessionStore.userSessionToken))
-                    .debounce(API_DEBOUNCE_TIME.toLong(), TimeUnit.MILLISECONDS)
+                    getUsersFromApi(sessionStore.getUserToken())
+                    .debounce(API_DEBOUNCE_TIME.toLong(), TimeUnit.MILLISECONDS))
         } else {
             // get the users from DB
             getUsersFromDb(nameQuery)

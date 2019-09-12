@@ -46,11 +46,8 @@ internal constructor(private val apiService: UserApiService) {
                     userResponse.data?.let { users ->
                         val usersSize = users.size
                         Timber.d("$TAG getUsers() size: %d", usersSize)
-                        if (usersSize != 0) {
-                            apiService.getUsers(authToken)
-                        }
-                        emptyList<User>()
-                    }
+                        if (usersSize == 0) emptyList() else users
+                    } ?: emptyList()
                 }
     }
 

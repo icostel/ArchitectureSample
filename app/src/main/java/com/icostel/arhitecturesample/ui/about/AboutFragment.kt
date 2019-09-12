@@ -9,9 +9,9 @@ import android.widget.Button
 import android.widget.TextView
 import com.icostel.arhitecturesample.BuildConfig
 import com.icostel.arhitecturesample.R
+import com.icostel.arhitecturesample.api.session.SessionStore
 import com.icostel.arhitecturesample.navigation.AppScreenProvider
 import com.icostel.arhitecturesample.ui.BaseFragment
-import com.icostel.arhitecturesample.utils.settings.LoggedInProvider
 import com.icostel.commons.navigation.ActivityNavigationAction
 import com.icostel.commons.navigation.Navigator
 import com.icostel.commons.utils.bind
@@ -23,7 +23,7 @@ class AboutFragment : BaseFragment() {
     lateinit var appScreenProvider: AppScreenProvider
 
     @Inject
-    lateinit var loggedInProvider: LoggedInProvider
+    lateinit var sessionStore: SessionStore
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -34,7 +34,7 @@ class AboutFragment : BaseFragment() {
         aboutTv.text = context?.getString(R.string.about, BuildConfig.VERSION_NAME)
 
         signOutBtn.setOnClickListener {
-            loggedInProvider.updateValue(false)
+            sessionStore.updateValue(null)
             // got to splash screen
             (activity as Navigator).navigateTo(ActivityNavigationAction.Builder()
                     .setScreenProvider(appScreenProvider)

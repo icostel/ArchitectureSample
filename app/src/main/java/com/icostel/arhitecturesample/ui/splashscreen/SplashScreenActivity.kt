@@ -9,7 +9,7 @@ import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.commons.navigation.ActivityNavigationAction
 import javax.inject.Inject
 
-//TODO maybe we should switch to provides data in the constructor
+//TODO create viewmodel and move navigation in vm
 class SplashScreenActivity : BaseActivity() {
 
     @Inject

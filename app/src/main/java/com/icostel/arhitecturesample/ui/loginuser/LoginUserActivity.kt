@@ -27,10 +27,10 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
 
     private lateinit var loginUserViewModel: LoginUserViewModel
 
-    private var loginBtn: Button? = null
-    private var userEmailTv: TextView? = null
-    private var userPassTv: TextView? = null
-    private var loadingDialog: ProgressBar? = null
+    private lateinit var loginBtn: Button
+    private lateinit var userEmailTv: TextView
+    private lateinit var userPassTv: TextView
+    private lateinit var loadingDialog: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,37 +44,41 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
         userPassTv = findViewById(R.id.user_pass_tv)
         loadingDialog = findViewById(R.id.loading_dialog)
 
-        userEmailTv?.addTextChangedListener((AfterTextChangeListener { loginUserViewModel.allInputsAvailable(userEmailTv?.text, userPassTv?.text) }))
-        userPassTv?.addTextChangedListener((AfterTextChangeListener { loginUserViewModel.allInputsAvailable(userEmailTv?.text, userPassTv?.text) }))
+        userEmailTv.addTextChangedListener((AfterTextChangeListener {
+            loginUserViewModel.allInputsAvailable(userEmailTv.text, userPassTv.text)
+        }))
+        userPassTv.addTextChangedListener((AfterTextChangeListener {
+            loginUserViewModel.allInputsAvailable(userEmailTv.text, userPassTv.text)
+        }))
 
         loginUserViewModel.navigationAction.observe(this) { navigateTo(it) }
         loginUserViewModel.signInStatusLive.observe(this) { handleLoginStatus(it) }
-        loginUserViewModel.allInputsAvailable.observe(this) { it?.let { enabled -> loginBtn?.isEnabled = enabled } }
-        loginBtn?.setOnClickListener { loginUserViewModel.onLogInBtnClicked(userEmailTv?.text.toString(), userPassTv?.text.toString()) }
+        loginUserViewModel.allInputsAvailable.observe(this) { it?.let { enabled -> loginBtn.isEnabled = enabled } }
+        loginBtn.setOnClickListener { loginUserViewModel.onLogInBtnClicked(userEmailTv.text.toString(), userPassTv.text.toString()) }
     }
 
     private fun handleLoginStatus(type: Status.Type?) {
         type?.let {
             when (type) {
                 Status.Type.IN_PROGRESS -> {
-                    loadingDialog?.visibility = View.VISIBLE
-                    loginBtn?.isEnabled = false
+                    loadingDialog.visibility = View.VISIBLE
+                    loginBtn.isEnabled = false
                 }
                 Status.Type.INPUTS_ERROR -> {
                     snackBarManager.handleMsg(this@LoginUserActivity, getString(R.string.inputs_invalid))
-                    loadingDialog?.visibility = View.GONE
-                    loginBtn?.isEnabled = true
+                    loadingDialog.visibility = View.GONE
+                    loginBtn.isEnabled = true
                 }
                 Status.Type.CALL_ERROR -> {
                     snackBarManager.handleMsg(this@LoginUserActivity, getString(R.string.login_error))
-                    loadingDialog?.visibility = View.GONE
-                    loginBtn?.isEnabled = true
+                    loadingDialog.visibility = View.GONE
+                    loginBtn.isEnabled = true
                 }
                 Status.Type.SUCCESS -> {
                     snackBarManager.handleMsg(this@LoginUserActivity, getString(R.string.login_success))
-                    loadingDialog?.visibility = View.GONE
+                    loadingDialog.visibility = View.GONE
                     loginUserViewModel.onLoginSuccess()
-                    loginBtn?.isEnabled = true
+                    loginBtn.isEnabled = true
                 }
                 else -> {
                     Timber.d("$TAG unknown status type $type")

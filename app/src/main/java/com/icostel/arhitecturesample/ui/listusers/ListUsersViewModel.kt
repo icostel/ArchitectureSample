@@ -34,14 +34,14 @@ internal constructor(private val userUseCase: UserUseCase,
 
     init {
         this.userListLiveData.value = ArrayList()
-        getUsers(userUseCase, "")
+        getUsers("")
     }
 
     internal fun onSearchInput(searchInput: String) {
-        getUsers(userUseCase, searchInput)
+        getUsers(searchInput)
     }
 
-    private fun getUsers(userUseCase: UserUseCase, nameQuery: String) {
+    fun getUsers(nameQuery: String) {
         loadingStatus.value = Status.Type.IN_PROGRESS
 
         disposable.add(userUseCase.getAllUsers(nameQuery)
@@ -52,7 +52,7 @@ internal constructor(private val userUseCase: UserUseCase,
                     userListLiveData.postValue(userMapper.mapDomainToView(userList))
                     loadingStatus.postValue(Status.Type.SUCCESS)
                     if (BuildConfig.DEBUG) {
-                        userListLiveData.value?.let {uList ->
+                        userListLiveData.value?.let { uList ->
                             for (u in uList) {
                                 Timber.d("user: $u")
                             }
@@ -64,18 +64,13 @@ internal constructor(private val userUseCase: UserUseCase,
                 }))
     }
 
-    internal fun refreshUsers(query: String) {
-        getUsers(this.userUseCase, query)
-        loadingStatus.value = Status.Type.IN_PROGRESS
-    }
-
     fun onUserAdd(transitionBundle: Bundle) {
         Timber.d("onUserAdd()")
 
         navigationActionLiveEvent.postValue(ActivityNavigationAction.Builder()
                 .setScreenProvider(appScreenProvider)
                 .setScreen(AppScreenProvider.NEW_USER)
-                .setRequestCode(NewUserActivity.RESULT_CODE_USER_ADDED)
+                .setRequestCode(NewUserActivity.REQUEST_CODE_USER_ADDED)
                 .setTransitionBundle(transitionBundle)
                 .setShouldFinish(false)
                 .build())

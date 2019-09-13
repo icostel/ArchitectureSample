@@ -1,17 +1,17 @@
 package com.icostel.arhitecturesample.db
 
 import android.database.sqlite.SQLiteConstraintException
-
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Update
-
+import androidx.room.*
+import timber.log.Timber
 
 /**
  * A generic dao with basic operations on a type <T> item
 </T> */
 interface BaseDao<T> {
+
+    companion object {
+        private const val TAG = "BaseDao"
+    }
 
     /**
      * Insert an object in the database.
@@ -24,7 +24,7 @@ interface BaseDao<T> {
     /**
      * Update an object from the database.
      */
-    @Update(onConflict = OnConflictStrategy.IGNORE)
+    @Update(onConflict = OnConflictStrategy.FAIL)
     fun update(item: T)
 
     /**
@@ -34,16 +34,19 @@ interface BaseDao<T> {
     fun delete(item: T)
 
     /**
-     * Tries and updates first and insert second the item
-     * If the update fails the item will be inserted
+     * Tries and inserts first and updates second the item
      */
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Transaction
     fun upsert(item: T) {
         try {
-            update(item)
-        } catch (exception: SQLiteConstraintException) {
             insert(item)
+        } catch (exception: SQLiteConstraintException) {
+            Timber.d("$TAG insert failed, trying update")
+            try {
+                update(item)
+            } catch (exception: SQLiteConstraintException) {
+                Timber.d("$TAG update failed, nothing to do...")
+            }
         }
-
     }
 }

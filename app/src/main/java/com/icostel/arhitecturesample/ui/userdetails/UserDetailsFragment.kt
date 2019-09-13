@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.request.transition.ViewPropertyTransition
 import com.icostel.arhitecturesample.Config
@@ -25,20 +24,18 @@ class UserDetailsFragment : BaseFragment(), Injectable {
 
     private lateinit var toolbar: Toolbar
     private lateinit var userImage: ImageView
-
-    private var userDetailsViewModel: UserDetailsViewModel? = null
+    private lateinit var userDetailsViewModel: UserDetailsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val layout = inflater.inflate(R.layout.layout_user_details, container, false)
         userDetailsViewModel = getViewModel(UserDetailsViewModel::class.java)
 
-        val layout = inflater.inflate(R.layout.layout_user_details, container, false)
         toolbar = layout.bind(R.id.toolbar)
         userImage = layout.bind(R.id.user_image)
 
         enableUpNavigation(true)
         toolbar.setNavigationOnClickListener { activity?.supportFinishAfterTransition() }
 
-        val userDetailsViewModel = getViewModel(UserDetailsViewModel::class.java)
         val userId = arguments?.getString(Config.Data.USER_ID)
         if (TextUtils.isEmpty(userId)) {
             activity?.supportFinishAfterTransition()
@@ -53,14 +50,14 @@ class UserDetailsFragment : BaseFragment(), Injectable {
     private fun bindUserData(user: User?) {
         if (user != null) {
             GlideApp.with(this)
-                    .load(user.resourceUrl)
-                    .transition(GenericTransitionOptions.with<Drawable>(ViewPropertyTransition.Animator {
-                        if (it != null) {
-                            AnimatorFactory.getAnimator(AnimatorFactory.AnimationType.FADE_IN, it)?.start()
-                        }
-                    }))
-                    .dontTransform()
-                    .into(userImage)
+                .load(user.resourceUrl)
+                .transition(GenericTransitionOptions.with<Drawable>(ViewPropertyTransition.Animator {
+                    if (it != null) {
+                        AnimatorFactory.getAnimator(AnimatorFactory.AnimationType.FADE_IN, it)?.start()
+                    }
+                }))
+                .dontTransform()
+                .into(userImage)
         }
     }
 }

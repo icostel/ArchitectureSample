@@ -2,6 +2,7 @@ package com.icostel.arhitecturesample.di.modules
 
 import android.content.Context
 import com.icostel.arhitecturesample.SampleApp
+import com.icostel.arhitecturesample.manager.SnackBarManager
 import dagger.Binds
 import dagger.Module
 
@@ -12,7 +13,8 @@ import dagger.Module
     PreferenceModule::class,
     HttpClientModule::class,
     DbModule::class,
-    UseCaseModule::class
+    UseCaseModule::class,
+    ManagerModule::class
     ])
 abstract class AppModule {
 

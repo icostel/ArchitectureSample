@@ -1,6 +1,10 @@
 package com.icostel.arhitecturesample.ui.loginuser;
 
+import android.os.Handler;
 import android.text.TextUtils;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.icostel.arhitecturesample.api.Status;
 import com.icostel.arhitecturesample.navigation.AppScreenProvider;
@@ -10,9 +14,6 @@ import com.icostel.commons.navigation.NavigationAction;
 import com.icostel.commons.utils.livedata.SingleLiveEvent;
 
 import javax.inject.Inject;
-
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 public class LoginUserViewModel extends ViewModel {
 
@@ -63,12 +64,13 @@ public class LoginUserViewModel extends ViewModel {
     }
 
     void onLoginSuccess() {
-        navigationAction.postValue(
-                new ActivityNavigationAction.Builder()
-                        .setScreenProvider(appScreenProvider)
-                        .setScreen(AppScreenProvider.MAIN)
-                        .setShouldFinish(true)
-                        .build()
-        );
+        new Handler().postDelayed(() ->
+                navigationAction.postValue(
+                        new ActivityNavigationAction.Builder()
+                                .setScreenProvider(appScreenProvider)
+                                .setScreen(AppScreenProvider.MAIN)
+                                .setShouldFinish(true)
+                                .build()
+                ), 2000L);
     }
 }

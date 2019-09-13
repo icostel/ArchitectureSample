@@ -25,7 +25,8 @@ class UserViewHolder(private val context: Context, itemView: View) : BaseViewHol
     internal val rootView: View = itemView.bind(R.id.root_view)
 
     internal val transitionOptions: ActivityOptions
-        get() = ActivityOptions.makeSceneTransitionAnimation(itemView.context as Activity, userImage, "user_image_transition")
+        get() = ActivityOptions.makeSceneTransitionAnimation(itemView.context as Activity,
+                userImage, "user_image_transition")
 
     override fun bind(item: User?) {
         item?.let {

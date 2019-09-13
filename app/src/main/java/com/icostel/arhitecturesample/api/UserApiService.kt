@@ -20,7 +20,7 @@ interface UserApiService {
 
     // returns all users
     @GET("users/")
-    fun getUsers(@Header("token") authorization: String): Observable<UserResponseData>
+    fun getUsers(@Header("token") authorization: String): Call<UserResponseData>
 
     // returns all users
     @POST("newuser/")

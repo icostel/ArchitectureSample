@@ -1,7 +1,5 @@
 package com.icostel.arhitecturesample.repository
 
-import android.text.TextUtils
-
 import com.icostel.arhitecturesample.api.UsersApi
 import com.icostel.arhitecturesample.api.model.User
 import com.icostel.arhitecturesample.api.session.SessionStore
@@ -9,17 +7,15 @@ import com.icostel.arhitecturesample.db.UserDao
 import com.icostel.commons.utils.AppExecutors
 import java.util.Objects
 import java.util.Optional
-import java.util.concurrent.TimeUnit
 
 import javax.inject.Inject
 import javax.inject.Singleton
 
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 /**
- * The main repository for the users, this implements the repository pattern using rx
+ * The main repository for the users
  */
 @Singleton
 class UserRepository @Inject
@@ -29,59 +25,59 @@ internal constructor(private val usersApi: UsersApi,
                      private val sessionStore: SessionStore) {
 
     fun addUser(apiUser: User): Observable<Boolean> {
-        Timber.d("%s addUser() %s", TAG, apiUser.toString())
-
-        /*
-        return usersApi.addUser(sessionStore.getUserSessionToken(), apiUser)
-                .doOnNext(userId -> {
-                    if (userId != -1) {
-                        Timber.d("%s user valid received", TAG);
-                        apiUser.setId(String.valueOf(userId));
-                        storeUserInDb(apiUser);
-                    }
-                })
-                .map(userId -> userId != -1);
-         */
-        return Observable.just(true)
+        // for now we're only adding the new user in the db, as we don't really have a BE
+        return storeUserInDb(apiUser)
     }
 
     fun getUserById(userId: String): Observable<Optional<User>> {
-        Timber.d("%s getUserById() %s", TAG, userId)
         return getUserFromDb(userId)
     }
 
-    // this is exposed to the view model
-    fun getAllUsers(nameQuery: String): Observable<List<User>> {
-        return if (TextUtils.isEmpty(nameQuery)) {
-            Timber.d("%s getAllUsers()", TAG)
-            Observable.concatArray(getUsersFromDb(""),
-                    getUsersFromApi(sessionStore.getUserToken())
-                    .debounce(API_DEBOUNCE_TIME.toLong(), TimeUnit.MILLISECONDS))
-        } else {
-            // get the users from DB
-            getUsersFromDb(nameQuery)
+    fun getAllUsers(nameQuery: String?): Observable<List<User>> {
+        return Observable.fromCallable {
+            if (userDao.getUserCount() > 0) {
+                // we already have users in the db
+                val foundUsers = if (nameQuery.isNullOrEmpty()) {
+                    getUsersFromDb()
+                } else {
+                    getUsersFromDb(nameQuery)
+                }
+
+                foundUsers
+            } else {
+                val users = getUsersFromApi(sessionStore.getUserToken())
+                storeUsersInDb(users)
+                users
+            }
         }
     }
 
     // store the new users in DB
-    private fun storeUsersInDb(users: List<User>) {
-        appExecutors.diskIO().execute {
-            for (user in users) {
-                userDao.upsert(user)
+    private fun storeUsersInDb(users: List<User>?) {
+        if (users == null) {
+            Timber.d("$TAG storeUsersInDb() user list is null, skipping...")
+        } else {
+            appExecutors.diskIO().execute {
+                for (user in users) {
+                    userDao.upsert(user)
+                }
             }
         }
     }
 
     // get the users from db
-    private fun getUsersFromDb(nameQuery: String): Observable<List<User>> {
+    private fun getUsersFromDb(): List<User> {
         // append % to the beginning and end of the query
-        return userDao.getUsers(nameQuery)
-                .filter { users -> users.isNotEmpty() }
-                .toObservable()
+        return userDao.getUsers()
+    }
+
+    // get the users from db
+    private fun getUsersFromDb(query: String): List<User> {
+        // append % to the beginning and end of the query
+        return userDao.getUsers(query)
     }
 
     private fun getUserFromDb(userId: String): Observable<Optional<User>> {
-        Timber.d("getUserFromDb(id=%s)", userId)
         return userDao.getUserById(userId)
                 .filter { Objects.nonNull(it) }
                 .map { Optional.of(it) }
@@ -89,20 +85,23 @@ internal constructor(private val usersApi: UsersApi,
     }
 
     // get users from api service
-    private fun getUsersFromApi(token: String?): Observable<List<User>> {
-        return usersApi.getUsers(token!!)
-                .map { users ->
-                    storeUsersInDb(users)
-                    users
-                }
+    private fun getUsersFromApi(token: String?): List<User> {
+        return if (token != null) {
+            usersApi.getUsers(token)
+        } else emptyList()
+
     }
 
-    private fun storeUserInDb(user: User) {
-        appExecutors.diskIO().execute { userDao.upsert(user) }
-        Schedulers.io().createWorker().schedule { userDao.upsert(user) }
+    private fun storeUserInDb(user: User): Observable<Boolean> {
+        return Observable.fromCallable {
+            Timber.d("$TAG storing user $user in db")
+            userDao.upsert(user)
+            true
+        }
     }
 
     // get user from api service
+    /*
     private fun getUserFromApi(token: String, userId: String): Observable<Optional<User>> {
         return usersApi.getUsers(token)
                 .map { users ->
@@ -115,10 +114,10 @@ internal constructor(private val usersApi: UsersApi,
                     Optional.empty<User>()
                 }
     }
+     */
 
     companion object {
         private val TAG = UserRepository::class.java.canonicalName
-        private const val API_DEBOUNCE_TIME = 500
     }
 
 }

@@ -7,21 +7,22 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class UserUseCase @Inject
-internal constructor(private val userRepository: UserRepository,
-                     private val userMapper: UserMapper): BaseUseCase() {
+internal constructor(
+        private val userRepository: UserRepository,
+        private val userMapper: UserMapper)
+    : BaseUseCase() {
 
     fun getAllUsers(nameQuery: String): Observable<List<User>> {
         return userRepository.getAllUsers(nameQuery)
-            .map { repoUsers -> userMapper.mapApiUsersToDomain(repoUsers) }
+                .map { repoUsers -> userMapper.mapApiUsersToDomain(repoUsers) }
     }
 
     fun getUser(userId: String): Observable<User> {
         return userRepository.getUserById(userId)
-            .map { repoUser -> userMapper.mapApiUserToDomain(repoUser) }
+                .map { repoUser -> userMapper.mapApiUserToDomain(repoUser) }
     }
 
     fun addUser(user: User): Observable<Boolean> {
         return userRepository.addUser(userMapper.mapDomainToApi(user))
     }
-
 }

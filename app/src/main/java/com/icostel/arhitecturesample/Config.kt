@@ -3,7 +3,7 @@ package com.icostel.arhitecturesample
 interface Config {
 
     companion object {
-        val REST_ENDPOINT = BuildConfig.HOST_NAME
+        const val REST_ENDPOINT = BuildConfig.HOST_NAME
     }
 
     interface Pref {

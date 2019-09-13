@@ -1,8 +1,10 @@
 package com.icostel.arhitecturesample.ui.listusers
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.ActivityOptions
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
@@ -16,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.api.Status
 import com.icostel.arhitecturesample.ui.BaseFragment
+import com.icostel.arhitecturesample.ui.newuser.NewUserActivity.Companion.REQUEST_CODE_USER_ADDED
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.arhitecturesample.utils.error.ErrorType
@@ -59,7 +62,7 @@ class ListUsersFragment : BaseFragment() {
 
         listUsersViewModel.userListLiveData.observe(this) { userAdapter.updateItems(it as List<User>) }
         userAdapter.selectedItem.observe(this) { listUsersViewModel.onUserSelected(it as User) }
-        swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.refreshUsers(searchView.query.toString()) }
+        swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.getUsers(searchView.query.toString()) }
         listUsersViewModel.loadingStatus.observe(this) { this.handleLoadingStatus(it) }
         listUsersViewModel.navigationActionLiveEvent.observe(this) { (activity as Navigator).navigateTo(it) }
 
@@ -104,6 +107,15 @@ class ListUsersFragment : BaseFragment() {
         searchView.setOnQueryTextListener((OnQueryTextChangedListener { listUsersViewModel.onSearchInput(it) }))
 
         return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_USER_ADDED) {
+                listUsersViewModel.getUsers(searchView.query.toString())
+            }
+        }
     }
 
     override fun onBackPress() {

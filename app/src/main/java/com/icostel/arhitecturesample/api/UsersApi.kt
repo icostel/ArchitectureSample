@@ -1,9 +1,7 @@
 package com.icostel.arhitecturesample.api
 
 import com.icostel.arhitecturesample.api.model.User
-import io.reactivex.Observable
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,8 +11,9 @@ import javax.inject.Singleton
 class UsersApi @Inject
 internal constructor(private val apiService: UserApiService) {
 
+    /*
     fun getUser(authToken: String, userId: String): Observable<Optional<User>> {
-        return apiService.getUsers(authToken)
+        return apiService.getUsers(authToken).data
                 .map { userResponse ->
                     userResponse.data?.let { users ->
                         val usersSize = users.size
@@ -32,23 +31,16 @@ internal constructor(private val apiService: UserApiService) {
                     Optional.empty<User>()
                 }
     }
-
-    /*
-    fun addUser(authToken: String, user: User): Observable<Int> {
-        return apiService.addUser(authToken, user)
-                .map(userResponse -> userResponse.getData().get(0));
-    }
      */
 
-    fun getUsers(authToken: String): Observable<List<User>> {
-        return apiService.getUsers(authToken)
-                .map { userResponse ->
-                    userResponse.data?.let { users ->
-                        val usersSize = users.size
-                        Timber.d("$TAG getUsers() size: %d", usersSize)
-                        if (usersSize == 0) emptyList() else users
-                    } ?: emptyList()
-                }
+    fun getUsers(authToken: String): List<User> {
+        val res = apiService.getUsers(authToken).execute()
+        Timber.d("$TAG getUsers() api result: ${res.isSuccessful}")
+        if (res.isSuccessful) {
+            return res.body()?.data ?: emptyList()
+        }
+
+        return emptyList()
     }
 
     companion object {

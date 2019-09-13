@@ -20,7 +20,7 @@ class SessionStore
     }
 
     fun getUserToken(): String? {
-        return get()?.userToken
+        return instantValue()?.userToken
     }
 
     fun setUserToken(userToken: String?) {

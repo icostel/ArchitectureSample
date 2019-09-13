@@ -5,17 +5,25 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.api.Status
+import com.icostel.arhitecturesample.manager.SnackBarManager
 import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.commons.utils.AfterTextChangeListener
 import com.icostel.commons.utils.extensions.observe
+import timber.log.Timber
+import javax.inject.Inject
 
 class LoginUserActivity : BaseActivity(), ErrorHandler {
+
+    companion object {
+        private val TAG = LoginUserActivity::class.java.simpleName
+    }
+
+    @Inject
+    lateinit var snackBarManager: SnackBarManager
 
     private lateinit var loginUserViewModel: LoginUserViewModel
 
@@ -27,7 +35,7 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        loginUserViewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginUserViewModel::class.java)
+        loginUserViewModel = getViewModel(LoginUserViewModel::class.java)
 
         setContentView(R.layout.activity_login_user)
 
@@ -53,22 +61,23 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
                     loginBtn?.isEnabled = false
                 }
                 Status.Type.INPUTS_ERROR -> {
-                    Toast.makeText(this@LoginUserActivity, R.string.inputs_invalid, Toast.LENGTH_SHORT).show()
+                    snackBarManager.handleMsg(this@LoginUserActivity, getString(R.string.inputs_invalid))
                     loadingDialog?.visibility = View.GONE
                     loginBtn?.isEnabled = true
                 }
                 Status.Type.CALL_ERROR -> {
-                    Toast.makeText(this@LoginUserActivity, R.string.login_error, Toast.LENGTH_SHORT).show()
+                    snackBarManager.handleMsg(this@LoginUserActivity, getString(R.string.login_error))
                     loadingDialog?.visibility = View.GONE
                     loginBtn?.isEnabled = true
                 }
                 Status.Type.SUCCESS -> {
-                    Toast.makeText(this@LoginUserActivity, R.string.login_success, Toast.LENGTH_SHORT).show()
+                    snackBarManager.handleMsg(this@LoginUserActivity, getString(R.string.login_success))
                     loadingDialog?.visibility = View.GONE
                     loginUserViewModel.onLoginSuccess()
                     loginBtn?.isEnabled = true
                 }
                 else -> {
+                    Timber.d("$TAG unknown status type $type")
                 }
             }
         }

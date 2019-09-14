@@ -1,14 +1,14 @@
 package com.icostel.arhitecturesample.di.modules
 
 
+import androidx.lifecycle.ViewModel
 import com.icostel.arhitecturesample.di.ViewModelKey
-import com.icostel.arhitecturesample.ui.loginuser.LoginUserViewModel
 import com.icostel.arhitecturesample.ui.listusers.ListUsersViewModel
+import com.icostel.arhitecturesample.ui.loginuser.LoginUserViewModel
 import com.icostel.arhitecturesample.ui.newuser.NewUserViewModel
+import com.icostel.arhitecturesample.ui.splashscreen.SplashScreenViewModel
 import com.icostel.arhitecturesample.ui.userdetails.UserDetailsViewModel
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel
-
-import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -40,4 +40,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NewUserViewModel::class)
     abstract fun bindNewUserViewModel(newUserViewModel: NewUserViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SplashScreenViewModel::class)
+    abstract fun bindSplashScreenViewModel(splashScreenViewModel: SplashScreenViewModel): ViewModel
 }

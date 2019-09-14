@@ -74,7 +74,7 @@ internal constructor(private val usersApi: UsersApi,
     // get the users from db
     private fun getUsersFromDb(query: String): List<User> {
         // append % to the beginning and end of the query
-        return userDao.getUsers(query)
+        return userDao.getUsers("$query%")
     }
 
     private fun getUserFromDb(userId: String): Observable<Optional<User>> {

@@ -1,10 +1,8 @@
 package com.icostel.arhitecturesample.ui.listusers
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.app.ActivityOptions
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
@@ -18,7 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.api.Status
 import com.icostel.arhitecturesample.ui.BaseFragment
-import com.icostel.arhitecturesample.ui.newuser.NewUserActivity.Companion.REQUEST_CODE_USER_ADDED
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.arhitecturesample.utils.error.ErrorType
@@ -76,13 +73,17 @@ class ListUsersFragment : BaseFragment() {
         setHasOptionsMenu(true)
         // for when the frag view is ready
         fragView.post {
-            swipeRefreshLayout.setProgressViewOffset(false,fragView.height / 5,
+            swipeRefreshLayout.setProgressViewOffset(false, fragView.height / 5,
                     fragView.height / 5 + swipeRefreshLayout.progressCircleDiameter)
             swipeRefreshLayout.isRefreshing = true
         }
         motionLayout.transitionToEnd()
 
         return fragView
+    }
+
+    public fun refreshUsers() {
+        listUsersViewModel.getUsers(searchView.query.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -107,15 +108,6 @@ class ListUsersFragment : BaseFragment() {
         searchView.setOnQueryTextListener((OnQueryTextChangedListener { listUsersViewModel.onSearchInput(it) }))
 
         return super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_USER_ADDED) {
-                listUsersViewModel.getUsers(searchView.query.toString())
-            }
-        }
     }
 
     override fun onBackPress() {

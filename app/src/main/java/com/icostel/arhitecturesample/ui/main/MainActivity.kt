@@ -1,5 +1,7 @@
 package com.icostel.arhitecturesample.ui.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -11,6 +13,7 @@ import com.icostel.arhitecturesample.ui.BackFragment
 import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.arhitecturesample.ui.about.AboutFragment
 import com.icostel.arhitecturesample.ui.listusers.ListUsersFragment
+import com.icostel.arhitecturesample.ui.newuser.NewUserActivity
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.commons.utils.bind
@@ -67,6 +70,15 @@ class MainActivity : BaseActivity(), ErrorHandler {
         } ?: run {
             Timber.d("no current fragment available")
             super.onBackPressed()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == NewUserActivity.REQUEST_CODE_USER_ADDED) {
+                (supportFragmentManager.fragments[USERS] as ListUsersFragment).refreshUsers()
+            }
         }
     }
 

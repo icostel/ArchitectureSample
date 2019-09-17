@@ -1,6 +1,7 @@
 package com.icostel.arhitecturesample.view.mapper
 
 import com.icostel.arhitecturesample.view.model.User
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 

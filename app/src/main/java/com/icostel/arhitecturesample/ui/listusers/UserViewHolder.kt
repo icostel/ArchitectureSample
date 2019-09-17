@@ -16,6 +16,7 @@ import com.icostel.commons.adapter.BaseViewHolder
 import com.icostel.commons.utils.AnimatorFactory
 import com.icostel.commons.utils.bind
 import timber.log.Timber
+import java.util.*
 
 class UserViewHolder(private val context: Context, itemView: View) : BaseViewHolder<User>(itemView) {
 
@@ -30,7 +31,7 @@ class UserViewHolder(private val context: Context, itemView: View) : BaseViewHol
 
     override fun bind(item: User?) {
         item?.let {
-            firstName.text = item.firstName.capitalize()
+            firstName.text = item.firstName.toUpperCase(Locale.getDefault())
             age.text = context.getString(R.string.age, item.age)
 
             if (item.resourceUrl.isEmpty()) {

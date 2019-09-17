@@ -1,5 +1,6 @@
-package com.icostel.arhitecturesample.domain.model
+package com.icostel.arhitecturesample.domain.mapper
 
+import com.icostel.arhitecturesample.domain.model.User
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +32,8 @@ class UserMapper @Inject constructor() {
                     firstName = apiUser.firstName,
                     lastName = apiUser.lastName,
                     resourceUrl = apiUser.resourceUrl,
-                    country = apiUser.country
+                    country = apiUser.country,
+                    age = apiUser.age
             ))
         }
         return domainUsers
@@ -45,7 +47,8 @@ class UserMapper @Inject constructor() {
                         firstName = this.firstName,
                         lastName = this.lastName,
                         resourceUrl = this.resourceUrl,
-                        country = this.country
+                        country = this.country,
+                        age = this.age
                 )
             }
         } else User()

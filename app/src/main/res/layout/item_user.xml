@@ -4,7 +4,10 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:layout_margin="@dimen/screen_margin"
+    android:layout_marginStart="@dimen/double_screen_margin"
+    android:layout_marginEnd="@dimen/double_screen_margin"
+    android:layout_marginTop="@dimen/screen_margin"
+    android:layout_marginBottom="@dimen/screen_margin"
     android:elevation="8dp"
     android:fadingEdge="vertical"
     app:cardCornerRadius="8dp">

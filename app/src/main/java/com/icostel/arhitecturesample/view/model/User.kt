@@ -10,13 +10,4 @@ constructor(var id: String = "",
             var resourceUrl: String = "",
             var country: String = "",
             var age: String = "",
-            var transitionBundle: Bundle? = null) {
-
-    override fun toString(): String {
-        return "$TAG(id=$id, firstName='$firstName', lastName='$lastName', resourceUrl='$resourceUrl', country='$country')"
-    }
-
-    companion object {
-        const val TAG = "User"
-    }
-}
+            var transitionBundle: Bundle? = null)

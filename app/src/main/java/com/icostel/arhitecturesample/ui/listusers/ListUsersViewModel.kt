@@ -37,11 +37,7 @@ internal constructor(private val userUseCase: UserUseCase,
         getUsers("")
     }
 
-    internal fun onSearchInput(searchInput: String) {
-        getUsers(searchInput)
-    }
-
-    fun getUsers(nameQuery: String) {
+    internal fun getUsers(nameQuery: String) {
         loadingStatus.value = Status.Type.IN_PROGRESS
 
         disposable.add(userUseCase.getAllUsers(nameQuery)

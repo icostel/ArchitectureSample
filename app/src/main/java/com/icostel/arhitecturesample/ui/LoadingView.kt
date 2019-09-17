@@ -25,9 +25,8 @@ class LoadingView : RelativeLayout {
         layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
         progressBar = ProgressBar(context)
-        val params = RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+        val params = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params.addRule(CENTER_IN_PARENT, TRUE)
         addView(progressBar, params)
     }
 

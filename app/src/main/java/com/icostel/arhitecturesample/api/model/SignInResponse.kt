@@ -7,16 +7,7 @@ data class SignInResponse(
         val success: Boolean = false,
 
         @SerializedName("message")
-        val message: String = empty,
+        val message: String = "",
 
         @SerializedName("token")
-        val token: String = empty) {
-
-    companion object {
-        val empty = "empty"
-    }
-
-    override fun toString(): String {
-        return "SignInResponse(success=$success, message='$message', token='$token')"
-    }
-}
+        val token: String = "")

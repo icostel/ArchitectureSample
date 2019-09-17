@@ -13,18 +13,28 @@ class SessionStore
 @Inject constructor(@PerUser preferences: SharedPreferences)
     : PersistentSetting<SessionData>(preferences) {
 
-    private var userSessionToken: String? = null
-
-    init {
-        userSessionToken = instantValue()?.userToken
+    fun getUserToken(): String? {
+        return getValue()?.userToken
     }
 
-    fun getUserToken(): String? {
-        return instantValue()?.userToken
+    fun getKeepLogin(): Boolean? {
+        return getValue()?.keepLogIn
+    }
+
+    fun setKeepLogin(keep: Boolean) {
+        if (getValue() == null) {
+            updateValue(SessionData(keepLogIn = keep))
+        } else {
+            updateValue(getValue()!!.copy(keepLogIn = keep))
+        }
     }
 
     fun setUserToken(userToken: String?) {
-        updateValue(SessionData(userToken))
+        if (getValue() == null) {
+            updateValue(SessionData(userToken = userToken))
+        } else {
+            updateValue(getValue()!!.copy(userToken = userToken))
+        }
     }
 
     override fun key(): String {

@@ -20,9 +20,13 @@ class SplashScreenViewModel
     internal val navigationAction: SingleLiveEvent<NavigationAction> = SingleLiveEvent()
 
     fun navigate() {
-        Timber.d("$TAG navigate() user token: ${sessionStore.getUserToken()}")
 
-        sessionStore.getUserToken()?.let {
+        val keepLogin = sessionStore.getKeepLogin() ?: false
+        val userToken = sessionStore.getUserToken()
+
+        Timber.d("$TAG navigate() user token: $userToken keep login: $keepLogin")
+
+        if (keepLogin && userToken != null) {
             Handler().postDelayed({
                 navigationAction.postValue(ActivityNavigationAction.Builder()
                         .setScreenProvider(appScreenProvider)
@@ -30,7 +34,7 @@ class SplashScreenViewModel
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         .build())
             }, NAVIGATION_DELAY)
-        } ?: run {
+        } else {
             Handler().postDelayed({
                 navigationAction.postValue(ActivityNavigationAction.Builder()
                         .setScreenProvider(appScreenProvider)

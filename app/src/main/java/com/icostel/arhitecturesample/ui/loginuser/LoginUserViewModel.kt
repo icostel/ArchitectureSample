@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 import com.icostel.arhitecturesample.api.Status
+import com.icostel.arhitecturesample.api.session.SessionStore
 import com.icostel.arhitecturesample.navigation.AppScreenProvider
 import com.icostel.arhitecturesample.repository.UserLogInHandler
 import com.icostel.commons.navigation.ActivityNavigationAction
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 class LoginUserViewModel
 @Inject internal constructor(
+        private val sessionStore: SessionStore,
         private val userLogInHandler: UserLogInHandler,
         private val appScreenProvider: AppScreenProvider)
     : ViewModel() {
@@ -50,6 +52,14 @@ class LoginUserViewModel
                         }
                     })
         }
+    }
+
+    internal fun onKeepLoginSwitch(keep: Boolean) {
+        sessionStore.setKeepLogin(keep)
+    }
+
+    internal fun isKeepLogin(): Boolean {
+        return sessionStore.getKeepLogin() ?: false
     }
 
     internal fun onLoginSuccess() {

@@ -43,4 +43,5 @@
     <string name="all_users">Available People</string>
     <string name="browse_all_people">browse them</string>
     <string name="logging_out">Logging out...</string>
+    <string name="keep_me_signed_in">Keep me signed in</string>
 </resources>

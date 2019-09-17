@@ -2,9 +2,7 @@ package com.icostel.arhitecturesample.ui.loginuser
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.api.Status
 import com.icostel.arhitecturesample.manager.SnackBarManager
@@ -12,6 +10,7 @@ import com.icostel.arhitecturesample.ui.BaseActivity
 import com.icostel.arhitecturesample.utils.error.ErrorData
 import com.icostel.arhitecturesample.utils.error.ErrorHandler
 import com.icostel.commons.utils.AfterTextChangeListener
+import com.icostel.commons.utils.bind
 import com.icostel.commons.utils.extensions.observe
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,6 +30,7 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
     private lateinit var userEmailTv: TextView
     private lateinit var userPassTv: TextView
     private lateinit var loadingDialog: ProgressBar
+    private lateinit var loginSwitch: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +39,11 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
 
         setContentView(R.layout.activity_login_user)
 
-        loginBtn = findViewById(R.id.login_btn)
-        userEmailTv = findViewById(R.id.user_email_tv)
-        userPassTv = findViewById(R.id.user_pass_tv)
-        loadingDialog = findViewById(R.id.loading_dialog)
+        loginBtn = bind(R.id.login_btn)
+        userEmailTv = bind(R.id.user_email_tv)
+        userPassTv = bind(R.id.user_pass_tv)
+        loadingDialog = bind(R.id.loading_dialog)
+        loginSwitch = bind(R.id.log_in_switch)
 
         userEmailTv.addTextChangedListener((AfterTextChangeListener {
             loginUserViewModel.allInputsAvailable(userEmailTv.text, userPassTv.text)
@@ -55,6 +56,9 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
         loginUserViewModel.signInStatusLive.observe(this) { handleLoginStatus(it) }
         loginUserViewModel.allInputsAvailable.observe(this) { it?.let { enabled -> loginBtn.isEnabled = enabled } }
         loginBtn.setOnClickListener { loginUserViewModel.onLogInBtnClicked(userEmailTv.text.toString(), userPassTv.text.toString()) }
+        loginSwitch.isChecked = loginUserViewModel.isKeepLogin()
+        loginSwitch.setOnCheckedChangeListener { _, checked -> loginUserViewModel.onKeepLoginSwitch(checked) }
+
     }
 
     private fun handleLoginStatus(type: Status.Type?) {

@@ -82,7 +82,7 @@ class ListUsersFragment : BaseFragment() {
         return fragView
     }
 
-    public fun refreshUsers() {
+    fun refreshUsers() {
         listUsersViewModel.getUsers(searchView.query.toString())
     }
 
@@ -105,7 +105,7 @@ class ListUsersFragment : BaseFragment() {
             it.requestFocus()
             setShouldHandleBack(true)
         }
-        searchView.setOnQueryTextListener((OnQueryTextChangedListener { listUsersViewModel.onSearchInput(it) }))
+        searchView.setOnQueryTextListener((OnQueryTextChangedListener { listUsersViewModel.getUsers(it) }))
 
         return super.onCreateOptionsMenu(menu, inflater)
     }

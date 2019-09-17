@@ -2,4 +2,5 @@
 <resources>
     <dimen name="screen_margin">16dp</dimen>
     <dimen name="app_btn_height">48dp</dimen>
+    <dimen name="double_screen_margin">32dp</dimen>
 </resources>

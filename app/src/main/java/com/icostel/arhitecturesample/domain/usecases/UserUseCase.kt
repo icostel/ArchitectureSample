@@ -1,7 +1,7 @@
 package com.icostel.arhitecturesample.domain.usecases
 
 import com.icostel.arhitecturesample.domain.model.User
-import com.icostel.arhitecturesample.domain.model.UserMapper
+import com.icostel.arhitecturesample.domain.mapper.UserMapper
 import com.icostel.arhitecturesample.repository.UserRepository
 import io.reactivex.Observable
 import javax.inject.Inject

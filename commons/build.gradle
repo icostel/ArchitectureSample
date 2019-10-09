@@ -59,7 +59,6 @@ dependencies {
     api deps.okhttp
     api deps.mock_server
     api deps.cardview
-    api deps.work.runtime
     api deps.glide.runtime
 
     annotationProcessor deps.glide.compiler

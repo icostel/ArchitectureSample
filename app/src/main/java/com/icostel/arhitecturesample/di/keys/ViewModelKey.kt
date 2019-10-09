@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.di
+package com.icostel.arhitecturesample.di.keys
 
 
 import androidx.lifecycle.ViewModel

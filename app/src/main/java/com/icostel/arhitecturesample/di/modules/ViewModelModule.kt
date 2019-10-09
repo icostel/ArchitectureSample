@@ -2,7 +2,7 @@ package com.icostel.arhitecturesample.di.modules
 
 
 import androidx.lifecycle.ViewModel
-import com.icostel.arhitecturesample.di.ViewModelKey
+import com.icostel.arhitecturesample.di.keys.ViewModelKey
 import com.icostel.arhitecturesample.ui.listusers.ListUsersViewModel
 import com.icostel.arhitecturesample.ui.loginuser.LoginUserViewModel
 import com.icostel.arhitecturesample.ui.newuser.NewUserViewModel

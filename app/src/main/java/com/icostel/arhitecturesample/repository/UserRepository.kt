@@ -5,14 +5,11 @@ import com.icostel.arhitecturesample.api.model.User
 import com.icostel.arhitecturesample.api.session.SessionStore
 import com.icostel.arhitecturesample.db.UserDao
 import com.icostel.commons.utils.AppExecutors
-import java.util.Objects
-import java.util.Optional
-
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import io.reactivex.Observable
 import timber.log.Timber
+import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The main repository for the users
@@ -22,7 +19,7 @@ class UserRepository @Inject
 internal constructor(private val usersApi: UsersApi,
                      private val userDao: UserDao,
                      private val appExecutors: AppExecutors,
-                     private val sessionStore: SessionStore) {
+                     private val sessionStore: SessionStore) : IRepository() {
 
     fun addUser(apiUser: User): Observable<Boolean> {
         // for now we're only adding the new user in the db, as we don't really have a BE
@@ -33,22 +30,24 @@ internal constructor(private val usersApi: UsersApi,
         return getUserFromDb(userId)
     }
 
-    fun getAllUsers(nameQuery: String?): Observable<List<User>> {
+    fun getAllUsersObservable(nameQuery: String?): Observable<List<User>> {
         return Observable.fromCallable {
-            if (userDao.getUserCount() > 0) {
-                // we already have users in the db
-                val foundUsers = if (nameQuery.isNullOrEmpty()) {
-                    getUsersFromDb()
-                } else {
-                    getUsersFromDb(nameQuery)
-                }
+            getAllUsers(nameQuery)
+        }
+    }
 
-                foundUsers
+    fun getAllUsers(nameQuery: String?): List<User> {
+        // we already have users in the db
+        return if (userDao.getUserCount() > 0) {
+            if (nameQuery.isNullOrEmpty()) {
+                getUsersFromDb()
             } else {
-                val users = getUsersFromApi(sessionStore.getUserToken())
-                storeUsersInDb(users)
-                users
+                getUsersFromDb(nameQuery)
             }
+        } else {
+            val users = getUsersFromApi(sessionStore.getUserToken())
+            storeUsersInDb(users)
+            users
         }
     }
 

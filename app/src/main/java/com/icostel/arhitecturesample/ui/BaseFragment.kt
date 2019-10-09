@@ -21,8 +21,6 @@ open class BaseFragment : BackFragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    // the param is used to identify the class at compile time so that
-    // it's instance can pe provided from the factory (ViewModelFactory.kt)
     @MainThread
     internal inline fun <reified T : ViewModel?> getViewModel(viewModelClass: Class<T>): T {
         return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)

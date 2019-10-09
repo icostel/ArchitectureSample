@@ -45,7 +45,6 @@ class SyncWorker constructor(
     }
 
     companion object {
-        const val WORK_INPUT_QUERY = "query"
         const val WORK_OUTPUT_ERROR = "error"
         private val TAG = SyncWorker::class.java.simpleName
     }

@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.di.modules
+package com.icostel.arhitecturesample.di.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -9,5 +9,5 @@ import dagger.Module
 abstract class UseCaseModule {
 
     @Binds
-    abstract fun bindUserUserCaseModule(userUseCase: UserUseCase): BaseUseCase
+    abstract fun bindUserUserCase(userUseCase: UserUseCase): BaseUseCase
 }

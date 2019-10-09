@@ -59,7 +59,8 @@ class ListUsersFragment : BaseFragment() {
 
         listUsersViewModel.userListLiveData.observe(this) { userAdapter.updateItems(it as List<User>) }
         userAdapter.selectedItem.observe(this) { listUsersViewModel.onUserSelected(it as User) }
-        swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.getUsers(searchView.query.toString()) }
+        swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.getUsersWithWorker(this, searchView.query.toString()) }
+        //swipeRefreshLayout.setOnRefreshListener { listUsersViewModel.getUsers(searchView.query.toString()) }
         listUsersViewModel.loadingStatus.observe(this) { this.handleLoadingStatus(it) }
         listUsersViewModel.navigationActionLiveEvent.observe(this) { (activity as Navigator).navigateTo(it) }
 

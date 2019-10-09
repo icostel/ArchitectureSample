@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.icostel.arhitecturesample">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".SampleApp"
         android:allowBackup="false"
@@ -37,8 +35,8 @@
         <activity
             android:name=".ui.userdetails.UserDetailsActivity"
             android:label="@string/label_user_details"
-            android:theme="@style/AppTheme.ContentTransitions.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ContentTransitions.NoActionBar" />
 
         <activity
             android:name=".ui.loginuser.LoginUserActivity"
@@ -49,6 +47,14 @@
             android:name=".ui.main.MainActivity"
             android:label="@string/login_user"
             android:screenOrientation="portrait" />
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:exported="false"
+            tools:node="remove" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

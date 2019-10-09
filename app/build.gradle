@@ -36,6 +36,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     androidExtensions {
         experimental = true
     }
@@ -67,7 +71,8 @@ dependencies {
     api deps.okhttp_logging_interceptor
     api deps.mock_server
     api deps.cardview
-    api deps.work.runtime
+    api deps.work.runtime_ktx
+    api deps.work.rx_work
     api deps.glide.runtime
 
     kapt deps.glide.compiler

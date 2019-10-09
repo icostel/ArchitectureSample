@@ -61,8 +61,7 @@ abstract class PersistentSetting<T>(
         if (data != null) {
             encoded = when(clazz()) {
                 String::class.java -> data as String?
-                Boolean::class.java -> data.toString()
-                Int::class.java -> data.toString()
+                Boolean::class.java, Int::class.java -> data.toString()
                 else -> gSon.toJson(data)
             }
         }

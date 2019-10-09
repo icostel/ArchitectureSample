@@ -1,7 +1,11 @@
 package com.icostel.arhitecturesample.ui.listusers
 
+import android.content.Context
 import android.os.Bundle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.icostel.arhitecturesample.BuildConfig
 import com.icostel.arhitecturesample.Config
 import com.icostel.arhitecturesample.api.Status
@@ -10,9 +14,11 @@ import com.icostel.arhitecturesample.navigation.AppScreenProvider
 import com.icostel.arhitecturesample.ui.newuser.NewUserActivity
 import com.icostel.arhitecturesample.view.mapper.UserMapper
 import com.icostel.arhitecturesample.view.model.User
+import com.icostel.arhitecturesample.work.SyncWorker
 import com.icostel.commons.BaseViewModel
 import com.icostel.commons.navigation.ActivityNavigationAction
 import com.icostel.commons.navigation.NavigationAction
+import com.icostel.commons.utils.extensions.observe
 import com.icostel.commons.utils.livedata.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,9 +29,14 @@ import javax.inject.Inject
 
 
 class ListUsersViewModel @Inject
-internal constructor(private val userUseCase: UserUseCase,
+internal constructor(private val context: Context,
+                     private val userUseCase: UserUseCase,
                      private val userMapper: UserMapper,
                      private val appScreenProvider: AppScreenProvider) : BaseViewModel() {
+
+    companion object {
+        private val TAG = ListUsersViewModel::class.java.simpleName
+    }
 
     // used in the UI for updating the user list
     internal val userListLiveData = MutableLiveData<List<User>>()
@@ -58,6 +69,23 @@ internal constructor(private val userUseCase: UserUseCase,
                     Timber.e("Could not get users: $throwable")
                     loadingStatus.setValue(Status.Type.ERROR)
                 }))
+    }
+
+    internal fun getUsersWithWorker(owner: LifecycleOwner, nameQuery: String) {
+        loadingStatus.value = Status.Type.IN_PROGRESS
+        val uuid = userUseCase.getAllUsersWithWorker(nameQuery)
+        WorkManager.getInstance(context).getWorkInfoByIdLiveData(uuid).observe(owner) { workInfo ->
+            if (workInfo != null) {
+                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                    //TODO if we can't get the users this way, just trigger a success or failed event
+                    // and get them from db, meaning they have been synced, worker uses the repo
+                    val res = workInfo.outputData.keyValueMap[SyncWorker.WORK_OUTPUT_USERS]
+                    Timber.d(">>>>>>>>>>$TAG res: $res")
+                } else {
+                    Timber.d(">>>>>>>>>>$TAG something went bad")
+                }
+            }
+        }
     }
 
     fun onUserAdd(transitionBundle: Bundle) {

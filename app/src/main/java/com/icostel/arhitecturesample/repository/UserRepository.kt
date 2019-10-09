@@ -45,14 +45,14 @@ internal constructor(private val usersApi: UsersApi,
                 getUsersFromDb(nameQuery)
             }
         } else {
-            val users = getUsersFromApi(sessionStore.getUserToken())
+            val users = getUsersFromApi()
             storeUsersInDb(users)
             users
         }
     }
 
     // store the new users in DB
-    private fun storeUsersInDb(users: List<User>?) {
+    fun storeUsersInDb(users: List<User>?) {
         if (users == null) {
             Timber.d("$TAG storeUsersInDb() user list is null, skipping...")
         } else {
@@ -84,11 +84,8 @@ internal constructor(private val usersApi: UsersApi,
     }
 
     // get users from api service
-    private fun getUsersFromApi(token: String?): List<User> {
-        return if (token != null) {
-            usersApi.getUsers(token)
-        } else emptyList()
-
+    fun getUsersFromApi(): List<User> {
+        return usersApi.getUsers(sessionStore.getUserToken())
     }
 
     private fun storeUserInDb(user: User): Observable<Boolean> {

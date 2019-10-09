@@ -18,6 +18,7 @@ class WorkManagerRxFactory @Inject constructor(
             appContext: Context,
             workerClassName: String,
             workerParameters: WorkerParameters): RxWorker? {
+
         val foundEntry = workerFactories.entries.find { Class.forName(workerClassName).isAssignableFrom(it.key) }
         val factoryProvider = foundEntry?.value
                 ?: throw IllegalArgumentException("unknown worker class name: $workerClassName")

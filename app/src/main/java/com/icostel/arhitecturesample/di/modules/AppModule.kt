@@ -16,7 +16,8 @@ import dagger.Module
     DbModule::class,
     UseCaseModule::class,
     ManagerModule::class,
-    RepoModule::class
+    RepoModule::class,
+    UtilsModule::class
 ])
 abstract class AppModule {
 

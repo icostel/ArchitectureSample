@@ -32,7 +32,8 @@ class ListUsersViewModel @Inject
 internal constructor(private val context: Context,
                      private val userUseCase: UserUseCase,
                      private val userMapper: UserMapper,
-                     private val appScreenProvider: AppScreenProvider) : BaseViewModel() {
+                     private val appScreenProvider: AppScreenProvider
+): BaseViewModel() {
 
     companion object {
         private val TAG = ListUsersViewModel::class.java.simpleName
@@ -73,16 +74,26 @@ internal constructor(private val context: Context,
 
     internal fun getUsersWithWorker(owner: LifecycleOwner, nameQuery: String) {
         loadingStatus.value = Status.Type.IN_PROGRESS
-        val uuid = userUseCase.getAllUsersWithWorker(nameQuery)
+        val uuid = userUseCase.refreshUsersFromApi(nameQuery)
         WorkManager.getInstance(context).getWorkInfoByIdLiveData(uuid).observe(owner) { workInfo ->
             if (workInfo != null) {
-                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                    //TODO if we can't get the users this way, just trigger a success or failed event
-                    // and get them from db, meaning they have been synced, worker uses the repo
-                    val res = workInfo.outputData.keyValueMap[SyncWorker.WORK_OUTPUT_USERS]
-                    Timber.d(">>>>>>>>>>$TAG res: $res")
-                } else {
-                    Timber.d(">>>>>>>>>>$TAG something went bad")
+                // we got the new users and are new available in the db so call that
+                // as we can't pass lists in Workinfo.Outputdata
+                when(workInfo.state) {
+                    WorkInfo.State.SUCCEEDED -> {
+                        Timber.d("$TAG getUsersWithWorker() SUCCEEDED")
+                    }
+                    WorkInfo.State.RUNNING -> {
+                        Timber.d("$TAG getUsersWithWorker() RUNNING")
+                        // the loading spinner will be canceled by the api call
+                        getUsers("")
+                    }
+                    WorkInfo.State.FAILED -> {
+                        Timber.d("$TAG getUsersWithWorker() FAILED, err:" +
+                                workInfo.outputData.getString(SyncWorker.WORK_OUTPUT_ERROR))
+                        loadingStatus.value = Status.Type.ERROR
+                    }
+                    else -> {}
                 }
             }
         }

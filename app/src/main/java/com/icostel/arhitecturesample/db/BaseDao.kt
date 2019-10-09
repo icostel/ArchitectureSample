@@ -18,13 +18,13 @@ interface BaseDao<T> {
      *
      * @param item the item to be inserted.
      */
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert
     fun insert(item: T)
 
     /**
      * Update an object from the database.
      */
-    @Update(onConflict = OnConflictStrategy.FAIL)
+    @Update
     fun update(item: T)
 
     /**
@@ -41,11 +41,11 @@ interface BaseDao<T> {
         try {
             insert(item)
         } catch (exception: SQLiteConstraintException) {
-            Timber.d("$TAG insert failed, trying update")
+            Timber.d("$TAG insert failed maybe we already have the user, trying update...")
             try {
                 update(item)
             } catch (exception: SQLiteConstraintException) {
-                Timber.d("$TAG update failed, nothing to do...")
+                Timber.d("$TAG update also failed, nothing to do...")
             }
         }
     }

@@ -96,7 +96,8 @@ public class MockServer {
 
     private MockResponse getLoginResponse() {
         try {
-            SignInResponse signInResponse = new SignInResponse(true, "welcome", "sdkjahdds8sd79sd87v8734134ec13re");
+            SignInResponse signInResponse = new SignInResponse(true, "welcome",
+                    "sdkjahdds8sd79sd87v8734134ec13re");
             return new MockResponse()
                     .addHeader("Content-Type", "application/json; charset=utf-8")
                     .addHeader("Cache-Control", "no-cache")
@@ -111,7 +112,7 @@ public class MockServer {
         ArrayList<Integer> newUser = new ArrayList<>(1);
         AddUserResponse response = new AddUserResponse();
         try {
-            newUser.add(new Random().ints(0, Integer.MAX_VALUE).findFirst().getAsInt());
+            new Random().ints(0, Integer.MAX_VALUE).findFirst().ifPresent(newUser::add);
         } catch (Exception e) {
             Timber.e(TAG + "getAllUsersResponse(), err: " + e.getMessage());
             newUser.add(-1);

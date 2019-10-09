@@ -10,6 +10,9 @@ import io.reactivex.Observable
 import java.util.*
 import javax.inject.Inject
 
+//TODO break this into multiple use cases
+//getAllUsersUseCase
+//getUserUseCase so on...
 class UserUseCase @Inject
 internal constructor(
         private val context: Context,
@@ -31,7 +34,7 @@ internal constructor(
         return userRepository.addUser(userMapper.mapDomainToApi(user))
     }
 
-    fun getAllUsersWithWorker(nameQuery: String): UUID {
+    fun refreshUsersFromApi(nameQuery: String): UUID {
         val data = workDataOf(SyncWorker.WORK_INPUT_QUERY to nameQuery)
         val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)

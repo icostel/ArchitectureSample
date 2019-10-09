@@ -1,15 +1,13 @@
 package com.icostel.arhitecturesample.di.modules
 
+import androidx.room.Room
 import com.icostel.arhitecturesample.Config
+import com.icostel.arhitecturesample.SampleApp
 import com.icostel.arhitecturesample.db.AppDb
 import com.icostel.arhitecturesample.db.UserDao
-
-import javax.inject.Singleton
-
-import androidx.room.Room
-import com.icostel.arhitecturesample.SampleApp
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class DbModule {

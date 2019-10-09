@@ -33,11 +33,13 @@ internal constructor(private val apiService: UserApiService) {
     }
      */
 
-    fun getUsers(authToken: String): List<User> {
-        val res = apiService.getUsers(authToken).execute()
-        Timber.d("$TAG getUsers() api result: ${res.isSuccessful}")
-        if (res.isSuccessful) {
-            return res.body()?.data ?: emptyList()
+    fun getUsers(authToken: String?): List<User> {
+        if (authToken != null) {
+            val res = apiService.getUsers(authToken).execute()
+            Timber.d("$TAG getUsers() api result: ${res.isSuccessful}")
+            if (res.isSuccessful) {
+                return res.body()?.data ?: emptyList()
+            }
         }
 
         return emptyList()

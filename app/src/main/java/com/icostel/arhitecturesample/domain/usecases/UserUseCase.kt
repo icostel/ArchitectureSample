@@ -34,14 +34,12 @@ internal constructor(
         return userRepository.addUser(userMapper.mapDomainToApi(user))
     }
 
-    fun refreshUsersFromApi(nameQuery: String): UUID {
-        val data = workDataOf(SyncWorker.WORK_INPUT_QUERY to nameQuery)
+    fun refreshUsersFromApi(): UUID {
         val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
         val syncUsersRequest = OneTimeWorkRequestBuilder<SyncWorker>()
                 .setConstraints(constraints)
-                .setInputData(data)
                 .build()
         WorkManager.getInstance(context).enqueue(syncUsersRequest)
         return syncUsersRequest.id

@@ -72,9 +72,9 @@ internal constructor(private val context: Context,
                 }))
     }
 
-    internal fun getUsersWithWorker(owner: LifecycleOwner, nameQuery: String) {
+    internal fun getUsersWithWorker(owner: LifecycleOwner) {
         loadingStatus.value = Status.Type.IN_PROGRESS
-        val uuid = userUseCase.refreshUsersFromApi(nameQuery)
+        val uuid = userUseCase.refreshUsersFromApi()
         WorkManager.getInstance(context).getWorkInfoByIdLiveData(uuid).observe(owner) { workInfo ->
             if (workInfo != null) {
                 // we got the new users and are new available in the db so call that

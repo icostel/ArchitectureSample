@@ -24,8 +24,6 @@ class ConnectionLiveData
         val connectivityManager: ConnectivityManager
 ) : MutableLiveData<Boolean>() {
 
-    private var areWeConnected: Boolean? = false
-
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network?) {
             if(network != null) {
@@ -44,12 +42,12 @@ class ConnectionLiveData
 
     fun areWeConnected() {
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-        areWeConnected = activeNetwork?.isConnectedOrConnecting == true
-        postValue(areWeConnected)
+        postValue(activeNetwork?.isConnectedOrConnecting == true)
     }
 
     override fun onActive() {
         super.onActive()
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
         areWeConnected()
     }
 

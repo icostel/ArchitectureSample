@@ -28,7 +28,7 @@ class UserDetailsFragment : BaseFragment(), Injectable {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val layout = inflater.inflate(R.layout.layout_user_details, container, false)
-        userDetailsViewModel = getViewModel(UserDetailsViewModel::class.java)
+        userDetailsViewModel = getViewModel()
 
         toolbar = layout.bind(R.id.toolbar)
         userImage = layout.bind(R.id.user_image)

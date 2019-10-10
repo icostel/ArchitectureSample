@@ -74,6 +74,11 @@ dependencies {
     api deps.work.runtime_ktx
     api deps.work.rx_work
     api deps.glide.runtime
+    api deps.auto_factory
+    api deps.auto_value
+
+    annotationProcessor deps.auto_factory
+    annotationProcessor deps.auto_value
 
     kapt deps.glide.compiler
     kapt deps.dagger.android_support_compiler

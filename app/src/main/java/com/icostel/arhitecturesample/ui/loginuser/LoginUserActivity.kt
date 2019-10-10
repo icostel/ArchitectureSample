@@ -35,7 +35,7 @@ class LoginUserActivity : BaseActivity(), ErrorHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        loginUserViewModel = getViewModel(LoginUserViewModel::class.java)
+        loginUserViewModel = getViewModel()
 
         setContentView(R.layout.activity_login_user)
 

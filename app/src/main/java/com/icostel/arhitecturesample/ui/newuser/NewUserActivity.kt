@@ -27,7 +27,7 @@ class NewUserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        newUserViewModel = getViewModel(NewUserViewModel::class.java)
+        newUserViewModel = getViewModel()
         newUserViewModel.navigationAction.observe(this, this::navigateTo)
         newUserViewModel.apiResponse.observe(this, this::handleAddUserResponse)
         newUserViewModel.inputValidation.observe(this, this::handleUserInputError)

@@ -24,7 +24,7 @@ versions.arch_core = "1.1.1"
 versions.room = "2.0.0"
 versions.lifecycle = "1.1.1"
 versions.support = "28.+"
-versions.dagger = "2.16"
+versions.dagger = "2.24"
 versions.junit = "4.12"
 versions.espresso = "3.0.1"
 versions.retrofit = "2.3.0"
@@ -48,6 +48,8 @@ versions.rx_adapter = "2.4.1-SNAPSHOT"
 versions.butterknife = "10.0.0"
 versions.mock_web_server = "3.12.0-SNAPSHOT"
 versions.cardview = "28.0.0"
+versions.auto_factory = "1.0-beta7"
+versions.auto_value = "1.5.3"
 def deps = [:]
 
 def support = [:]
@@ -166,7 +168,10 @@ deps.work = work
 
 ext.deps = deps
 
-def addRepos(RepositoryHandler handler) {
+deps.auto_factory = "com.google.auto.factory:auto-factory:$versions.auto_factory"
+deps.auto_value = "com.google.auto.value:auto-value:$versions.auto_value"
+
+static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }

@@ -22,7 +22,7 @@ open class BaseFragment : BackFragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @MainThread
-    internal inline fun <reified T : ViewModel?> getViewModel(viewModelClass: Class<T>): T {
+    internal inline fun <reified T : ViewModel?> getViewModel(): T {
         return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
     }
 

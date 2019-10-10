@@ -14,6 +14,6 @@ import dagger.android.support.AndroidSupportInjectionModule
 @Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityModule::class])
 interface AppComponent: AndroidInjector<SampleApp> {
 
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<SampleApp>()
+    @Component.Factory
+    abstract class Factory : AndroidInjector.Factory<SampleApp>
 }

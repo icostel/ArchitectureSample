@@ -40,8 +40,7 @@ class ListUsersFragment : BaseFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        listUsersViewModel = getViewModel(ListUsersViewModel::class.java)
-
+        listUsersViewModel = getViewModel()
         val fragView = inflater.inflate(R.layout.layout_user_list_start, container, false)
 
         userRecyclerView = fragView.bind(R.id.user_recycler)

@@ -17,26 +17,23 @@ import com.icostel.commons.navigation.NavigationAction
 import com.icostel.commons.navigation.Navigator
 import com.icostel.commons.utils.extensions.observe
 import dagger.android.support.DaggerAppCompatActivity
-import dagger.android.support.HasSupportFragmentInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-abstract class BaseActivity : DaggerAppCompatActivity(), HasSupportFragmentInjector, Navigator {
+abstract class BaseActivity : DaggerAppCompatActivity(), Navigator {
 
     @Inject
     internal lateinit var connectionLiveData: ConnectionLiveData
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private var errorFragment: ErrorFragment? = null
+
     // the param is used to identify the class at compile time so that
     // it's instance can pe provided from the factory (ViewModelFactory.kt)
-    @MainThread
-    inline fun <reified T : ViewModel?> getViewModel(viewModelClass: Class<T>): T {
+    inline fun <reified T : ViewModel?> getViewModel(): T {
         return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
     }
-
-    private var errorFragment: ErrorFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

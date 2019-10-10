@@ -10,7 +10,7 @@ class SplashScreenActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        splashScreenViewModel = getViewModel(SplashScreenViewModel::class.java)
+        splashScreenViewModel = getViewModel()
         splashScreenViewModel.navigationAction.observe(this) { navigateTo(it) }
         splashScreenViewModel.navigate()
     }

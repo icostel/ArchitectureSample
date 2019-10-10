@@ -16,7 +16,7 @@ class UserDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_user_details)
-        userDetailsViewModel = getViewModel(UserDetailsViewModel::class.java)
+        userDetailsViewModel = getViewModel()
         userDetailsViewModel.navigationAction.observe(this, this@UserDetailsActivity::navigateTo)
         userDetailsViewModel.navigateToFirstFragment(intent.getStringExtra(Config.Data.USER_ID))
     }

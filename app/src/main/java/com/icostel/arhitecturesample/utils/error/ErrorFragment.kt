@@ -34,7 +34,7 @@ class ErrorFragment : BaseFragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        errorViewModel = getViewModel(ErrorViewModel::class.java)
+        errorViewModel = getViewModel()
 
         errorText = view.findViewById(R.id.error_tv)
         errBtn = view.findViewById(R.id.err_btn)

@@ -40,6 +40,7 @@ class ConnectionLiveData
         }
     }
 
+    //TODO remove deprecations
     fun areWeConnected() {
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         postValue(activeNetwork?.isConnectedOrConnecting == true)

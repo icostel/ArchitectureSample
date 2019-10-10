@@ -8,12 +8,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.icostel.arhitecturesample.SampleApp
 import dagger.android.AndroidInjection
+import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
 
 object AppInjector {
     fun init(sampleApp: SampleApp) {
-
+        //TODO create an impl for this to reduce the boiler plate shown here
         sampleApp.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
                 handleActivity(activity)
@@ -45,8 +45,10 @@ object AppInjector {
         })
     }
 
+    // we can't really control the injections of the activity as we have no control over the
+    // framework, but we can register listeners and inject at runtime, the same with fragments
     private fun handleActivity(activity: Activity) {
-        if (activity is HasSupportFragmentInjector) {
+        if (activity is HasAndroidInjector) {
             AndroidInjection.inject(activity)
         }
         if (activity is FragmentActivity) {

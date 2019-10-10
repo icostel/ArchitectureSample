@@ -18,7 +18,7 @@ internal constructor(
         private val context: Context,
         private val userRepository: UserRepository,
         private val userMapper: UserMapper)
-    : BaseUseCase() {
+    : BaseUseCase {
 
     fun getAllUsers(nameQuery: String): Observable<List<User>> {
         return userRepository.getAllUsersObservable(nameQuery)

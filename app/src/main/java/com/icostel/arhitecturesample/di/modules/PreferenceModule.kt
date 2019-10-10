@@ -9,6 +9,8 @@ import com.icostel.arhitecturesample.di.qualifers.PerUser
 
 import dagger.Module
 import dagger.Provides
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 
 @Module
 class PreferenceModule {
@@ -16,12 +18,28 @@ class PreferenceModule {
     @Provides
     @PerUser
     fun provideUserPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(Config.Pref.PREF_USER, Context.MODE_PRIVATE)
+        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+
+        return EncryptedSharedPreferences.create(
+            Config.Pref.PREF_USER,
+            masterKeyAlias,
+            context,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
     }
 
     @Provides
     @PerApp
     fun provideAppPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(Config.Pref.PREF_APP, Context.MODE_PRIVATE)
+        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+
+        return EncryptedSharedPreferences.create(
+            Config.Pref.PREF_APP,
+            masterKeyAlias,
+            context,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
     }
 }

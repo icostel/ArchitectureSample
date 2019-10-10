@@ -76,6 +76,7 @@ dependencies {
     api deps.glide.runtime
     api deps.auto_factory
     api deps.auto_value
+    api deps.security
 
     annotationProcessor deps.auto_factory
     annotationProcessor deps.auto_value

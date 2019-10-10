@@ -57,15 +57,16 @@ abstract class PersistentSetting<T>(
     }
 
     private fun write(data: T?) {
-        var encoded: String? = null
-        if (data != null) {
-            encoded = when(clazz()) {
+        if (data == null) {
+            preferences.edit().remove(key()).apply()
+        } else {
+            val encoded = when(clazz()) {
                 String::class.java -> data as String?
                 Boolean::class.java, Int::class.java -> data.toString()
                 else -> gSon.toJson(data)
             }
+            preferences.edit().putString(key(), encoded).apply()
         }
-        preferences.edit().putString(key(), encoded).apply()
         this.data.postValue(data)
     }
 

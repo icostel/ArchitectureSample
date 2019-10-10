@@ -30,7 +30,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), Navigator {
     private var errorFragment: ErrorFragment? = null
 
     // the param is used to identify the class at compile time so that
-    // it's instance can pe provided from the factory (ViewModelFactory.kt)
+    // it's instance can pe provided from the factory (ViewModelFactoryModuleModule.kt)
     inline fun <reified T : ViewModel?> getViewModel(): T {
         return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
     }

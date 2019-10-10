@@ -2,9 +2,9 @@ package com.icostel.arhitecturesample
 
 import androidx.work.Configuration
 import androidx.work.WorkManager
+import androidx.work.WorkerFactory
 import com.icostel.arhitecturesample.di.AppInjector
 import com.icostel.arhitecturesample.di.components.DaggerAppComponent
-import com.icostel.arhitecturesample.di.factory.WorkManagerRxFactory
 
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SampleApp : DaggerApplication() {
 
     @Inject
-    lateinit var workManagerRxFactory: WorkManagerRxFactory
+    lateinit var workManagerRxFactory: WorkerFactory
 
     override fun onCreate() {
         super.onCreate()

@@ -1,6 +1,6 @@
 package com.icostel.arhitecturesample.di.modules
 
-import com.icostel.arhitecturesample.di.factory.BaseWorkerFactory
+import com.icostel.arhitecturesample.work.BaseWorkerFactory
 import com.icostel.arhitecturesample.di.keys.WorkerKey
 import com.icostel.arhitecturesample.repository.UserRepository
 import com.icostel.arhitecturesample.work.SyncWorker

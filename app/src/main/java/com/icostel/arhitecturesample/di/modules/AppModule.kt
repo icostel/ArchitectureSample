@@ -2,12 +2,14 @@ package com.icostel.arhitecturesample.di.modules
 
 import android.content.Context
 import com.icostel.arhitecturesample.SampleApp
-import com.icostel.arhitecturesample.di.factory.ViewModelFactory
+import com.icostel.arhitecturesample.di.factory_modules.ViewModelFactoryModule
+import com.icostel.arhitecturesample.di.factory_modules.WorkManagerFactoryModule
 import dagger.Binds
 import dagger.Module
 
 @Module(includes = [
-    ViewModelFactory::class,
+    ViewModelFactoryModule::class,
+    WorkManagerFactoryModule::class,
     RxWorkerModule::class,
     ViewModelModule::class,
     ApiModule::class,

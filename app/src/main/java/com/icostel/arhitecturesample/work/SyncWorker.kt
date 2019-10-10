@@ -6,7 +6,6 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.google.auto.factory.AutoFactory
 import com.google.auto.factory.Provided
-import com.icostel.arhitecturesample.di.factory.BaseWorkerFactory
 import com.icostel.arhitecturesample.repository.UserRepository
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

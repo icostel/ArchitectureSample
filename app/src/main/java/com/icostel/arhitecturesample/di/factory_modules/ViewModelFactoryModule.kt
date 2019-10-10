@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.di.factory
+package com.icostel.arhitecturesample.di.factory_modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Suppress("UNCHECKED_CAST")
 @Module
-class ViewModelFactory {
+class ViewModelFactoryModule {
 
     @Provides
     @Singleton

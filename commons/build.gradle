@@ -60,6 +60,7 @@ dependencies {
     api deps.mock_server
     api deps.cardview
     api deps.glide.runtime
+    api deps.security
 
     annotationProcessor deps.glide.compiler
     annotationProcessor deps.dagger.android_support_compiler

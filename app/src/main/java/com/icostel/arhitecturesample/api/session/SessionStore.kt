@@ -37,7 +37,6 @@ class SessionStore
         }
     }
 
-    //TODO why this is not ecrypted ?????
     override fun key(): String {
         return "session"
     }

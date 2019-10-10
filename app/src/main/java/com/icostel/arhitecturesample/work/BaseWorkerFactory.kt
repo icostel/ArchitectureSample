@@ -1,4 +1,4 @@
-package com.icostel.arhitecturesample.di.factory
+package com.icostel.arhitecturesample.work
 
 import android.content.Context
 import androidx.work.RxWorker

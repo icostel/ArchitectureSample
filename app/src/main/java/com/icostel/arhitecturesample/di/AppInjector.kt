@@ -13,35 +13,11 @@ import dagger.android.support.AndroidSupportInjection
 
 object AppInjector {
     fun init(sampleApp: SampleApp) {
-        //TODO create an impl for this to reduce the boiler plate shown here
-        sampleApp.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
-            override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
+        sampleApp.registerActivityLifecycleCallbacks(object: ActivityCreatedCallback {
+            override fun doOnCreate(activity: Activity, savedInstanceState: Bundle?) {
                 handleActivity(activity)
             }
 
-            override fun onActivityStarted(activity: Activity) {
-
-            }
-
-            override fun onActivityResumed(activity: Activity) {
-
-            }
-
-            override fun onActivityPaused(activity: Activity) {
-
-            }
-
-            override fun onActivityStopped(activity: Activity) {
-
-            }
-
-            override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle?) {
-
-            }
-
-            override fun onActivityDestroyed(activity: Activity) {
-
-            }
         })
     }
 

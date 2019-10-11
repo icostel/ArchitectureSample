@@ -1,10 +1,10 @@
 package com.icostel.arhitecturesample.di.modules
 
-import com.icostel.arhitecturesample.ui.loginuser.LoginUserActivity
-import com.icostel.arhitecturesample.ui.main.MainActivity
-import com.icostel.arhitecturesample.ui.newuser.NewUserActivity
-import com.icostel.arhitecturesample.ui.splashscreen.SplashScreenActivity
-import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity
+import com.icostel.arhitecturesample.ui.screens.loginuser.LoginUserActivity
+import com.icostel.arhitecturesample.ui.screens.main.MainActivity
+import com.icostel.arhitecturesample.ui.screens.newuser.NewUserActivity
+import com.icostel.arhitecturesample.ui.screens.splashscreen.SplashScreenActivity
+import com.icostel.arhitecturesample.ui.screens.userdetails.UserDetailsActivity
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

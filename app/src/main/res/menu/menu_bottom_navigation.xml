@@ -7,6 +7,6 @@
 
     <item
         android:icon="@drawable/ic_info_outline_primary_24dp"
-        android:id="@+id/menu_about"
-        android:title="@string/menu_about" />
+        android:id="@+id/menu_account"
+        android:title="@string/menu_account" />
 </menu>

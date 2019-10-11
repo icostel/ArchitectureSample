@@ -6,5 +6,7 @@ import javax.inject.Singleton
 data class SessionData
 constructor(
         internal var userToken: String? = null,
-        internal var keepLogIn: Boolean = false
+        internal var keepLogIn: Boolean = false,
+        internal var userEmail: String? = null,
+        internal var userPassword: String? = null
 )

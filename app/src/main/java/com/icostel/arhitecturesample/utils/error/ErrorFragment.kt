@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.icostel.arhitecturesample.R
 import com.icostel.arhitecturesample.di.Injectable
-import com.icostel.arhitecturesample.ui.BaseFragment
+import com.icostel.arhitecturesample.ui.screens.BaseFragment
 import com.icostel.commons.utils.AnimationEndListener
 import com.icostel.commons.utils.AnimatorFactory
 import com.icostel.commons.utils.extensions.observe

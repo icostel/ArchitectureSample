@@ -29,6 +29,14 @@ class SessionStore
         }
     }
 
+    fun setUserCredentials(userEmail: String, userPass: String) {
+        if (getValue() == null) {
+            updateValue(SessionData(userEmail = userEmail, userPassword = userPass))
+        } else {
+            updateValue(getValue()!!.copy(userEmail = userEmail, userPassword = userPass))
+        }
+    }
+
     fun setUserToken(userToken: String?) {
         if (getValue() == null) {
             updateValue(SessionData(userToken = userToken))
@@ -38,7 +46,7 @@ class SessionStore
     }
 
     override fun key(): String {
-        return "session"
+        return "user"
     }
 
     override fun clazz(): Class<SessionData> {

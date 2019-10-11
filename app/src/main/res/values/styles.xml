@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorPrimary_50p</item>
     </style>
 
     <style name="AppTheme.ContentTransitions.NoActionBar" parent="AppTheme.NoActionBar.NormalStatus">
@@ -60,8 +62,12 @@
     <style name="Header.Text" parent="TextAppearance.AppCompat">
         <item name="android:textSize">36sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="Subheader.Text" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="AppButton" parent="Widget.AppCompat.Button">

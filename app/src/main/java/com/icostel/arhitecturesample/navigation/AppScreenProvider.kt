@@ -1,9 +1,9 @@
 package com.icostel.arhitecturesample.navigation
 
-import com.icostel.arhitecturesample.ui.loginuser.LoginUserActivity
-import com.icostel.arhitecturesample.ui.main.MainActivity
-import com.icostel.arhitecturesample.ui.newuser.NewUserActivity
-import com.icostel.arhitecturesample.ui.userdetails.UserDetailsActivity
+import com.icostel.arhitecturesample.ui.screens.loginuser.LoginUserActivity
+import com.icostel.arhitecturesample.ui.screens.main.MainActivity
+import com.icostel.arhitecturesample.ui.screens.newuser.NewUserActivity
+import com.icostel.arhitecturesample.ui.screens.userdetails.UserDetailsActivity
 import com.icostel.commons.navigation.ScreenProvider
 
 import javax.inject.Inject

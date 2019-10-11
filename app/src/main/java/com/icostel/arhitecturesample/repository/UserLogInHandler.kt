@@ -1,5 +1,6 @@
 package com.icostel.arhitecturesample.repository
 
+import android.os.Handler
 import com.icostel.arhitecturesample.api.Status
 import com.icostel.arhitecturesample.api.UserApiService
 import com.icostel.arhitecturesample.api.model.SignInResponse
@@ -21,14 +22,16 @@ internal constructor(private val appExecutors: AppExecutors,
     // other API calls will use the token obtained from user sign in and stored in session store
     fun signInUser(userEmail: String, userPass: String,
                    listener: OnUserSignInResultListener) {
-        appExecutors.networkIO().execute {
-            try {
-                manageResponse(ApiResponse.create(userApiService.signInUser(userEmail, userPass).execute()), listener)
-            } catch (e: Exception) {
-                Timber.e(e)
-                listener.onUserSignInResult(Status.error())
+        Handler().postDelayed({
+            appExecutors.networkIO().execute {
+                try {
+                    manageResponse(ApiResponse.create(userApiService.signInUser(userEmail, userPass).execute()), listener)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    listener.onUserSignInResult(Status.error())
+                }
             }
-        }
+        }, 2000L)
     }
 
     private fun manageResponse(response: ApiResponse<SignInResponse>, listener: OnUserSignInResultListener) {

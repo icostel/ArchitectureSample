@@ -3,11 +3,11 @@ package com.icostel.arhitecturesample.di.modules
 
 import androidx.lifecycle.ViewModel
 import com.icostel.arhitecturesample.di.keys.ViewModelKey
-import com.icostel.arhitecturesample.ui.listusers.ListUsersViewModel
-import com.icostel.arhitecturesample.ui.loginuser.LoginUserViewModel
-import com.icostel.arhitecturesample.ui.newuser.NewUserViewModel
-import com.icostel.arhitecturesample.ui.splashscreen.SplashScreenViewModel
-import com.icostel.arhitecturesample.ui.userdetails.UserDetailsViewModel
+import com.icostel.arhitecturesample.ui.screens.listusers.ListUsersViewModel
+import com.icostel.arhitecturesample.ui.screens.loginuser.LoginUserViewModel
+import com.icostel.arhitecturesample.ui.screens.newuser.NewUserViewModel
+import com.icostel.arhitecturesample.ui.screens.splashscreen.SplashScreenViewModel
+import com.icostel.arhitecturesample.ui.screens.userdetails.UserDetailsViewModel
 import com.icostel.arhitecturesample.utils.error.ErrorViewModel
 import dagger.Binds
 import dagger.Module

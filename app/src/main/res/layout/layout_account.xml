@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/account_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/account_details"
+        android:textSize="26sp" />
+
+    <View
+        android:layout_below="@id/account_header"
+        android:id="@+id/header_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="32dp"
+        android:background="@color/colorPrimary_30p" />
+
+    <Button
+        android:id="@+id/sign_out_btn"
+        style="@style/AppButton"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/log_out" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_margin="48dp"
+        android:id="@+id/email_input"
+        android:layout_below="@id/header_separator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:enabled="false"
+            android:id="@+id/email_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</RelativeLayout>

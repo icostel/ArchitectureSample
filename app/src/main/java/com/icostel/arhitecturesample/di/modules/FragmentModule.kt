@@ -1,8 +1,8 @@
 package com.icostel.arhitecturesample.di.modules
 
-import com.icostel.arhitecturesample.ui.about.AboutFragment
-import com.icostel.arhitecturesample.ui.listusers.ListUsersFragment
-import com.icostel.arhitecturesample.ui.userdetails.UserDetailsFragment
+import com.icostel.arhitecturesample.ui.screens.about.AccountFragment
+import com.icostel.arhitecturesample.ui.screens.listusers.ListUsersFragment
+import com.icostel.arhitecturesample.ui.screens.userdetails.UserDetailsFragment
 import com.icostel.arhitecturesample.utils.error.ErrorFragment
 
 import dagger.Module
@@ -21,5 +21,5 @@ abstract class FragmentModule {
     abstract fun contributesUserDetailsFragment(): UserDetailsFragment
 
     @ContributesAndroidInjector
-    abstract fun contributesAboutFragment(): AboutFragment
+    abstract fun contributesAccountFragment(): AccountFragment
 }
